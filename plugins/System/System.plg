@@ -1,0 +1,43 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: System - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\lky\LOCALS~1\Temp\RSP5CB8.tmp" with contents
+[
+/nologo /MT /GX /O2 /I "../../common/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "UNICODE" /D "_UNICODE" /Fo"../Release/" /Fd"../Release/" /FD /c 
+"D:\lky\vc++\gh0st2.0\Server\plugins\System\MySystemManager.cpp"
+"D:\lky\vc++\gh0st2.0\Server\plugins\System\System.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\lky\LOCALS~1\Temp\RSP5CB8.tmp" 
+Creating temporary file "C:\DOCUME~1\lky\LOCALS~1\Temp\RSP5CB9.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib advapi32.lib shell32.lib /nologo /dll /pdb:none /machine:I386 /out:"../System.dll" /implib:"../Release/System.lib" /ignore:4098 
+"\lky\vc++\gh0st2.0\Server\plugins\Release\Buffer.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\ClientSocket.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\Manager.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\minilzo.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\myCrt.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\MySystemManager.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\System.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\until.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\lky\LOCALS~1\Temp\RSP5CB9.tmp"
+<h3>Output Window</h3>
+Compiling...
+MySystemManager.cpp
+System.cpp
+Generating Code...
+Linking...
+   Creating library ../Release/System.lib and object ../Release/System.exp
+
+
+
+<h3>Results</h3>
+System.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

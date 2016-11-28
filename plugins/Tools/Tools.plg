@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Tools - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\lky\LOCALS~1\Temp\RSP598B.tmp" with contents
+[
+/nologo /MT /GX /O2 /I "../../common/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "UNICODE" /D "_UNICODE" /Fo"../Release/" /Fd"../Release/" /FD /c 
+"d:\lky\vc++\gh0st2.0\Server\plugins\Tools\Tools.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\lky\LOCALS~1\Temp\RSP598B.tmp" 
+Creating temporary file "C:\DOCUME~1\lky\LOCALS~1\Temp\RSP598C.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib advapi32.lib shell32.lib /nologo /dll /pdb:none /machine:I386 /out:"../Tools.dll" /implib:"../Release/Tools.lib" /ignore:4098 
+"\lky\vc++\gh0st2.0\Server\plugins\Release\Buffer.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\ClientSocket.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\Manager.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\minilzo.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\myCrt.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\Tools.obj"
+"\lky\vc++\gh0st2.0\Server\plugins\Release\until.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\lky\LOCALS~1\Temp\RSP598C.tmp"
+<h3>Output Window</h3>
+Compiling...
+Tools.cpp
+Linking...
+   Creating library ../Release/Tools.lib and object ../Release/Tools.exp
+
+
+
+<h3>Results</h3>
+Tools.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

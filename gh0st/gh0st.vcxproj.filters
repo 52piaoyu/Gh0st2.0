@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpToAvi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildServerDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomTabCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="encode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransferModeDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gh0st.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gh0stDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gh0stView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoardDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LogView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MoreChoose.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyFileManagerDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyScreenSpyDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProxyDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Schemadef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SEU_QQwry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowNum.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="skin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinH.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Splash.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TabSDIFrameWnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ThemeUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TrayIcon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TrueColorToolBar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UPDATEIP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UpipDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebCamDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Buffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CpuUsage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IOCPServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mapper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Audio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpToAvi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildServerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomTabCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransferModeDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gh0st.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gh0stDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gh0stView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBoardDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyFileManagerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyScreenSpyDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProxyDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShellDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TabSDIFrameWnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ThemeUtil.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TrayIcon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TrueColorToolBar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UpipDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebCamDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Buffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\CpuUsage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\IOCPServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Audio.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\RegEditEx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SEU_QQwry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\minilzo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gh0st.rc">
+      <Filter>源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\gh0st.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\aero.she" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\hgz.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\webcam.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\cmdshell.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\keyboard.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\system.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\audio.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ToolBarDoc.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\exit.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\folder.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\screen.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\setting.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\about.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ddos.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\server.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\upip.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\manage.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\event.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\EventError.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Bitmap_4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Bitmap_5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\远程终端.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\键盘监控.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\配置生成.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\屏幕监控.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\上线主机.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\视频监控.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\退出程序.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\文件管理.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\系统管理.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\语音监听.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\参数设置.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\关于.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

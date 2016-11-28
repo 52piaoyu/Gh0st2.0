@@ -1,0 +1,120 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: gh0st - Win32 Release_Unicode--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "c:\Temp\RSPAEA6.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /I "../common" /I "../plugins" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_UNICODE" /D "UNICODE" /Fp"Release/gh0st.pch" /YX"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\VC++\gh0st2.0\gh0st\AudioDlg.cpp"
+"E:\VC++\gh0st2.0\gh0st\include\Buffer.cpp"
+"E:\VC++\Debug.cpp"
+"E:\VC++\gh0st2.0\gh0st\FileTransferModeDlg.cpp"
+"E:\VC++\gh0st2.0\gh0st\InputDlg.cpp"
+"E:\VC++\gh0st2.0\gh0st\include\IOCPServer.cpp"
+"E:\VC++\gh0st2.0\gh0st\MyFileManagerDlg.cpp"
+"E:\VC++\gh0st2.0\gh0st\SEU_QQwry.cpp"
+"E:\VC++\gh0st2.0\gh0st\ShellDlg.cpp"
+"E:\VC++\gh0st2.0\gh0st\UpipDlg.cpp"
+]
+Creating command line "cl.exe @c:\Temp\RSPAEA6.tmp" 
+Creating temporary file "c:\Temp\RSPAEA7.tmp" with contents
+[
+/nologo /entry:"wWinMainCRTStartup" /subsystem:windows /pdb:none /machine:I386 /out:"..\gh0st.exe" /ignore:4049 /ignore:4098 /ignore:4089 
+".\Release\AboutDlg.obj"
+".\Release\Audio.obj"
+".\Release\AudioDlg.obj"
+".\Release\BmpToAvi.obj"
+".\Release\Buffer.obj"
+".\Release\BuildServerDlg.obj"
+".\Release\CpuUsage.obj"
+".\Release\CustomTabCtrl.obj"
+".\Release\Debug.obj"
+".\Release\FileTransferModeDlg.obj"
+".\Release\gh0st.obj"
+".\Release\gh0stDoc.obj"
+".\Release\gh0stView.obj"
+".\Release\IniFile.obj"
+".\Release\InputDlg.obj"
+".\Release\IOCPServer.obj"
+".\Release\KeyBoardDlg.obj"
+".\Release\LogView.obj"
+".\Release\MainFrm.obj"
+".\Release\minilzo.obj"
+".\Release\MyFileManagerDlg.obj"
+".\Release\MyScreenSpyDlg.obj"
+".\Release\ProxyDlg.obj"
+".\Release\RegEditEx.obj"
+".\Release\SettingDlg.obj"
+".\Release\SEU_QQwry.obj"
+".\Release\ShellDlg.obj"
+".\Release\Splash.obj"
+".\Release\StdAfx.obj"
+".\Release\SystemDlg.obj"
+".\Release\TabSDIFrameWnd.obj"
+".\Release\ThemeUtil.obj"
+".\Release\TrayIcon.obj"
+".\Release\TrueColorToolBar.obj"
+".\Release\UpipDlg.obj"
+".\Release\WebCamDlg.obj"
+".\Release\gh0st.res"
+]
+Creating command line "link.exe @c:\Temp\RSPAEA7.tmp"
+<h3>Output Window</h3>
+Compiling...
+AudioDlg.cpp
+E:\VC++\gh0st2.0\gh0st\AudioDlg.h(8) : fatal error C1083: Cannot open include file: 'afxdialogex.h': No such file or directory
+Buffer.cpp
+D:\Computer\VC6\VC98\MFC\INCLUDE\afxv_w32.h(14) : fatal error C1189: #error :  WINDOWS.H already included.  MFC apps must not #include <windows.h>
+Debug.cpp
+FileTransferModeDlg.cpp
+E:\VC++\gh0st2.0\gh0st\FileTransferModeDlg.h(6) : fatal error C1083: Cannot open include file: 'afxdialogex.h': No such file or directory
+InputDlg.cpp
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(48) : error C2065: '_ASSERTE' : undeclared identifier
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2065: 'LPCOLESTR' : undeclared identifier
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2146: syntax error : missing ')' before identifier 'x'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2433: 'ocslen' : 'inline' not permitted on data declarations
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2059: syntax error : ')'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2143: syntax error : missing ';' before '{'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(122) : error C2447: missing function header (old-style formal list?)
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2143: syntax error : missing ';' before '*'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2433: 'OLECHAR' : 'inline' not permitted on data declarations
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2501: 'OLECHAR' : missing storage-class or type specifiers
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2061: syntax error : identifier 'LPOLESTR'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2501: 'ocscpy' : missing storage-class or type specifiers
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2065: 'dest' : undeclared identifier
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : error C2065: 'src' : undeclared identifier
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(123) : warning C4508: 'ocscpy' : function should return a value; 'void' return type assumed
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2143: syntax error : missing ';' before '*'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2433: 'OLECHAR' : 'inline' not permitted on data declarations
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2501: 'OLECHAR' : missing storage-class or type specifiers
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2086: 'OLECHAR' : redefinition
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2061: syntax error : identifier 'LPOLESTR'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : error C2501: 'ocscat' : missing storage-class or type specifiers
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(124) : warning C4508: 'ocscat' : function should return a value; 'void' return type assumed
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(125) : error C2146: syntax error : missing ';' before identifier 'T2COLE'
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(125) : error C2433: 'LPCOLESTR' : 'inline' not permitted on data declarations
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(125) : error C2501: 'LPCOLESTR' : missing storage-class or type specifiers
+D:\Computer\VC6\VC98\ATL\INCLUDE\atlconv.h(125) : fatal error C1004: unexpected end of file found
+IOCPServer.cpp
+D:\Computer\VC6\VC98\MFC\INCLUDE\afxv_w32.h(14) : fatal error C1189: #error :  WINDOWS.H already included.  MFC apps must not #include <windows.h>
+MyFileManagerDlg.cpp
+D:\Computer\VC6\VC98\MFC\INCLUDE\afxv_w32.h(14) : fatal error C1189: #error :  WINDOWS.H already included.  MFC apps must not #include <windows.h>
+SEU_QQwry.cpp
+D:\Computer\VC6\VC98\MFC\INCLUDE\afxv_w32.h(14) : fatal error C1189: #error :  WINDOWS.H already included.  MFC apps must not #include <windows.h>
+ShellDlg.cpp
+E:\VC++\gh0st2.0\gh0st\gh0st.h(4) : fatal error C1083: Cannot open include file: 'afxwinappex.h': No such file or directory
+UpipDlg.cpp
+E:\VC++\gh0st2.0\gh0st\gh0st.h(4) : fatal error C1083: Cannot open include file: 'afxwinappex.h': No such file or directory
+Ö´ÐÐ cl.exe Ê±³ö´í.
+
+
+
+<h3>Results</h3>
+gh0st.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

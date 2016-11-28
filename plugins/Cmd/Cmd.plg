@@ -1,0 +1,34 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Cmd - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP19D.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib advapi32.lib shell32.lib /nologo /dll /pdb:none /machine:I386 /out:"../Cmd.dll" /implib:"../Release/Cmd.lib" /ignore:4098 
+"\lky\vc++\gh0st2.0\plugins\Release\Buffer.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\ClientSocket.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\Cmd.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\InstallService.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\Manager.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\MyShellManager.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\RegEditEx.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\until.obj"
+"\lky\vc++\gh0st2.0\plugins\Release\minilzo.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP19D.tmp"
+<h3>Output Window</h3>
+Linking...
+   Creating library ../Release/Cmd.lib and object ../Release/Cmd.exp
+LINK : warning LNK4089: all references to "USER32.dll" discarded by /OPT:REF
+
+
+
+<h3>Results</h3>
+Cmd.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

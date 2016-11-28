@@ -1,0 +1,179 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Loader - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "c:\Temp\RSP12F4.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Release/Loader.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\VC++\gh0st2.0\Loader\Loader.cpp"
+]
+Creating command line "cl.exe @c:\Temp\RSP12F4.tmp" 
+Creating temporary file "c:\Temp\RSP12F5.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /pdb:none /machine:I386 /out:"../Loader.exe" 
+".\Release\Loader.obj"
+".\Release\StdAfx.obj"
+]
+Creating command line "link.exe @c:\Temp\RSP12F5.tmp"
+<h3>Output Window</h3>
+Compiling...
+Loader.cpp
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(639) : warning C4005: 'WSAEINTR' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14505) : see previous definition of 'WSAEINTR'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(640) : warning C4005: 'WSAEBADF' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14514) : see previous definition of 'WSAEBADF'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(641) : warning C4005: 'WSAEACCES' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14523) : see previous definition of 'WSAEACCES'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(642) : warning C4005: 'WSAEFAULT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14532) : see previous definition of 'WSAEFAULT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(643) : warning C4005: 'WSAEINVAL' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14541) : see previous definition of 'WSAEINVAL'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(644) : warning C4005: 'WSAEMFILE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14550) : see previous definition of 'WSAEMFILE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(649) : warning C4005: 'WSAEWOULDBLOCK' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14559) : see previous definition of 'WSAEWOULDBLOCK'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(650) : warning C4005: 'WSAEINPROGRESS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14568) : see previous definition of 'WSAEINPROGRESS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(651) : warning C4005: 'WSAEALREADY' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14577) : see previous definition of 'WSAEALREADY'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(652) : warning C4005: 'WSAENOTSOCK' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14586) : see previous definition of 'WSAENOTSOCK'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(653) : warning C4005: 'WSAEDESTADDRREQ' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14595) : see previous definition of 'WSAEDESTADDRREQ'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(654) : warning C4005: 'WSAEMSGSIZE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14604) : see previous definition of 'WSAEMSGSIZE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(655) : warning C4005: 'WSAEPROTOTYPE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14613) : see previous definition of 'WSAEPROTOTYPE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(656) : warning C4005: 'WSAENOPROTOOPT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14622) : see previous definition of 'WSAENOPROTOOPT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(657) : warning C4005: 'WSAEPROTONOSUPPORT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14631) : see previous definition of 'WSAEPROTONOSUPPORT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(658) : warning C4005: 'WSAESOCKTNOSUPPORT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14640) : see previous definition of 'WSAESOCKTNOSUPPORT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(659) : warning C4005: 'WSAEOPNOTSUPP' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14649) : see previous definition of 'WSAEOPNOTSUPP'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(660) : warning C4005: 'WSAEPFNOSUPPORT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14658) : see previous definition of 'WSAEPFNOSUPPORT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(661) : warning C4005: 'WSAEAFNOSUPPORT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14667) : see previous definition of 'WSAEAFNOSUPPORT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(662) : warning C4005: 'WSAEADDRINUSE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14676) : see previous definition of 'WSAEADDRINUSE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(663) : warning C4005: 'WSAEADDRNOTAVAIL' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14685) : see previous definition of 'WSAEADDRNOTAVAIL'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(664) : warning C4005: 'WSAENETDOWN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14694) : see previous definition of 'WSAENETDOWN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(665) : warning C4005: 'WSAENETUNREACH' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14703) : see previous definition of 'WSAENETUNREACH'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(666) : warning C4005: 'WSAENETRESET' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14712) : see previous definition of 'WSAENETRESET'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(667) : warning C4005: 'WSAECONNABORTED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14721) : see previous definition of 'WSAECONNABORTED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(668) : warning C4005: 'WSAECONNRESET' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14730) : see previous definition of 'WSAECONNRESET'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(669) : warning C4005: 'WSAENOBUFS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14739) : see previous definition of 'WSAENOBUFS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(670) : warning C4005: 'WSAEISCONN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14748) : see previous definition of 'WSAEISCONN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(671) : warning C4005: 'WSAENOTCONN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14757) : see previous definition of 'WSAENOTCONN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(672) : warning C4005: 'WSAESHUTDOWN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14766) : see previous definition of 'WSAESHUTDOWN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(673) : warning C4005: 'WSAETOOMANYREFS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14775) : see previous definition of 'WSAETOOMANYREFS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(674) : warning C4005: 'WSAETIMEDOUT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14784) : see previous definition of 'WSAETIMEDOUT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(675) : warning C4005: 'WSAECONNREFUSED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14793) : see previous definition of 'WSAECONNREFUSED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(676) : warning C4005: 'WSAELOOP' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14802) : see previous definition of 'WSAELOOP'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(677) : warning C4005: 'WSAENAMETOOLONG' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14811) : see previous definition of 'WSAENAMETOOLONG'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(678) : warning C4005: 'WSAEHOSTDOWN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14820) : see previous definition of 'WSAEHOSTDOWN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(679) : warning C4005: 'WSAEHOSTUNREACH' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14829) : see previous definition of 'WSAEHOSTUNREACH'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(680) : warning C4005: 'WSAENOTEMPTY' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14838) : see previous definition of 'WSAENOTEMPTY'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(681) : warning C4005: 'WSAEPROCLIM' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14847) : see previous definition of 'WSAEPROCLIM'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(682) : warning C4005: 'WSAEUSERS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14856) : see previous definition of 'WSAEUSERS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(683) : warning C4005: 'WSAEDQUOT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14865) : see previous definition of 'WSAEDQUOT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(684) : warning C4005: 'WSAESTALE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14874) : see previous definition of 'WSAESTALE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(685) : warning C4005: 'WSAEREMOTE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14883) : see previous definition of 'WSAEREMOTE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(690) : warning C4005: 'WSASYSNOTREADY' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14892) : see previous definition of 'WSASYSNOTREADY'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(691) : warning C4005: 'WSAVERNOTSUPPORTED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14901) : see previous definition of 'WSAVERNOTSUPPORTED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(692) : warning C4005: 'WSANOTINITIALISED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14910) : see previous definition of 'WSANOTINITIALISED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(693) : warning C4005: 'WSAEDISCON' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14919) : see previous definition of 'WSAEDISCON'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(694) : warning C4005: 'WSAENOMORE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14928) : see previous definition of 'WSAENOMORE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(695) : warning C4005: 'WSAECANCELLED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14937) : see previous definition of 'WSAECANCELLED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(696) : warning C4005: 'WSAEINVALIDPROCTABLE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14946) : see previous definition of 'WSAEINVALIDPROCTABLE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(697) : warning C4005: 'WSAEINVALIDPROVIDER' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14955) : see previous definition of 'WSAEINVALIDPROVIDER'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(698) : warning C4005: 'WSAEPROVIDERFAILEDINIT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14964) : see previous definition of 'WSAEPROVIDERFAILEDINIT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(699) : warning C4005: 'WSASYSCALLFAILURE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14973) : see previous definition of 'WSASYSCALLFAILURE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(700) : warning C4005: 'WSASERVICE_NOT_FOUND' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14982) : see previous definition of 'WSASERVICE_NOT_FOUND'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(701) : warning C4005: 'WSATYPE_NOT_FOUND' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(14991) : see previous definition of 'WSATYPE_NOT_FOUND'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(702) : warning C4005: 'WSA_E_NO_MORE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15000) : see previous definition of 'WSA_E_NO_MORE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(703) : warning C4005: 'WSA_E_CANCELLED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15009) : see previous definition of 'WSA_E_CANCELLED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(704) : warning C4005: 'WSAEREFUSED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15018) : see previous definition of 'WSAEREFUSED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(720) : warning C4005: 'WSAHOST_NOT_FOUND' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15027) : see previous definition of 'WSAHOST_NOT_FOUND'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(724) : warning C4005: 'WSATRY_AGAIN' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15036) : see previous definition of 'WSATRY_AGAIN'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(728) : warning C4005: 'WSANO_RECOVERY' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15045) : see previous definition of 'WSANO_RECOVERY'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(732) : warning C4005: 'WSANO_DATA' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15054) : see previous definition of 'WSANO_DATA'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(743) : warning C4005: 'WSA_QOS_RECEIVERS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15063) : see previous definition of 'WSA_QOS_RECEIVERS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(745) : warning C4005: 'WSA_QOS_SENDERS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15072) : see previous definition of 'WSA_QOS_SENDERS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(747) : warning C4005: 'WSA_QOS_NO_SENDERS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15081) : see previous definition of 'WSA_QOS_NO_SENDERS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(749) : warning C4005: 'WSA_QOS_NO_RECEIVERS' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15090) : see previous definition of 'WSA_QOS_NO_RECEIVERS'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(751) : warning C4005: 'WSA_QOS_REQUEST_CONFIRMED' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15099) : see previous definition of 'WSA_QOS_REQUEST_CONFIRMED'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(753) : warning C4005: 'WSA_QOS_ADMISSION_FAILURE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15108) : see previous definition of 'WSA_QOS_ADMISSION_FAILURE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(755) : warning C4005: 'WSA_QOS_POLICY_FAILURE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15117) : see previous definition of 'WSA_QOS_POLICY_FAILURE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(757) : warning C4005: 'WSA_QOS_BAD_STYLE' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15126) : see previous definition of 'WSA_QOS_BAD_STYLE'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(759) : warning C4005: 'WSA_QOS_BAD_OBJECT' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15135) : see previous definition of 'WSA_QOS_BAD_OBJECT'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(762) : warning C4005: 'WSA_QOS_TRAFFIC_CTRL_ERROR' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15144) : see previous definition of 'WSA_QOS_TRAFFIC_CTRL_ERROR'
+D:\Computer\VC6\VC98\INCLUDE\winsock2.h(764) : warning C4005: 'WSA_QOS_GENERIC_ERROR' : macro redefinition
+        E:\WINDEV\WINSDK\INCLUDE\winerror.h(15153) : see previous definition of 'WSA_QOS_GENERIC_ERROR'
+Linking...
+
+
+
+<h3>Results</h3>
+Loader.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
