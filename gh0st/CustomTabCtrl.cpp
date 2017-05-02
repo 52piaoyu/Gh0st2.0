@@ -13,12 +13,12 @@
 // CCustomTabCtrlItem
 
 CCustomTabCtrlItem::CCustomTabCtrlItem(CString sText, LPARAM lParam) :
-m_sText(sText),
-m_lParam(lParam),
-m_bShape(TAB_SHAPE1),
-m_fSelected(FALSE),
-m_fHighlighted(FALSE),
-m_fHighlightChanged(FALSE)
+	m_sText(sText),
+	m_lParam(lParam),
+	m_bShape(TAB_SHAPE1),
+	m_fSelected(FALSE),
+	m_fHighlighted(FALSE),
+	m_fHighlightChanged(FALSE)
 {
 }
 
@@ -180,6 +180,8 @@ void CCustomTabCtrlItem::GetDrawPoints(const CRect& rc, CPoint* pts, BOOL fOnTop
 		}
 	}
 	break;
+	default: 
+		break;
 	}
 }
 
@@ -253,6 +255,8 @@ void CCustomTabCtrlItem::Draw(CDC& dc, CFont& font, BOOL fOnTop, BOOL fRTL)
 		dc.SetBkColor(bgOldColor);
 	}
 	break;
+	default: 
+		break;
 	}
 	dc.SelectObject(pOldPen);
 }
@@ -274,20 +278,20 @@ BYTE CCustomTabCtrl::m_bBitsGlyphs[] = {
 };
 
 CCustomTabCtrl::CCustomTabCtrl() :
-m_nButtonIDDown(CTCID_NOBUTTON),
-m_nPrevState(BNST_INVISIBLE),
-m_nNextState(BNST_INVISIBLE),
-m_nFirstState(BNST_INVISIBLE),
-m_nLastState(BNST_INVISIBLE),
-m_nCloseState(BNST_INVISIBLE),
-m_nItemSelected(-1),
-m_nItemNdxOffset(0),
-m_dwLastRepeatTime(0),
-m_hBmpBkLeftSpin(NULL),
-m_hBmpBkRightSpin(NULL),
-m_hCursorMove(NULL),
-m_hCursorCopy(NULL),
-m_nItemDragDest(0)
+	m_hCursorMove(NULL),
+	m_hCursorCopy(NULL),
+	m_nItemSelected(-1),
+	m_nItemNdxOffset(0),
+	m_nItemDragDest(0),
+	m_nPrevState(BNST_INVISIBLE),
+	m_nNextState(BNST_INVISIBLE),
+	m_nFirstState(BNST_INVISIBLE),
+	m_nLastState(BNST_INVISIBLE),
+	m_nCloseState(BNST_INVISIBLE),
+	m_nButtonIDDown(CTCID_NOBUTTON),
+	m_dwLastRepeatTime(0),
+	m_hBmpBkLeftSpin(NULL),
+	m_hBmpBkRightSpin(NULL)
 {
 	RegisterWindowClass();
 	SetControlFont(GetDefaultFont());
@@ -391,7 +395,7 @@ void CCustomTabCtrl::OnPaint()
 
 	CDC dcMem;
 	CBitmap bmpMem;
-	CBitmap* pOldBmp = NULL;
+	CBitmap* pOldBmp;
 
 	if (dcMem.CreateCompatibleDC(&dc))
 	{
@@ -461,7 +465,7 @@ void CCustomTabCtrl::OnPaint()
 	if (m_nCloseState)
 	{
 		BOOL fMirrored = TRUE;
-		if (fRTL&&fAfter || !fRTL&&!fAfter)
+		if (fRTL&&fAfter || !fRTL && !fAfter)
 			fMirrored = FALSE;
 		CRect rClose;
 		if (fAfter)
@@ -1380,7 +1384,6 @@ LONG CCustomTabCtrl::OnThemeChanged(WPARAM /*wParam*/, LPARAM /*lParam*/)
 		if (pOldBmpGlyph)
 			dcGlyph.SelectObject(pOldBmpGlyph);
 		::DeleteObject(hBmpGlyph);
-		hBmpGlyph = NULL;
 	}
 	return 0;
 }
@@ -1598,7 +1601,7 @@ int CCustomTabCtrl::CopyItem(int nItemSrc, int nItemDst)
 
 int CCustomTabCtrl::CopyItem(int nItemSrc, int nItemDst, BOOL fMouseSel)
 {
-	if (nItemSrc<0 || nItemSrc >= m_aItems.GetSize())
+	if (nItemSrc < 0 || nItemSrc >= m_aItems.GetSize())
 		return CTCERR_INDEXOUTOFRANGE;
 	if (nItemDst<0 || nItemDst>m_aItems.GetSize())
 		return CTCERR_INDEXOUTOFRANGE;
@@ -1611,7 +1614,7 @@ int CCustomTabCtrl::CopyItem(int nItemSrc, int nItemDst, BOOL fMouseSel)
 		if (n >= 4)
 		{
 			if (m_aItems[nItemSrc]->m_sText[n - 1] == _T(')') &&
-				m_aItems[nItemSrc]->m_sText[n - 2]>_T('1') &&
+				m_aItems[nItemSrc]->m_sText[n - 2] > _T('1') &&
 				m_aItems[nItemSrc]->m_sText[n - 2] <= _T('9') &&
 				m_aItems[nItemSrc]->m_sText[n - 3] == _T('('))
 			{
@@ -1630,7 +1633,7 @@ int CCustomTabCtrl::CopyItem(int nItemSrc, int nItemDst, BOOL fMouseSel)
 			}
 		}
 		int ndx = 1;
-		while (1)
+		while (true)
 		{
 			ndx++;
 			if (bAppendFlag)
@@ -2297,7 +2300,7 @@ void CCustomTabCtrl::RecalcEditResized(int nOffset, int nItem)
 			}
 			return;
 		}
-	} while (1);
+	} while (true);
 }
 
 void CCustomTabCtrl::RecalcOffset(int nOffset)
@@ -2770,7 +2773,7 @@ int CCustomTabCtrl::EditLabel(int nItem)
 
 int CCustomTabCtrl::EditLabel(int nItem, BOOL fMouseSel)
 {
-	if (nItem<0 || nItem >= m_aItems.GetSize())
+	if (nItem < 0 || nItem >= m_aItems.GetSize())
 		return CTCERR_INDEXOUTOFRANGE;
 	if (!(GetStyle()&CTCS_EDITLABELS))
 		return CTCERR_NOEDITLABELSTYLE;
@@ -2789,7 +2792,7 @@ int CCustomTabCtrl::EditLabel(int nItem, BOOL fMouseSel)
 		pDC->SelectObject(pOldFont);
 		ReleaseDC(pDC);
 		r = m_aItems[nItem]->m_rectText;
-		if (r.Height()>h)
+		if (r.Height() > h)
 		{
 			r.top += (r.Height() - h) / 2;
 			r.bottom -= (r.Height() - h) / 2;

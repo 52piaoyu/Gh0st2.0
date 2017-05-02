@@ -8,7 +8,7 @@
 #include <string>   
 #include "ShellDlg.h"
 
-using   std::string;  
+using   std::string;
 using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -21,16 +21,15 @@ static char THIS_FILE[] = __FILE__;
 
 
 CShellDlg::CShellDlg(CWnd* pParent, CIOCPServer* pIOCPServer, ClientContext *pContext)
-	: CDialogEx(CShellDlg::IDD, pParent)
+	: CDialogEx(CShellDlg::IDD, pParent), m_nReceiveLength(0)
 {
 	//{{AFX_DATA_INIT(CShellDlg)
-		// NOTE: the ClassWizard will add member initialization here
+	// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_iocpServer	= pIOCPServer;
-	m_pContext		= pContext;
+	m_iocpServer = pIOCPServer;
+	m_pContext = pContext;
 	m_nCurSel = 0;
-	m_hIcon			= LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_CMDSHELL));
-
+	m_hIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_CMDSHELL));
 }
 
 void CShellDlg::DoDataExchange(CDataExchange* pDX)
@@ -52,10 +51,9 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CShellDlg message handlers
- 
-BOOL CShellDlg::PreTranslateMessage(MSG* pMsg) 
+
+BOOL CShellDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: Add your specialized code here and/or call the base class
 	if (pMsg->message == WM_KEYDOWN)
 	{
 		// 屏蔽VK_ESCAPE、VK_DELETE
@@ -64,23 +62,22 @@ BOOL CShellDlg::PreTranslateMessage(MSG* pMsg)
 
 		if (pMsg->wParam == VK_RETURN && pMsg->hwnd == m_edit.m_hWnd)
 		{
-			int	len = m_edit.GetWindowTextLength();
 			CString str;
-			
+
 			m_edit.GetWindowText(str);
 			str += "\r\n";
 			CString tosend = str.GetBuffer(0) + m_nCurSel;
-//			MessageBox(tosend,NULL,NULL);
+			//			MessageBox(tosend,NULL,NULL);
 #ifdef UNICODE
 			USES_CONVERSION;
 			string ByteToSend = W2A(tosend);
 #else
 			string ByteToSend = tosend;
 #endif
-//			MessageBoxA(NULL,ByteToSend.c_str(),NULL,NULL);
-//			WideCharToMultiByte(CP_ACP, 0, tosend, -1,ByteToSend, sizeof(ByteToSend) / sizeof(ByteToSend[0]), NULL, FALSE);
+			//			MessageBoxA(NULL,ByteToSend.c_str(),NULL,NULL);
+			//			WideCharToMultiByte(CP_ACP, 0, tosend, -1,ByteToSend, sizeof(ByteToSend) / sizeof(ByteToSend[0]), NULL, FALSE);
 			m_iocpServer->Send(m_pContext, (LPBYTE)ByteToSend.c_str(), ByteToSend.length());
-//			m_iocpServer->Send(m_pContext, (LPBYTE)str.GetBuffer(0) + m_nCurSel, str.GetLength() - m_nCurSel);
+			//			m_iocpServer->Send(m_pContext, (LPBYTE)str.GetBuffer(0) + m_nCurSel, str.GetLength() - m_nCurSel);
 			m_nCurSel = m_edit.GetWindowTextLength();
 		}
 		// 限制VK_BACK
@@ -103,10 +100,10 @@ BOOL CShellDlg::PreTranslateMessage(MSG* pMsg)
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
 
-BOOL CShellDlg::OnInitDialog() 
+BOOL CShellDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
+
 	// TODO: Add extra initialization here
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
@@ -114,13 +111,12 @@ BOOL CShellDlg::OnInitDialog()
 	m_nCurSel = m_edit.GetWindowTextLength();
 
 	CString str;
-	CString m_IPAddress;
 	sockaddr_in  sockAddr;
 	memset(&sockAddr, 0, sizeof(sockAddr));
 	int nSockAddrLen = sizeof(sockAddr);
 	BOOL bResult = getpeername(m_pContext->m_Socket, (SOCKADDR*)&sockAddr, &nSockAddrLen);
-	m_IPAddress = bResult != INVALID_SOCKET ? inet_ntoa(sockAddr.sin_addr) : "";
-	str.Format(_T("\\\\%s - 远程终端"),m_IPAddress);
+	CString m_IPAddress = bResult != INVALID_SOCKET ? inet_ntoa(sockAddr.sin_addr) : "";
+	str.Format(_T("\\\\%s - 远程终端"), m_IPAddress);
 	SetWindowText(str);
 
 	m_edit.SetLimitText(MAXDWORD); // 设置最大长度
@@ -134,7 +130,7 @@ BOOL CShellDlg::OnInitDialog()
 }
 
 void CShellDlg::OnReceiveComplete()
-{	
+{
 	AddKeyBoardData();
 	m_nReceiveLength = m_edit.GetWindowTextLength();
 }
@@ -153,12 +149,12 @@ void CShellDlg::AddKeyBoardData()
 }
 
 
-void CShellDlg::OnClose() 
+void CShellDlg::OnClose()
 {
-//	m_pContext->m_Dialog[0] = 0;
-	closesocket(m_pContext->m_Socket);	
+	//	m_pContext->m_Dialog[0] = 0;
+	closesocket(m_pContext->m_Socket);
 	CDialogEx::OnClose();
-//	DestroyWindow();
+	//	DestroyWindow();
 }
 
 void CShellDlg::ResizeEdit()
@@ -171,17 +167,17 @@ void CShellDlg::ResizeEdit()
 	rectEdit.right = rectClient.right;
 	rectEdit.bottom = rectClient.bottom;
 
-	if(IsWindow(m_edit)) m_edit.MoveWindow(&rectEdit);
+	if (IsWindow(m_edit)) m_edit.MoveWindow(&rectEdit);
 }
 
-void CShellDlg::OnSize(UINT nType, int cx, int cy) 
+void CShellDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 
 	ResizeEdit();
 }
 
-void CShellDlg::OnChangeEdit() 
+void CShellDlg::OnChangeEdit()
 {
 	// 用户删除了部分内容，改变m_nCurSel
 	int len = m_edit.GetWindowTextLength();
@@ -189,13 +185,13 @@ void CShellDlg::OnChangeEdit()
 		m_nCurSel = len;
 }
 
-HBRUSH CShellDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) 
+HBRUSH CShellDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	if ((pWnd->GetDlgCtrlID() == IDC_EDIT) && (nCtlColor == CTLCOLOR_EDIT))
 	{
 		COLORREF clr = RGB(255, 255, 255);
 		pDC->SetTextColor(clr);   //设置白色的文本
-		clr = RGB(0,0,0);
+		clr = RGB(0, 0, 0);
 		pDC->SetBkColor(clr);     //设置黑色的背景
 		return CreateSolidBrush(clr);  //作为约定，返回背景色对应的刷子句柄
 	}

@@ -20,7 +20,7 @@ extern CIOCPServer	*m_iocpServer;
 // CSettingDlg dialog
 
 CSettingDlg::CSettingDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CSettingDlg::IDD, pParent)
+	: CDialogEx(CSettingDlg::IDD, pParent), m_connect_auto(0)
 {
 	//{{AFX_DATA_INIT(CSettingDlg)
 	m_remote_host = ((Cgh0stApp *)AfxGetApp())->m_IniFile.GetString("Connection", "Host", "");
@@ -60,7 +60,6 @@ END_MESSAGE_MAP()
 
 BOOL CSettingDlg::OnInitDialog()
 {
-	// TODO: Add your specialized code here and/or call the base class
 	CDialogEx::OnInitDialog();
 	if (m_bFirstShow)
 	{

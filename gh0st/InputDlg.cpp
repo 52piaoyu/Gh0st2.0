@@ -172,15 +172,13 @@ BOOL CInputDialog::Init(LPCTSTR caption, LPCTSTR prompt, CWnd* pParent, WORD nID
 
 		// The size is calculated in pixels, but it seems to work OK--???
 		CSize sz(GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON));
-
-		CRect rcIcon(rc.TopLeft(), sz);
-
+		
 		dtb.AddItem(CDlgTemplateBuilder::STATIC, // add icon
 			WS_VISIBLE | WS_CHILD | SS_LEFT | SS_ICON,
 			rc,
 			nIDIcon,
 			IDICON
-			);
+		);
 
 		rc.left += sz.cx;  // shrink main rect by width of icon
 	}

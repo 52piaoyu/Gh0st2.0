@@ -20,6 +20,7 @@ CClientSocket::CClientSocket()
 {
 	m_hWorkerThread = NULL;
 	m_pManager = NULL;
+	ws2_32 = NULL;
 
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -63,9 +64,7 @@ bool CClientSocket::Connect(LPCSTR lpszHost, UINT nPort)
 		return false;
 	}
 
-	hostent* pHostent = NULL;
-
-	pHostent = gethostbyname(lpszHost);
+	hostent * pHostent = gethostbyname(lpszHost);
 
 	if (pHostent == NULL)
 		return false;
@@ -303,7 +302,7 @@ int CClientSocket::SendWithSplit(LPBYTE lpData, UINT nSize, int nSplitSize)
 {
 	int nRet = 0;
 	const char *pbuf = (char *)lpData;
-	int size = 0, nSend = 0, nSendRetry = 15, i;
+	int size, nSend = 0, nSendRetry = 15, i;
 
 	for (size = nSize; size >= nSplitSize; size -= nSplitSize)
 	{

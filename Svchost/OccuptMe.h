@@ -1,3 +1,4 @@
+#pragma once
 #include <windows.h>
 
 extern HMODULE hSelf;
@@ -14,8 +15,6 @@ HINSTANCE hNtDll = 0;
 
 BOOL WINAPI OccupyFile(LPCTSTR lpFileName)
 {
-	BOOL    bRet;
-
 	//Ã·…˝»®œﬁ
 	hNtDll = GetModuleHandle(_T("ntdll.dll"));
 	*(FARPROC *)&RtlAdjustPrivilege = GetProcAddress(hNtDll, "RtlAdjustPrivilege");
@@ -32,10 +31,9 @@ BOOL WINAPI OccupyFile(LPCTSTR lpFileName)
 	if (hProcess == NULL)
 		return FALSE;
 
-	HANDLE hFile;
 	HANDLE hTargetHandle;
 
-	hFile = CreateFile(lpFileName, GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(lpFileName, GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
@@ -43,7 +41,7 @@ BOOL WINAPI OccupyFile(LPCTSTR lpFileName)
 		return FALSE;
 	}
 
-	bRet = DuplicateHandle(GetCurrentProcess(), hFile, hProcess, &hTargetHandle, 0, FALSE, DUPLICATE_SAME_ACCESS | DUPLICATE_CLOSE_SOURCE);
+	BOOL bRet = DuplicateHandle(GetCurrentProcess(), hFile, hProcess, &hTargetHandle, 0, FALSE, DUPLICATE_SAME_ACCESS | DUPLICATE_CLOSE_SOURCE);
 
 	CloseHandle(hProcess);
 

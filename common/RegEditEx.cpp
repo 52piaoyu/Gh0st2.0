@@ -27,26 +27,26 @@ __declspec(naked) wchar_t* __fastcall strcpyW(wchar_t *dest, const wchar_t *src)
 	__asm
 	{
 		push edi
-			push esi
-			mov esi, ecx
-			mov edi, edx
-			or ecx, -1
-			xor eax, eax
-			repnz scasw
-			not ecx
-			add ecx, ecx
-			mov edi, esi
-			mov esi, edx
-			mov eax, edi
-			mov edx, ecx
-			shr ecx, 2
-			repnz movsd
-			mov ecx, edx
-			and ecx, 3
-			repnz movsb
-			pop esi
-			pop edi
-			retn
+		push esi
+		mov esi, ecx
+		mov edi, edx
+		or ecx, -1
+		xor eax, eax
+		repnz scasw
+		not ecx
+		add ecx, ecx
+		mov edi, esi
+		mov esi, edx
+		mov eax, edi
+		mov edx, ecx
+		shr ecx, 2
+		repnz movsd
+		mov ecx, edx
+		and ecx, 3
+		repnz movsb
+		pop esi
+		pop edi
+		retn
 	}
 }
 
@@ -55,13 +55,13 @@ __declspec(naked) wchar_t* __fastcall strendW(const wchar_t *s)
 	__asm
 	{
 		mov edx, edi
-			mov edi, ecx
-			or ecx, -1
-			xor eax, eax
-			repnz scasw
-			lea eax, [edi - 2]
-			mov edi, edx
-			retn
+		mov edi, ecx
+		or ecx, -1
+		xor eax, eax
+		repnz scasw
+		lea eax, [edi - 2]
+		mov edi, edx
+		retn
 	}
 }
 
@@ -79,12 +79,12 @@ wchar_t* __fastcall strcatW(wchar_t *dest, const wchar_t *src)
 TCHAR *DelSpace(TCHAR *szData)
 {
 	int i = 0;
-	while (1)
+	while (true)
 	{
 #ifdef _UNICODE
 		if (mywcsnicmp(szData + i, _T(" "), 1))
 #else
-		if(strnicmp(szData+i,_T(" "),1))
+		if (strnicmp(szData + i, _T(" "), 1))
 #endif
 			break;
 		i++;
@@ -117,7 +117,7 @@ int SetKeySecurityEx(HKEY MainKey, LPCTSTR SubKey, DWORD security)
 #ifdef UNICODE
 		myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExW");
 #else
-		myroke= (ROKE)GetProcAddress(advapi32,"RegOpenKeyExA");
+		myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
 #endif
 
 		typedef BOOL(WINAPI *SSDD)(PSECURITY_DESCRIPTOR pSecurityDescriptor, BOOL bDaclPresent, PACL pDacl, BOOL bDaclDefaulted);
@@ -220,8 +220,8 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 #else
 	RQVE myRegQueryValueEx = (RQVE)GetProcAddress(advapi32, "RegQueryValueExA");
 	ROKE myRegOpenKeyEx = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
-	REV myRegEnumValue= (REV)GetProcAddress(advapi32, "RegEnumValueA");
-	REKE myRegEnumKeyEx= (REKE)GetProcAddress(advapi32, "RegEnumKeyExA");
+	REV myRegEnumValue = (REV)GetProcAddress(advapi32, "RegEnumValueA");
+	REKE myRegEnumKeyEx = (REKE)GetProcAddress(advapi32, "RegEnumKeyExA");
 #endif
 
 	typedef BOOL(WINAPI *RCK)(HKEY hKey);
@@ -257,7 +257,7 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 #ifdef _UNICODE
 					for (PointStr = ValueSz; *PointStr; PointStr = mywcschr(PointStr, 0) + 1)//strchr
 #else
-					for(PointStr = ValueSz; *PointStr; PointStr = strchr(PointStr,0)+1)//strchr
+					for (PointStr = ValueSz; *PointStr; PointStr = strchr(PointStr, 0) + 1)//strchr
 #endif
 					{
 #ifdef _UNICODE
@@ -266,8 +266,8 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 						strcatW(ValueTemp, PointStr);
 						strcatW(ValueTemp, _T(" "));
 #else
-						strncat(ValueTemp,PointStr,sizeof(ValueTemp));
-						strncat(ValueTemp,_T(" "),sizeof(ValueTemp));
+						strncat(ValueTemp, PointStr, sizeof(ValueTemp));
+						strncat(ValueTemp, _T(" "), sizeof(ValueTemp));
 #endif
 					}
 					lstrcpy(szData, ValueTemp);
@@ -290,7 +290,7 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 			}
 			break;
 		case 1:
-			while (1)
+			while (true)
 			{
 				memset(ValueSz, 0, sizeof(ValueSz));
 				szSize = sizeof(ValueSz);
@@ -303,7 +303,7 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 			}
 			break;
 		case 2:
-			while (1)
+			while (true)
 			{
 				memset(KeyName, 0, sizeof(KeyName));
 				memset(ValueSz, 0, sizeof(ValueSz));
@@ -364,7 +364,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 	myrckx = (RCKX)GetProcAddress(advapi32, "RegCreateKeyExW");
 #else
-	myrckx= (RCKX)GetProcAddress(advapi32, "RegCreateKeyExA");
+	myrckx = (RCKX)GetProcAddress(advapi32, "RegCreateKeyExA");
 #endif
 
 	typedef BOOL(WINAPI *RSVE)(HKEY hKey, LPCTSTR lpValueName, DWORD Reserved, DWORD dwType, const BYTE *lpData, DWORD cbData);
@@ -372,7 +372,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 	myrsve = (RSVE)GetProcAddress(advapi32, "RegSetValueExW");
 #else
-	myrsve= (RSVE)GetProcAddress(advapi32, "RegSetValueExA");
+	myrsve = (RSVE)GetProcAddress(advapi32, "RegSetValueExA");
 #endif
 
 	typedef BOOL(WINAPI *RDK)(HKEY hKey, LPCTSTR lpSubKey);
@@ -380,7 +380,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 	myrdk = (RDK)GetProcAddress(advapi32, "RegDeleteKeyW");
 #else
-	myrdk= (RDK)GetProcAddress(advapi32, "RegDeleteKeyA");
+	myrdk = (RDK)GetProcAddress(advapi32, "RegDeleteKeyA");
 #endif
 
 	typedef BOOL(WINAPI *RDV)(HKEY hKey, LPCTSTR lpValueName);
@@ -388,7 +388,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 	myrdv = (RDV)GetProcAddress(advapi32, "RegDeleteValueW");
 #else
-	myrdv= (RDV)GetProcAddress(advapi32, "RegDeleteValueA");
+	myrdv = (RDV)GetProcAddress(advapi32, "RegDeleteValueA");
 #endif
 
 	typedef int (WINAPI *ROKE)(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
@@ -396,7 +396,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 	myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExW");
 #else
-	myroke= (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
+	myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
 #endif
 
 	typedef BOOL(WINAPI *RCK)(HKEY hKey);
@@ -422,7 +422,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 #ifdef UNICODE
 				if (myrsve(hKey, Vname, 0, Type, (LPBYTE)szData, lstrlen(szData) * 2 + 1) == ERROR_SUCCESS)
 #else
-				if(myrsve(hKey,Vname,0,Type,(LPBYTE)szData,lstrlen(szData)+1) == ERROR_SUCCESS)
+				if (myrsve(hKey, Vname, 0, Type, (LPBYTE)szData, lstrlen(szData) + 1) == ERROR_SUCCESS)
 #endif
 					iResult = 1;
 				break;

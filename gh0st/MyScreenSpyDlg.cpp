@@ -390,8 +390,8 @@ void CMyScreenSpyDlg::DrawNextScreenDiff()
 	__asm
 	{
 		mov ebx, [dwBytes]
-			mov esi, [lpNextScreen]
-			jmp	CopyEnd
+		mov esi, [lpNextScreen]
+		jmp	CopyEnd
 		CopyNextBlock :
 		mov edi, [lpFirstScreen]
 			lodsd	// 把lpNextScreen的第一个双字节，放到eax中,就是DIB中改变区域的偏移
@@ -401,7 +401,7 @@ void CMyScreenSpyDlg::DrawNextScreenDiff()
 			sub ebx, 8 // ebx 减去 两个dword
 			sub ebx, ecx // ebx 减去DIB数据的大小
 			rep movsb
-		CopyEnd :
+			CopyEnd :
 		cmp ebx, 0 // 是否写入完毕
 			jnz CopyNextBlock
 	}
@@ -472,8 +472,8 @@ void CMyScreenSpyDlg::DrawNextScreenRect()
 		// 不需要重绘鼠标的话，直接重绘变化的部分
 		if (!bIsReDraw)
 			StretchDIBits(m_hDC, lpRect->left - m_HScrollPos, lpRect->top - m_VScrollPos, nRectWidth,
-			nRectHeight, 0, 0, nRectWidth, nRectHeight, (LPBYTE)lpNextScreen + dwOffset + sizeof(RECT),
-			m_lpbmi_rect, DIB_RGB_COLORS, SRCCOPY);
+				nRectHeight, 0, 0, nRectWidth, nRectHeight, (LPBYTE)lpNextScreen + dwOffset + sizeof(RECT),
+				m_lpbmi_rect, DIB_RGB_COLORS, SRCCOPY);
 
 		dwOffset += sizeof(RECT) + m_lpbmi_rect->bmiHeader.biSizeImage;
 	}
@@ -494,7 +494,7 @@ void CMyScreenSpyDlg::OnPaint()
 	}
 
 	BitBlt
-		(
+	(
 		m_hDC,
 		0,
 		0,
@@ -504,20 +504,20 @@ void CMyScreenSpyDlg::OnPaint()
 		m_HScrollPos,
 		m_VScrollPos,
 		SRCCOPY
-		);
+	);
 
 	// (BYTE)-1 = 255;
 	// Draw the cursor
 	if (m_bIsTraceCursor)
 		DrawIconEx(
-		m_hDC,									// handle to device context
-		m_RemoteCursorPos.x - ((int)m_dwCursor_xHotspot) - m_HScrollPos,
-		m_RemoteCursorPos.y - ((int)m_dwCursor_yHotspot) - m_VScrollPos,
-		m_CursorInfo.getCursorHandle(m_bCursorIndex == (BYTE)-1 ? 1 : m_bCursorIndex),	// handle to icon to draw
-		0, 0,										// width of the icon
-		0,											// index of frame in animated cursor
-		NULL,										// handle to background brush
-		DI_NORMAL | DI_COMPAT						// icon-drawing flags
+			m_hDC,									// handle to device context
+			m_RemoteCursorPos.x - ((int)m_dwCursor_xHotspot) - m_HScrollPos,
+			m_RemoteCursorPos.y - ((int)m_dwCursor_yHotspot) - m_VScrollPos,
+			m_CursorInfo.getCursorHandle(m_bCursorIndex == (BYTE)-1 ? 1 : m_bCursorIndex),	// handle to icon to draw
+			0, 0,										// width of the icon
+			0,											// index of frame in animated cursor
+			NULL,										// handle to background brush
+			DI_NORMAL | DI_COMPAT						// icon-drawing flags
 		);
 	// Do not call CDialog::OnPaint() for painting messages
 }

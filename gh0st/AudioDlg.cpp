@@ -58,9 +58,7 @@ END_MESSAGE_MAP()
 BOOL CAudioDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	// TODO: Add extra initialization here
-
+	
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -101,8 +99,6 @@ void CAudioDlg::OnReceive()
 
 void CAudioDlg::OnClose()
 {
-	// TODO: Add your message handler code here and/or call default
-	// TODO: Add your message handler code here and/or call default
 	m_pContext->m_Dialog[0] = 0;
 
 	closesocket(m_pContext->m_Socket);
@@ -115,7 +111,6 @@ void CAudioDlg::OnClose()
 
 void CAudioDlg::OnSendLocalaudio()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData(true);
 }
 

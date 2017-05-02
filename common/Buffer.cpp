@@ -12,15 +12,12 @@ static char THIS_FILE[] = __FILE__;
 
 char *	lxstrstr(char *buf, char *sub)
 {
-	char *bp;
-	char *sp;
-
 	if (!*sub) return buf;
 
 	while (*buf)
 	{
-		bp = buf;
-		sp = sub;
+		char *bp = buf;
+		char *sp = sub;
 		do
 		{
 			if (!*sp) return buf;

@@ -39,7 +39,7 @@ void dbg_dump(struct _EXCEPTION_POINTERS* ExceptionInfo)
 		ExceptionInfo->ContextRecord->Eip,
 		ExceptionInfo->ContextRecord->Esp,
 		ExceptionInfo->ContextRecord->Ebp
-		);
+	);
 
 	MessageBox(NULL, buff, _T("X-fire Remote Exception"), MB_OK);
 }
@@ -67,10 +67,10 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Cgh0stApp construction
 
-Cgh0stApp::Cgh0stApp()
+Cgh0stApp::Cgh0stApp(): m_bIsQQwryExist(false)
 {
 	// 初始化本进程的图像列表, 为加载系统图标列表做准备
-	typedef BOOL(WINAPI * pfn_FileIconInit) (BOOL fFullInit);
+	typedef BOOL (WINAPI * pfn_FileIconInit)(BOOL fFullInit);
 	pfn_FileIconInit FileIconInit = (pfn_FileIconInit)GetProcAddress(GetModuleHandleW(L"shell32.dll"), (LPCSTR)660);
 	FileIconInit(TRUE);
 
@@ -120,9 +120,7 @@ BOOL Cgh0stApp::InitInstance()
 		m_bIsQQwryExist = true;
 	}
 
-	CSingleDocTemplate* pDocTemplate;
-
-	pDocTemplate = new CSingleDocTemplate(
+	CSingleDocTemplate * pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(Cgh0stDoc),
 		RUNTIME_CLASS(CMainFrame),       // main SDI frame window

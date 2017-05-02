@@ -42,7 +42,7 @@ int CManager::Send(LPBYTE lpData, UINT nSize)
 	{
 		nRet = m_pClient->Send((LPBYTE)lpData, nSize);
 	}
-	__except (1){}
+	__except (1) {}
 
 	return nRet;
 }

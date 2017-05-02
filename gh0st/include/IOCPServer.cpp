@@ -6,6 +6,7 @@
 #include "../MainFrm.h"
 
 #include "minilzo.h"
+#include "../../common/lzoconf.h"
 #define HEAP_ALLOC(var,size) lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
 
 static HEAP_ALLOC(wrkmem, LZO1X_1_MEM_COMPRESS);
@@ -120,7 +121,7 @@ bool CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMa
 	m_pNotifyProc = pNotifyProc;
 	m_pFrame = pFrame;
 	m_nMaxConnections = nMaxConnections;
-	m_socListen = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+	m_socListen = WSASocketW(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 
 	if (m_socListen == INVALID_SOCKET)
 	{
@@ -219,7 +220,7 @@ unsigned CIOCPServer::ListenThreadProc(LPVOID lParam)
 
 	WSANETWORKEVENTS events;
 
-	while (1)
+	while (true)
 	{
 		if (WaitForSingleObject(pThis->m_hKillEvent, 100) == WAIT_OBJECT_0)
 		{
@@ -227,8 +228,7 @@ unsigned CIOCPServer::ListenThreadProc(LPVOID lParam)
 			break;
 		}
 
-		DWORD dwRet;
-		dwRet = WSAWaitForMultipleEvents(1, &pThis->m_hEvent, FALSE, 100, FALSE);
+		DWORD dwRet = WSAWaitForMultipleEvents(1, &pThis->m_hEvent, FALSE, 100, FALSE);
 
 		if (dwRet == WSA_WAIT_TIMEOUT)
 			continue;
@@ -280,9 +280,6 @@ unsigned CIOCPServer::ListenThreadProc(LPVOID lParam)
 void CIOCPServer::OnAccept()
 {
 	SOCKADDR_IN	SockAddr;
-	SOCKET clientSocket;
-
-	int nRet, nLen;
 
 	if (m_bTimeToKill || m_bDisconnectAll)
 		return;
@@ -290,12 +287,12 @@ void CIOCPServer::OnAccept()
 	//
 	// accept the new socket descriptor
 	//
-	nLen = sizeof(SOCKADDR_IN);
-	clientSocket = accept(m_socListen, (LPSOCKADDR)&SockAddr, &nLen);
+	int nLen = sizeof(SOCKADDR_IN);
+	SOCKET clientSocket = accept(m_socListen, (LPSOCKADDR)&SockAddr, &nLen);
 
 	if (clientSocket == SOCKET_ERROR)
 	{
-		nRet = WSAGetLastError();
+		int nRet = WSAGetLastError();
 		if (nRet != WSAEWOULDBLOCK)
 		{
 			//
@@ -322,7 +319,6 @@ void CIOCPServer::OnAccept()
 	if (!AssociateSocketWithCompletionPort(clientSocket, m_hCompletionPort, (DWORD)pContext))
 	{
 		delete pContext;
-		pContext = NULL;
 
 		closesocket(clientSocket);
 		closesocket(m_socListen);
@@ -364,7 +360,7 @@ void CIOCPServer::OnAccept()
 		(unsigned long *)&OptionKeepAlive,
 		0,
 		NULL
-		);
+	);
 
 	CLock cs(m_cs, "OnAccept");
 	// Hold a reference to the context
@@ -408,10 +404,8 @@ void CIOCPServer::OnAccept()
 // N T ALMOND            06042001	1.0        Origin
 //
 ////////////////////////////////////////////////////////////////////////////////
-bool CIOCPServer::InitializeIOCP(void)
+bool CIOCPServer::InitializeIOCP()
 {
-	SOCKET Socket;
-	DWORD i;
 	UINT nThreadID;
 	SYSTEM_INFO systemInfo;
 
@@ -423,7 +417,7 @@ bool CIOCPServer::InitializeIOCP(void)
 	// we need an overlapped file handle.
 	//
 
-	Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+	SOCKET Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 	if (Socket == INVALID_SOCKET)
 		return false;
 
@@ -454,13 +448,11 @@ bool CIOCPServer::InitializeIOCP(void)
 	// but not too many that context switches consume significant overhead.
 	UINT nWorkerCnt = systemInfo.dwNumberOfProcessors * HUERISTIC_VALUE;
 
-	// We need to save the Handles for Later Termination...
-	HANDLE hWorker;
 	m_nWorkerCnt = 0;
 
-	for (i = 0; i < nWorkerCnt; i++)
+	for (DWORD i = 0; i < nWorkerCnt; i++)
 	{
-		hWorker = (HANDLE)_beginthreadex(NULL, 0, ThreadPoolFunc, (void*) this, 0, &nThreadID);
+		HANDLE hWorker = (HANDLE)_beginthreadex(NULL, 0, ThreadPoolFunc, (void*) this, 0, &nThreadID);
 
 		if (hWorker == NULL)
 		{
@@ -501,7 +493,6 @@ bool CIOCPServer::InitializeIOCP(void)
 unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 {
 	// Get back our pointer to the class
-	ULONG ulFlags = MSG_PARTIAL;
 	CIOCPServer* pThis = reinterpret_cast<CIOCPServer*>(thisContext);
 	ASSERT(pThis);
 
@@ -509,10 +500,6 @@ unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 
 	DWORD dwIoSize;
 	LPOVERLAPPED lpOverlapped;
-	ClientContext* lpClientContext;
-	OVERLAPPEDPLUS*	pOverlapPlus;
-	bool bError;
-	bool bEnterRead;
 
 	InterlockedIncrement(&pThis->m_nCurrentThreads);
 	InterlockedIncrement(&pThis->m_nBusyThreads);
@@ -521,10 +508,9 @@ unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 
 	for (BOOL bStayInPool = TRUE; bStayInPool && pThis->m_bTimeToKill == false;)
 	{
-		pOverlapPlus = NULL;
-		lpClientContext = NULL;
-		bError = false;
-		bEnterRead = false;
+		ClientContext * lpClientContext = NULL;
+		bool bError = false;
+
 		// Thread is Block waiting for IO completion
 		InterlockedDecrement(&pThis->m_nBusyThreads);
 
@@ -535,7 +521,7 @@ unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 			&lpOverlapped, INFINITE);
 
 		DWORD dwIOError = GetLastError();
-		pOverlapPlus = CONTAINING_RECORD(lpOverlapped, OVERLAPPEDPLUS, m_ol);
+		OVERLAPPEDPLUS *	pOverlapPlus = CONTAINING_RECORD(lpOverlapped, OVERLAPPEDPLUS, m_ol);
 
 		int nBusyThreads = InterlockedIncrement(&pThis->m_nBusyThreads);
 
@@ -546,9 +532,6 @@ unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 				pThis->RemoveStaleClient(lpClientContext, FALSE);
 			}
 			continue;
-
-			// anyway, this was an error and we should exit
-			bError = true;
 		}
 
 		if (!bError)
@@ -560,16 +543,16 @@ unsigned CIOCPServer::ThreadPoolFunc(LPVOID thisContext)
 				{
 					if (pThis->m_cpu.GetUsage() > pThis->m_nCPUHiThreshold)
 					{
-						UINT nThreadID = -1;
+						//UINT nThreadID = -1;
 
-						//						HANDLE hThread = (HANDLE)_beginthreadex(NULL,				// Security
-						//											 0,					// Stack size - use default
-						//											 ThreadPoolFunc,  // Thread fn entry point
-						///											 (void*) pThis,
-						//											 0,					// Init flag
-						//											 &nThreadID);	// Thread address
+						//HANDLE hThread = (HANDLE)_beginthreadex(NULL,				// Security
+						//	0,					// Stack size - use default
+						//	ThreadPoolFunc,  // Thread fn entry point
+						//	(void*)pThis,
+						//	0,					// Init flag
+						//	&nThreadID);	// Thread address
 
-						//						CloseHandle(hThread);
+						//CloseHandle(hThread);
 					}
 				}
 			}
@@ -1036,14 +1019,12 @@ void CIOCPServer::CloseCompletionPort()
 	// Close the CompletionPort and stop any more requests
 	CloseHandle(m_hCompletionPort);
 
-	ClientContext* pContext = NULL;
-
 	do
 	{
 		POSITION pos = m_listContexts.GetHeadPosition();
 		if (pos)
 		{
-			pContext = m_listContexts.GetNext(pos);
+			ClientContext * pContext = m_listContexts.GetNext(pos);
 			RemoveStaleClient(pContext, FALSE);
 		}
 	} while (!m_listContexts.IsEmpty());
@@ -1188,9 +1169,9 @@ void CIOCPServer::MoveToFreePool(ClientContext *pContext)
 ////////////////////////////////////////////////////////////////////////////////
 ClientContext*  CIOCPServer::AllocateContext()
 {
-	ClientContext* pContext = NULL;
+	ClientContext* pContext;
 
-	CLock cs(CIOCPServer::m_cs, "AllocateContext");
+	CLock cs(m_cs, "AllocateContext");
 
 	if (!m_listFreePool.IsEmpty())
 	{
@@ -1219,14 +1200,13 @@ ClientContext*  CIOCPServer::AllocateContext()
 void CIOCPServer::ResetConnection(ClientContext* pContext)
 {
 	CString strHost;
-	ClientContext* pCompContext = NULL;
 
-	CLock cs(CIOCPServer::m_cs, "ResetConnection");
+	CLock cs(m_cs, "ResetConnection");
 
 	POSITION pos = m_listContexts.GetHeadPosition();
 	while (pos)
 	{
-		pCompContext = m_listContexts.GetNext(pos);
+		ClientContext * pCompContext = m_listContexts.GetNext(pos);
 		if (pCompContext == pContext)
 		{
 			RemoveStaleClient(pContext, TRUE);
@@ -1239,14 +1219,13 @@ void CIOCPServer::DisconnectAll()
 {
 	m_bDisconnectAll = true;
 	CString strHost;
-	ClientContext* pContext = NULL;
 
-	CLock cs(CIOCPServer::m_cs, "DisconnectAll");
+	CLock cs(m_cs, "DisconnectAll");
 
 	POSITION pos = m_listContexts.GetHeadPosition();
 	while (pos)
 	{
-		pContext = m_listContexts.GetNext(pos);
+		ClientContext * pContext = m_listContexts.GetNext(pos);
 		RemoveStaleClient(pContext, TRUE);
 	}
 	m_bDisconnectAll = false;

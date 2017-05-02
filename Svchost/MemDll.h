@@ -12,7 +12,6 @@
 #endif // _MSC_VER > 1000
 
 #include "windows.h"
-#include "debug.h"
 
 typedef BOOL(__stdcall *ProcDllMain)(HINSTANCE, DWORD, LPVOID);
 
@@ -32,12 +31,7 @@ private:
 	BOOL FillRavAddress(void* pBase);
 	void DoRelocation(void* pNewBase);
 	int  GetAlignedSize(int Origin, int Alignment);
-
-private:
-
 	ProcDllMain pDllMain;
-
-private:
 
 	DWORD  pImageBase;
 	PIMAGE_DOS_HEADER pDosHeader;
@@ -54,12 +48,13 @@ static char THIS_FILE[] = __FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CMemLoadDll::CMemLoadDll()
+CMemLoadDll::CMemLoadDll(): pDosHeader(nullptr), pNTHeader(nullptr), pSectionHeader(nullptr)
 {
 	isLoadOk = FALSE;
 	pImageBase = NULL;
 	pDllMain = NULL;
 }
+
 CMemLoadDll::~CMemLoadDll()
 {
 	if (isLoadOk)
@@ -324,11 +319,11 @@ BOOL CMemLoadDll::FillRavAddress(void *pImageBase)
 		// PIMAGE_IMPORT_BY_NAME AddressOfData;
 		// } u1;
 		// 长度是一个DWORD ，正好容纳一个地址。
-		for (i = 0;; i++)
+		for (int i = 0;; i++)
 		{
 			if (pOriginalIAT[i].u1.Function == 0)  break;
 
-			FARPROC lpFunction = NULL;
+			FARPROC lpFunction;
 
 			if (pOriginalIAT[i].u1.Ordinal & IMAGE_ORDINAL_FLAG) //这里的值给出的是导出序号
 			{
@@ -338,7 +333,7 @@ BOOL CMemLoadDll::FillRavAddress(void *pImageBase)
 			{
 				//获取此IAT项所描述的函数名称
 				PIMAGE_IMPORT_BY_NAME pByName = (PIMAGE_IMPORT_BY_NAME)
-					((DWORD)pImageBase + (DWORD)(pOriginalIAT[i].u1.AddressOfData));
+					((DWORD)pImageBase + (DWORD)pOriginalIAT[i].u1.AddressOfData);
 				// if(pByName->Hint !=0)
 				// lpFunction = GetProcAddress(hDll, (LPCSTR)pByName->Hint);
 				// else
@@ -393,9 +388,9 @@ BOOL CMemLoadDll::CheckDataValide(void* lpFileData, int DataLength)
 	pSectionHeader = (PIMAGE_SECTION_HEADER)((int)pNTHeader + sizeof(IMAGE_NT_HEADERS));
 
 	//验证每个节表的空间
-	for (int i = 0; i< pNTHeader->FileHeader.NumberOfSections; i++)
+	for (int i = 0; i < pNTHeader->FileHeader.NumberOfSections; i++)
 	{
-		if ((pSectionHeader[i].PointerToRawData + pSectionHeader[i].SizeOfRawData) >(DWORD)DataLength)return FALSE;
+		if ((pSectionHeader[i].PointerToRawData + pSectionHeader[i].SizeOfRawData) > (DWORD)DataLength)return FALSE;
 	}
 
 	return TRUE;
@@ -410,14 +405,12 @@ int CMemLoadDll::GetAlignedSize(int Origin, int Alignment)
 //计算整个dll映像文件的尺寸
 int CMemLoadDll::CalcTotalImageSize()
 {
-	int Size;
-
 	if (pNTHeader == NULL)return 0;
 
 	int nAlign = pNTHeader->OptionalHeader.SectionAlignment; //段对齐字节数
 
 	// 计算所有头的尺寸。包括dos, coff, pe头 和 段表的大小
-	Size = GetAlignedSize(pNTHeader->OptionalHeader.SizeOfHeaders, nAlign);
+	int Size = GetAlignedSize(pNTHeader->OptionalHeader.SizeOfHeaders, nAlign);
 
 	// 计算所有节的大小
 	for (int i = 0; i < pNTHeader->FileHeader.NumberOfSections; ++i)

@@ -26,16 +26,16 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-BOOL CAboutDlg::OnInitDialog() 
+BOOL CAboutDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	return TRUE;  
+	return TRUE;
 }
 
 
-void CAboutDlg::OnDestroy() 
+void CAboutDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
-	
+
 	// TODO: Add your message handler code here
 }

@@ -136,7 +136,7 @@ bool CAudio::playBuffer(LPBYTE lpWaveBuffer, DWORD dwBytes)
 	WOW mywaveOutWrite = (WOW)GetProcAddress(winmm, "waveOutWrite");
 
 	if (!m_bIsWaveOutUsed && !InitializeWaveOut())
-		return NULL;
+		return false;
 
 	for (unsigned int i = 0; i < dwBytes; i += m_nBufferLength)
 	{
@@ -156,7 +156,7 @@ bool CAudio::InitializeWaveIn()
 	typedef MMRESULT(WINAPI *WIST)(HWAVEIN);
 	WIST mywaveInStart = (WIST)GetProcAddress(winmm, "waveInStart");
 
-	typedef UINT(WINAPI *WIND)(void);
+	typedef UINT(WINAPI *WIND)();
 	WIND mywaveInGetNumDevs = (WIND)GetProcAddress(winmm, "waveInGetNumDevs");
 
 	typedef MMRESULT(WINAPI *WIO)(LPHWAVEIN, UINT, LPCWAVEFORMATEX, DWORD_PTR, IN DWORD_PTR, IN DWORD);
@@ -171,10 +171,9 @@ bool CAudio::InitializeWaveIn()
 	if (!mywaveInGetNumDevs())
 		return false;
 
-	MMRESULT	mmResult;
 	DWORD		dwThreadID = 0;
 	m_hThreadCallBack = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)waveInCallBack, (LPVOID)this, CREATE_SUSPENDED, &dwThreadID);
-	mmResult = mywaveInOpen(&m_hWaveIn, (WORD)WAVE_MAPPER, &(m_GSMWavefmt.wfx), (LONG)dwThreadID, (LONG)0, CALLBACK_THREAD);
+	MMRESULT mmResult = mywaveInOpen(&m_hWaveIn, (WORD)WAVE_MAPPER, &(m_GSMWavefmt.wfx), (LONG)dwThreadID, (LONG)0, CALLBACK_THREAD);
 
 	if (mmResult != MMSYSERR_NOERROR)
 		return false;
@@ -204,7 +203,7 @@ bool CAudio::InitializeWaveOut()
 {
 	HINSTANCE winmm = LoadLibrary(_T("Winmm.dll"));
 
-	typedef UINT(WINAPI *WIND)(void);
+	typedef UINT(WINAPI *WIND)();
 	WIND mywaveOutGetNumDevs = (WIND)GetProcAddress(winmm, "waveOutGetNumDevs");
 
 	typedef MMRESULT(WINAPI *WIO)(LPHWAVEOUT, UINT, LPCWAVEFORMATEX, DWORD_PTR, IN DWORD_PTR, IN DWORD);
@@ -220,8 +219,7 @@ bool CAudio::InitializeWaveOut()
 	for (i = 0; i < 2; i++)
 		memset(m_lpOutAudioData[i], 0, m_nBufferLength);
 
-	MMRESULT	mmResult;
-	mmResult = mywaveOutOpen(&m_hWaveOut, (WORD)WAVE_MAPPER, &(m_GSMWavefmt.wfx), (LONG)0, (LONG)0, CALLBACK_NULL);
+	MMRESULT mmResult = mywaveOutOpen(&m_hWaveOut, (WORD)WAVE_MAPPER, &(m_GSMWavefmt.wfx), (LONG)0, (LONG)0, CALLBACK_NULL);
 	if (mmResult != MMSYSERR_NOERROR)
 		return false;
 

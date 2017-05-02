@@ -8,7 +8,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 #define MAX_LENGTH 256
@@ -19,14 +19,13 @@ static char THIS_FILE[]=__FILE__;
 CIniFile::CIniFile()
 {
 	TCHAR szAppName[MAX_PATH];
-	int  len;
 
 	GetModuleFileName(GetModuleHandle(NULL), szAppName, MAX_PATH);
 
 #ifdef _UNICODE
-	len = lstrlenW(szAppName);
+	int len = lstrlenW(szAppName);
 #else
-	len = lstrlenA(szAppName);
+	int len = lstrlenA(szAppName);
 #endif
 
 	for (int i = len; i > 0; i--)

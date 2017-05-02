@@ -45,15 +45,13 @@ END_MESSAGE_MAP()
 
 void CFileTransferModeDlg::OnEndDialog(UINT id)
 {
-	// TODO: Add your control notification handler code here
 	EndDialog(id);
 }
 
-BOOL CFileTransferModeDlg::OnInitDialog() 
+BOOL CFileTransferModeDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
-	// TODO: Add extra initialization here
+
 	CString	str;
 	str.Format(_T("此文件夹已包含一个名为“%s”的文件"), m_strFileName);
 
@@ -65,5 +63,5 @@ BOOL CFileTransferModeDlg::OnInitDialog()
 
 	SetDlgItemText(IDC_TIPS, str);
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+				  // EXCEPTION: OCX Property Pages should return FALSE
 }

@@ -36,10 +36,11 @@ _ReSharper*/
 $tf*/
 /bk
 /common/zlib
-[Rr]elease/Dll
-[Rr]elease/Exe
+Dll/
+Exe/
 *.res
 
+.vs/
 .localhistory/
 Unicode/
 exe/

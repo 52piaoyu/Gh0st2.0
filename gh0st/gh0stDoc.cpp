@@ -30,22 +30,11 @@ END_MESSAGE_MAP()
 
 Cgh0stDoc::Cgh0stDoc()
 {
-	// TODO: add one-time construction code here
 }
 
 Cgh0stDoc::~Cgh0stDoc()
 {
 }
-
-//DEL BOOL Cgh0stDoc::OnNewDocument()
-//DEL {
-//DEL 	if (!CDocument::OnNewDocument())
-//DEL 		return FALSE;
-//DEL
-//DEL 	// TODO: add reinitialization code here
-//DEL 	// (SDI documents will reuse this document)
-//DEL 	return TRUE;
-//DEL }
 
 /////////////////////////////////////////////////////////////////////////////
 // Cgh0stDoc serialization
@@ -54,11 +43,9 @@ void Cgh0stDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		// TODO: add storing code here
 	}
 	else
 	{
-		// TODO: add loading code here
 	}
 }
 

