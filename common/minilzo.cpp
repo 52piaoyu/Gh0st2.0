@@ -3485,7 +3485,7 @@ __lzo_static_forceinline unsigned lzo_bitops_cttz64_func(lzo_uint64_t v)
 }
 #endif
 
-lzo_unused_funcs_impl(void, lzo_bitops_unused_funcs)(void)
+lzo_unused_funcs_impl(void, lzo_bitops_unused_funcs)()
 {
 	LZO_UNUSED_FUNC(lzo_bitops_unused_funcs);
 	LZO_UNUSED_FUNC(lzo_bitops_ctlz32_func);

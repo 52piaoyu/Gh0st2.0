@@ -1,25 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName />
     <SccLocalPath />
-    <ProjectGuid>{221E4C3D-3B9F-4EE3-825A-5DE44778F423}</ProjectGuid>
+    <ProjectGuid>{E08A89FB-0E62-4371-B245-1B4B24436EC1}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -27,9 +39,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\../Release\</OutDir>
-    <IntDir>.\../Release\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -41,11 +58,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalIncludeDirectories>../../common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_MBCS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>Release\Proxy.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ObjectFileName>Release\</ObjectFileName>
-      <ProgramDataBaseFileName>Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -63,16 +76,10 @@
       <OutputFile>.\../Release\Proxy.bsc</OutputFile>
     </Bscmake>
     <Link>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
       <OutputFile>../Proxy.dll</OutputFile>
-      <ImportLibrary>Release\Proxy.lib</ImportLibrary>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /ignore:4098</AdditionalOptions>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -80,7 +87,6 @@
     <ClCompile Include="..\..\common\ClientSocket.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
-    <ClCompile Include="..\..\common\myCrt.cpp" />
     <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="Proxy.cpp" />
     <ClCompile Include="ProxyManager.cpp" />
@@ -91,14 +97,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\common\Buffer.h" />
     <ClInclude Include="..\..\common\ClientSocket.h" />
-    <ClInclude Include="..\..\common\InstallService.h" />
-    <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="..\..\common\Manager.h" />
+    <ClInclude Include="..\..\common\minilzo.h" />
     <ClInclude Include="..\..\common\until.h" />
     <ClInclude Include="ProxyManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

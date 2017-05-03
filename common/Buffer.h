@@ -10,16 +10,16 @@
 #endif // _MSC_VER > 1000
 #include <windows.h>
 
-class CBuffer  
+class CBuffer
 {
-// Attributes
+	// Attributes
 protected:
 	PBYTE	m_pBase;
 	PBYTE	m_pPtr;
 	UINT	m_nSize;
 
 
-// Methods
+	// Methods
 protected:
 	UINT ReAllocateBuffer(UINT nRequestedSize);
 	UINT DeAllocateBuffer(UINT nRequestedSize);
@@ -31,12 +31,12 @@ public:
 	UINT Read(PBYTE pData, UINT nSize);
 	BOOL Write(PBYTE pData, UINT nSize);
 	UINT GetBufferLen();
-	int Scan(PBYTE pScan,UINT nPos);
+	int Scan(PBYTE pScan, UINT nPos);
 	BOOL Insert(PBYTE pData, UINT nSize);
 
-	void Copy(CBuffer& buffer);	
+	void Copy(CBuffer& buffer);
 
-	PBYTE GetBuffer(UINT nPos=0);
+	PBYTE GetBuffer(UINT nPos = 0);
 
 	CBuffer();
 	virtual ~CBuffer();

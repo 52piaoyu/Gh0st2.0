@@ -10,16 +10,16 @@ int myiswctype(wint_t c, wctype_t type)
 	return 0;
 }
 
-int myiswdigit(wint_t c)	
+int myiswdigit(wint_t c)
 {
 	return myiswctype(c, _DIGIT);
 }
 
-int myiswspace(wint_t c)	
+int myiswspace(wint_t c)
 {
 	return myiswctype(c, _BLANK);
 }
-	
+
 long mywtol(const wchar_t *str)
 {
 	while (myiswspace(*str))			// skip whitespace
@@ -36,7 +36,7 @@ long mywtol(const wchar_t *str)
 	long total = 0;
 	while (myiswdigit(cur))
 	{
-		total = 10*total + (cur-L'0');			// Add this digit to the total.
+		total = 10 * total + (cur - L'0');			// Add this digit to the total.
 		cur = *str++;							// Do the next character.
 	}
 
@@ -83,7 +83,7 @@ void *memmove(void *dst, const void *src, size_t count)
 		// copy from higher addresses to lower addresses
 		dst = (char*)dst + count - 1;
 		src = (char*)src + count - 1;
-		
+
 		while (count--)
 		{
 			*(char*)dst = *(char*)src;
@@ -91,7 +91,7 @@ void *memmove(void *dst, const void *src, size_t count)
 			src = (char*)src - 1;
 		}
 	}
-	
+
 	return ret;
 }
 

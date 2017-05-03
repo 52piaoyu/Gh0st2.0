@@ -1,9 +1,9 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by gh0st.rc
+// Microsoft Visual C++ 生成的包含文件。
+// 供 gh0st.rc 使用
 //
 #define IDD_ABOUTBOX                    100
-#define IDC_UNISTALL					101
+#define IDC_UNISTALL                    101
 #define IDC_WEBCAM                      102
 #define IDC_Folder                      103
 #define IDC_SCREEN                      105
@@ -84,6 +84,7 @@
 #define IDI_EVENT_ERROR                 214
 #define IDR_LOG                         215
 #define IDI_BuildServer                 220
+#define IDR_RT_MANIFEST2                220
 #define IDI_ICON_CLASS                  232
 #define IDI_Folder                      248
 #define IDB_TOOLBARBKMAP                257
@@ -290,8 +291,8 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_3D_CONTROLS                1
-#define _APS_NEXT_RESOURCE_VALUE        219
+#define _APS_3D_CONTROLS                     1
+#define _APS_NEXT_RESOURCE_VALUE        221
 #define _APS_NEXT_COMMAND_VALUE         32876
 #define _APS_NEXT_CONTROL_VALUE         1072
 #define _APS_NEXT_SYMED_VALUE           101

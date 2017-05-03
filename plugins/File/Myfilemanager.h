@@ -38,11 +38,11 @@ private:
 	UINT m_nTransferMode;
 	TCHAR m_strCurrentProcessFileName[MAX_PATH]; // 当前正在处理的文件
 	LONGLONG  m_nCurrentProcessFileLength; // 当前正在处理的文件的长度
-	
+
 #ifdef NOUSEAPI
 	bool MakeSureDirectoryPathExists(LPCTSTR pszDirPath);
 #endif
-	
+
 	bool UploadToRemote(LPBYTE lpBuffer);
 	bool FixedUploadList(LPCTSTR lpszDirectory);
 	void StopTransfer();

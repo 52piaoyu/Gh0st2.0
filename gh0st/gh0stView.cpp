@@ -960,10 +960,12 @@ void Cgh0stView::OnUpdateServer()
 
 void Cgh0stView::OnDisconnect()
 {
-	POSITION pos;
-	for (; pos == m_pListCtrl->GetFirstSelectedItemPosition();)
+	POSITION pos = m_pListCtrl->GetFirstSelectedItemPosition();
+
+	while (pos)
 	{
 		m_pListCtrl->DeleteItem(m_pListCtrl->GetNextSelectedItem(pos));
+		pos = m_pListCtrl->GetFirstSelectedItemPosition();
 	}
 }
 

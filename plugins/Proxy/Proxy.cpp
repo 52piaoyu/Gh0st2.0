@@ -18,7 +18,7 @@ extern "C" __declspec(dllexport) BOOL PluginMe(LPCSTR lpszHost, UINT nPort, LPBY
 BOOL APIENTRY mymain(HANDLE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
-	)
+)
 {
 	return TRUE;
 }

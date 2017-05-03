@@ -47,10 +47,10 @@ CMyScreenSpy::CMyScreenSpy(int biBitCount, bool bIsGray, UINT nMaxFrameRate)
 
 	m_nStartLine = 0;
 
-	m_hFullMemDC = ::CreateCompatibleDC(m_hFullDC);
-	m_hDiffMemDC = ::CreateCompatibleDC(m_hFullDC);
-	m_hLineMemDC = ::CreateCompatibleDC(NULL);
-	m_hRectMemDC = ::CreateCompatibleDC(NULL);
+	m_hFullMemDC = CreateCompatibleDC(m_hFullDC);
+	m_hDiffMemDC = CreateCompatibleDC(m_hFullDC);
+	m_hLineMemDC = CreateCompatibleDC(NULL);
+	m_hRectMemDC = CreateCompatibleDC(NULL);
 	m_lpvLineBits = NULL;
 	m_lpvFullBits = NULL;
 
@@ -100,14 +100,11 @@ CMyScreenSpy::~CMyScreenSpy()
 // 差异比较算法块的函数
 int CMyScreenSpy::Compare(LPBYTE lpSource, LPBYTE lpDest, LPBYTE lpBuffer, DWORD dwSize)
 {
-	// Windows规定一个扫描行所占的字节数必须是4的倍数, 所以用DWORD比较
-	LPDWORD	p1, p2;
-	p1 = (LPDWORD)lpDest;
-	p2 = (LPDWORD)lpSource;
+	LPDWORD p1 = (LPDWORD)lpDest;
+	LPDWORD p2 = (LPDWORD)lpSource;
 
 	// 偏移的偏移，不同长度的偏移
-	int	nOffsetOffset = 0, nBytesOffset = 0, nDataOffset = 0;
-	int nCount = 0; // 数据计数器
+	int	nOffsetOffset = 0;
 
 	// p1++实际上是递增了一个DWORD
 	for (unsigned int i = 0; i < dwSize; i += 4, p1++, p2++)
@@ -118,9 +115,9 @@ int CMyScreenSpy::Compare(LPBYTE lpSource, LPBYTE lpDest, LPBYTE lpBuffer, DWORD
 		// 写入偏移地址
 		*(LPDWORD)(lpBuffer + nOffsetOffset) = i;
 		// 记录数据大小的存放位置
-		nBytesOffset = nOffsetOffset + sizeof(int);
-		nDataOffset = nBytesOffset + sizeof(int);
-		nCount = 0; // 数据计数器归零
+		int nBytesOffset = nOffsetOffset + sizeof(int);
+		int nDataOffset = nBytesOffset + sizeof(int);
+		int nCount = 0; // 数据计数器归零
 
 		// 更新Dest中的数据
 		*p1 = *p2;
@@ -217,11 +214,10 @@ LPBYTE CMyScreenSpy::getNextScreen(LPDWORD lpdwBytes)
 bool CMyScreenSpy::ScanChangedRect(int nStartLine)
 {
 	bool bRet = false;
-	LPDWORD p1, p2;
 	::BitBlt(m_hLineMemDC, 0, 0, m_nFullWidth, 1, m_hFullDC, 0, nStartLine, m_dwBitBltRop);
 	// 0 是最后一行
-	p1 = (PDWORD)((DWORD)m_lpvFullBits + ((m_nFullHeight - 1 - nStartLine) * m_nDataSizePerLine));
-	p2 = (PDWORD)m_lpvLineBits;
+	LPDWORD p1 = (PDWORD)((DWORD)m_lpvFullBits + ((m_nFullHeight - 1 - nStartLine) * m_nDataSizePerLine));
+	LPDWORD p2 = (PDWORD)m_lpvLineBits;
 	::SetRect(&m_changeRect, -1, nStartLine - DEF_STEP, -1, nStartLine + DEF_STEP * 2);
 
 	for (int j = 0; j < m_nFullWidth; j += m_nIncSize)
@@ -381,10 +377,10 @@ bool CMyScreenSpy::SelectInputWinStation()
 
 void CMyScreenSpy::ScanScreen(HDC hdcDest, HDC hdcSrc, int nWidth, int nHeight)
 {
-	UINT	nJumpLine = 50;
-	UINT	nJumpSleep = nJumpLine / 10; // 扫描间隔
+	UINT nJumpLine = 50;
+	UINT nJumpSleep = nJumpLine / 10; // 扫描间隔
 	// 扫描屏幕
-	for (int i = 0, nToJump = 0; i < nHeight; i += nToJump)
+	for (int i = 0, nToJump; i < nHeight; i += nToJump)
 	{
 		int	nOther = nHeight - i;
 

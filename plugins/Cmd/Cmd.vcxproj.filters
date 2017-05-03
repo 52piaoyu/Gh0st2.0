@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{07c1d0e5-b04a-4db9-9f18-8bd08a81e2f6}</UniqueIdentifier>
+      <UniqueIdentifier>{14ac2cdf-7319-4c27-b785-a37ffe8a22ec}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{72b3a8ae-74fc-43a3-9b6b-fc735cd7655e}</UniqueIdentifier>
+      <UniqueIdentifier>{f7f0440c-ee49-4ee8-8ac3-c1736fd10b5c}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{d183167f-d73d-4c30-9abb-7034b3f35176}</UniqueIdentifier>
+      <UniqueIdentifier>{480dc4db-f2ef-4d76-81dc-e2729c412407}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -24,6 +24,9 @@
     <ClCompile Include="Cmd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\InstallService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\common\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyShellManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\RegEditEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\until.cpp">
@@ -47,6 +53,9 @@
     <ClInclude Include="..\..\common\ClientSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\InstallService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\common\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyShellManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\RegEditEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\until.h">

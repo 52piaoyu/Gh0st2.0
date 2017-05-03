@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "File", "File.vcxproj", "{CCB8AF18-96ED-453D-B358-8D3C8BCB3E45}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyAudio", "MyAudio.vcxproj", "{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Template|x86 = Template|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CCB8AF18-96ED-453D-B358-8D3C8BCB3E45}.Release|x86.ActiveCfg = Release|Win32
-		{CCB8AF18-96ED-453D-B358-8D3C8BCB3E45}.Release|x86.Build.0 = Release|Win32
-		{CCB8AF18-96ED-453D-B358-8D3C8BCB3E45}.Template|x86.ActiveCfg = Template|Win32
-		{CCB8AF18-96ED-453D-B358-8D3C8BCB3E45}.Template|x86.Build.0 = Template|Win32
+		{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}.Release|x86.ActiveCfg = Release|Win32
+		{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}.Release|x86.Build.0 = Release|Win32
+		{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}.Template|x86.ActiveCfg = Template|Win32
+		{C98D753F-153E-46A0-B5BA-60C61E8A9FC0}.Template|x86.Build.0 = Template|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

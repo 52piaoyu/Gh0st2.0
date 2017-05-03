@@ -65,23 +65,41 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\hgz.ico"
+
 IDI_WEBCAM              ICON                    "res\\webcam.ico"
+
 IDI_CMDSHELL            ICON                    "res\\cmdshell.ico"
+
 IDI_KEYBOARD            ICON                    "res\\keyboard.ico"
+
 IDI_SYSTEM              ICON                    "res\\system.ico"
+
 IDI_AUDIO               ICON                    "res\\audio.ico"
+
 IDR_TOOLBATYPE          ICON                    "res\\ToolBarDoc.ico"
+
 IDI_Exit                ICON                    "res\\exit.ico"
+
 IDI_Folder              ICON                    "res\\folder.ico"
+
 IDI_Screen              ICON                    "res\\screen.ico"
+
 IDI_Setting             ICON                    "res\\setting.ico"
+
 IDI_About               ICON                    "res\\about.ico"
+
 IDI_DDOS                ICON                    "res\\ddos.ico"
+
 IDI_BuildServer         ICON                    "res\\server.ico"
+
 IDI_UpIp                ICON                    "res\\upip.ico"
+
 IDI_Manage              ICON                    "res\\manage.ico"
+
 IDI_EVENT_INFO          ICON                    "res\\event.ico"
+
 IDI_EVENT_ERROR         ICON                    "res\\EventError.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -289,17 +307,17 @@ BEGIN
     DEFPUSHBUTTON   "确定",IDOK,139,81,62,18,WS_GROUP
 END
 
-IDD_FILE DIALOGEX 0, 0, 520, 282
+IDD_FILE DIALOGEX 0, 0, 520, 293
 STYLE DS_SETFONT | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "文件管理"
 FONT 9, "微软雅黑", 400, 0, 0x86
 BEGIN
-    COMBOBOX        IDC_LOCAL_PATH,15,18,235,44,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "List1",IDC_LIST_LOCAL,"SysListView32",LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,14,65,237,197,WS_EX_ACCEPTFILES
-    COMBOBOX        IDC_REMOTE_PATH,273,18,231,58,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "List1",IDC_LIST_REMOTE,"SysListView32",LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,274,65,232,197
-    GROUPBOX        "Local",IDC_STATIC,7,7,252,262,0,WS_EX_TRANSPARENT
-    GROUPBOX        "Remote",IDC_STATIC,265,7,248,261,0,WS_EX_TRANSPARENT
+    COMBOBOX        IDC_LOCAL_PATH,13,14,240,44,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "List1",IDC_LIST_LOCAL,"SysListView32",LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,13,45,240,226,WS_EX_ACCEPTFILES
+    COMBOBOX        IDC_REMOTE_PATH,272,14,236,58,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "List1",IDC_LIST_REMOTE,"SysListView32",LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,272,45,237,226
+    GROUPBOX        "Local",IDC_STATIC,5,3,254,274,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Remote",IDC_STATIC,266,3,249,274,0,WS_EX_TRANSPARENT
 END
 
 IDD_TRANSFERMODE_DLG DIALOG 0, 0, 371, 75
@@ -344,23 +362,23 @@ BEGIN
     PUSHBUTTON      "清除记录",IDC_CLEAR_RECORD,98,10,43,13
 END
 
-IDD_SYSTEM DIALOGEX 0, 0, 425, 260
-STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+IDD_SYSTEM DIALOGEX 0, 0, 425, 245
+STYLE DS_SETFONT | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "系统管理"
 FONT 9, "微软雅黑", 400, 0, 0x86
 BEGIN
-    CONTROL         "List1",IDC_LIST_PROCESS,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,19,420,240
-    CONTROL         "Tab1",IDC_TAB,"SysTabControl32",TCS_HOTTRACK | TCS_BUTTONS,3,2,267,13
-    CONTROL         "List1",IDC_LIST_WINDOWS,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,19,273,240
-    CONTROL         "List1",IDC_LIST_SERVICE,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,19,273,240
-    CONTROL         "List1",IDC_LIST_SYSINFO,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,19,273,240
+    CONTROL         "List1",IDC_LIST_PROCESS,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,16,425,229
+    CONTROL         "Tab1",IDC_TAB,"SysTabControl32",TCS_HOTTRACK | TCS_BUTTONS,0,0,267,13
+    CONTROL         "List1",IDC_LIST_WINDOWS,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,16,425,229
+    CONTROL         "List1",IDC_LIST_SERVICE,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,16,425,229
+    CONTROL         "List1",IDC_LIST_SYSINFO,"SysListView32",LVS_REPORT | WS_BORDER | WS_TABSTOP,0,16,425,229
 END
 
 IDD_SHELL DIALOGEX 0, 0, 439, 270
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 FONT 9, "Consolas", 400, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_EDIT,0,0,438,269,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_EDIT,0,0,439,270,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
 END
 
 IDD_AUDIO DIALOG 0, 0, 225, 67
@@ -382,7 +400,7 @@ FONT 9, "微软雅黑", 400, 0, 0x86
 BEGIN
     LTEXT           "HTTP 上线:",IDC_STATIC,19,22,45,8,NOT WS_GROUP
     EDITTEXT        IDC_URL,76,19,143,14,ES_AUTOHSCROLL | WS_DISABLED
-    CONTROL         "启用",IDC_ENABLE_HTTP,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,236,19,30,12
+    CONTROL         "启用",IDC_ENABLE_HTTP,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,234,20,30,12
     LTEXT           "域名 Or IP:",IDC_STATIC,19,40,44,8
     PUSHBUTTON      "3322/FTP 更新IP",IDC_Up3322,19,174,68,17
     LTEXT           "服务名称:",IDC_STATIC,19,88,39,9
@@ -523,10 +541,7 @@ BEGIN
 
     IDD_FILE, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 513
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 275
+        BOTTOMMARGIN, 281
     END
 
     IDD_TRANSFERMODE_DLG, DIALOG
@@ -539,9 +554,6 @@ BEGIN
 
     IDD_MyScreenSpy, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 503
-        TOPMARGIN, 37
         BOTTOMMARGIN, 342
     END
 
@@ -562,18 +574,10 @@ BEGIN
 
     IDD_SYSTEM, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 420
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 253
     END
 
     IDD_SHELL, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 432
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 263
     END
 
     IDD_AUDIO, DIALOG
@@ -652,21 +656,37 @@ END
 //
 
 IDR_TOOLBAR1            BITMAP                  "res\\toolbar1.bmp"
+
 IDB_TOOLBAR_ENABLE      BITMAP                  "res\\Bitmap_4.bmp"
+
 IDR_TOOLBAR2            BITMAP                  "res\\toolbar2.bmp"
+
 IDB_TOOLBAR_DISABLE     BITMAP                  "res\\Bitmap_5.bmp"
+
 IDB_SYS                 BITMAP                  "res\\远程终端.bmp"
+
 IDB_KEY                 BITMAP                  "res\\键盘监控.bmp"
+
 IDB_BUILD               BITMAP                  "res\\配置生成.bmp"
+
 IDB_SCREEN              BITMAP                  "res\\屏幕监控.bmp"
+
 IDB_UNINSTALL           BITMAP                  "res\\上线主机.bmp"
+
 IDB_VEDIO               BITMAP                  "res\\视频监控.bmp"
+
 IDB_EXIT                BITMAP                  "res\\退出程序.bmp"
+
 IDB_FILE                BITMAP                  "res\\文件管理.bmp"
+
 IDB_CMD                 BITMAP                  "res\\系统管理.bmp"
+
 IDB_AUDIO               BITMAP                  "res\\语音监听.bmp"
+
 IDB_SET                 BITMAP                  "res\\参数设置.bmp"
+
 IDB_ABOUT               BITMAP                  "res\\关于.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -675,13 +695,50 @@ IDB_ABOUT               BITMAP                  "res\\关于.bmp"
 
 IDR_MYEXE               MYEXE                   "..\\lx.exe"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // SKIN
 //
 
 IDR_SKIN                SKIN                    "res\\aero.she"
+
 IDR_DLL_A               SKIN                    "res\\SkinH.dll"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "res\\xp.mainfest"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SYSTEM AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SHELL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_BuildSer AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

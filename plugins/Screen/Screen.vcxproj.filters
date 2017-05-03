@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{22c8ff39-ed47-4145-9e81-b8b90883a255}</UniqueIdentifier>
+      <UniqueIdentifier>{7e8717c5-396a-4854-944f-54eeb26b437b}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{98b2c5fa-82d5-43f3-ac59-262d4875da89}</UniqueIdentifier>
+      <UniqueIdentifier>{1356b0e7-d1fc-46a0-bdd0-22585d7e2771}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{c61b0568-52f4-4f44-9f24-20e685a71b32}</UniqueIdentifier>
+      <UniqueIdentifier>{0ee589b2-e6be-4a51-a56d-aa1446e68f5e}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -21,7 +21,13 @@
     <ClCompile Include="..\..\common\ClientSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\InstallService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\common\Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\myCrt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyScreenManager.cpp">
@@ -30,16 +36,19 @@
     <ClCompile Include="MyScreenSpy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\RegEditEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\until.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\minilzo.cpp">
+    <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="..\..\common\minilzo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,17 +68,8 @@
     <ClInclude Include="..\..\common\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyScreenManager.h">
+    <ClInclude Include="StdAfx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyScreenSpy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\until.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

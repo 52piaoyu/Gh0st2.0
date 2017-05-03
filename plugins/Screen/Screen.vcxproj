@@ -1,25 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName />
     <SccLocalPath />
-    <ProjectGuid>{C9E13D4C-88B4-FC79-0180-C448C62FDEB5}</ProjectGuid>
+    <ProjectGuid>{AD0CA651-788E-4FF8-949C-EC0A12734833}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -27,24 +39,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\</OutDir>
-    <IntDir>Release\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalIncludeDirectories>../../common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_MBCS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>Release\Screen.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>Release\</ObjectFileName>
-      <ProgramDataBaseFileName>Release\</ProgramDataBaseFileName>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Midl>
@@ -63,28 +77,24 @@
       <OutputFile>.\../Release\Screen.bsc</OutputFile>
     </Bscmake>
     <Link>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
       <OutputFile>../Screen.dll</OutputFile>
-      <ImportLibrary>Release\Screen.lib</ImportLibrary>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /ignore:4098</AdditionalOptions>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <SetChecksum>true</SetChecksum>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\Buffer.cpp" />
     <ClCompile Include="..\..\common\ClientSocket.cpp" />
+    <ClCompile Include="..\..\common\InstallService.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
+    <ClCompile Include="..\..\common\myCrt.cpp" />
+    <ClCompile Include="..\..\common\RegEditEx.cpp" />
+    <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="MyScreenManager.cpp" />
     <ClCompile Include="MyScreenSpy.cpp" />
     <ClCompile Include="Screen.cpp" />
-    <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -95,12 +105,7 @@
     <ClInclude Include="..\..\common\InstallService.h" />
     <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="..\..\common\Manager.h" />
-    <ClInclude Include="MyScreenManager.h" />
-    <ClInclude Include="MyScreenSpy.h" />
-    <ClInclude Include="..\..\common\until.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="ReadMe.txt" />
+    <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

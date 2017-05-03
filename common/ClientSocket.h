@@ -29,7 +29,7 @@ struct authreq
 };
 
 
-class CClientSocket  
+class CClientSocket
 {
 	friend class CManager;
 public:

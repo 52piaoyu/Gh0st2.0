@@ -140,7 +140,7 @@ void CMyScreenManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 			break;
 		}
 	}
-	__except (1){}
+	__except (1) {}
 }
 
 void CMyScreenManager::sendBITMAPINFO()
@@ -207,7 +207,7 @@ DWORD WINAPI CMyScreenManager::WorkThread(LPVOID lparam)
 			pThis->sendNextScreen();
 		}
 	}
-	__except (1){};
+	__except (1) {};
 
 	return 0;
 }
@@ -221,7 +221,7 @@ DWORD WINAPI CMyScreenManager::ControlThread(LPVOID lparam)
 #ifdef UNICODE
 	SPTI mySystemParametersInfo = (SPTI)GetProcAddress(user32, "SystemParametersInfoW");
 #else
-	SPTI mySystemParametersInfo= (SPTI)GetProcAddress(user32, "SystemParametersInfoA");
+	SPTI mySystemParametersInfo = (SPTI)GetProcAddress(user32, "SystemParametersInfoA");
 #endif
 
 	static	bool bIsScreenBlanked = false;

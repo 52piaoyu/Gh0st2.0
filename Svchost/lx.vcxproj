@@ -93,7 +93,6 @@
     <ClCompile Include="MyKernelManager.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dll|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Dll|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Exe|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Svchost.cpp" />

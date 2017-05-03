@@ -2,19 +2,28 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{1d6ff885-4c6b-4778-9b61-978f06b60491}</UniqueIdentifier>
+      <UniqueIdentifier>{219ef60c-73cb-410c-8b6f-18a5b8c9aabf}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{ba2c3896-deab-42da-8944-5f5c7df8f79c}</UniqueIdentifier>
+      <UniqueIdentifier>{d9c097bb-4771-458a-b690-f14826e09015}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{34c759a4-77b7-4c61-9c79-0c9af432eca0}</UniqueIdentifier>
+      <UniqueIdentifier>{32502638-599d-45ff-86a4-9328c0e5c927}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Proxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProxyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\common\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -24,49 +33,34 @@
     <ClCompile Include="..\..\common\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\myCrt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Proxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProxyManager.cpp">
+    <ClCompile Include="..\..\common\minilzo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\until.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\minilzo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ProxyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\common\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\ClientSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\InstallService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\macros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProxyManager.h">
+    <ClInclude Include="..\..\common\minilzo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\until.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

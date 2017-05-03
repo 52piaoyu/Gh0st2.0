@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{6ae5b419-8284-40d3-bb52-c8aab7bb690e}</UniqueIdentifier>
+      <UniqueIdentifier>{7ccba18e-8b2f-4e64-a12a-4f8fa20438f7}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{e5f9d630-e951-4b21-8863-01363ca9fcae}</UniqueIdentifier>
+      <UniqueIdentifier>{1f2a21b5-b18e-414a-ad42-f88ed6225416}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{304dbaaf-926a-41de-af28-d630e8e2f733}</UniqueIdentifier>
+      <UniqueIdentifier>{0e2d27fc-e274-4251-a717-59e203f81653}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -27,13 +27,16 @@
     <ClCompile Include="..\..\common\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\minilzo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MyFileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\until.cpp">
+    <ClCompile Include="..\..\common\RegEditEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\minilzo.cpp">
+    <ClCompile Include="..\..\common\until.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp">
@@ -56,6 +59,9 @@
     <ClInclude Include="Myfilemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\RegEditEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\common\until.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -64,6 +70,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ReadMe.txt" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>
