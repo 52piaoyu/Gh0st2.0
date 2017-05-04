@@ -3,14 +3,14 @@
 //////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Buffer.h"
-//#include "myCrt.h"
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
-char *	lxstrstr(char *buf, char *sub)
+char* lxstrstr(char *buf, char *sub)
 {
 	if (!*sub) return buf;
 

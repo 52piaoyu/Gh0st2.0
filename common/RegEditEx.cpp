@@ -3,78 +3,6 @@
 
 #include <windows.h>
 #include <tchar.h>
-//#include "../Svchost/myfun.h"
-////----------------------------------------------------------------------------
-int mywcsnicmp(const wchar_t *s1, const wchar_t *s2, size_t n)
-{
-	return CompareStringW(LOCALE_SYSTEM_DEFAULT, NORM_IGNORECASE, s1, n, s2, n);
-}
-
-wchar_t *mywcschr(wchar_t *str, wchar_t ch)
-{
-	while (*str)
-	{
-		if (*str == ch)
-			return str;
-		str++;
-	}
-	return 0;
-}
-
-//////////////////////////////////////////////////////////////////////////
-__declspec(naked) wchar_t* __fastcall strcpyW(wchar_t *dest, const wchar_t *src)
-{
-	__asm
-	{
-		push edi
-		push esi
-		mov esi, ecx
-		mov edi, edx
-		or ecx, -1
-		xor eax, eax
-		repnz scasw
-		not ecx
-		add ecx, ecx
-		mov edi, esi
-		mov esi, edx
-		mov eax, edi
-		mov edx, ecx
-		shr ecx, 2
-		repnz movsd
-		mov ecx, edx
-		and ecx, 3
-		repnz movsb
-		pop esi
-		pop edi
-		retn
-	}
-}
-
-__declspec(naked) wchar_t* __fastcall strendW(const wchar_t *s)
-{
-	__asm
-	{
-		mov edx, edi
-		mov edi, ecx
-		or ecx, -1
-		xor eax, eax
-		repnz scasw
-		lea eax, [edi - 2]
-		mov edi, edx
-		retn
-	}
-}
-
-wchar_t* __fastcall strcatW(wchar_t *dest, const wchar_t *src)
-{
-	strcpyW(strendW(dest), src);
-	return dest;
-}
-
-//----------------------------------------------------------------------------------------------
-//////////////////--------------------------------------------
-
-//去除字符串类型前面的空格
 
 TCHAR *DelSpace(TCHAR *szData)
 {
@@ -82,9 +10,9 @@ TCHAR *DelSpace(TCHAR *szData)
 	while (true)
 	{
 #ifdef _UNICODE
-		if (mywcsnicmp(szData + i, _T(" "), 1))
+		if (_wcsnicmp(szData + i, _T(" "), 1))
 #else
-		if (strnicmp(szData + i, _T(" "), 1))
+		if (_strnicmp(szData + i, _T(" "), 1))
 #endif
 			break;
 		i++;
@@ -112,7 +40,7 @@ int SetKeySecurityEx(HKEY MainKey, LPCTSTR SubKey, DWORD security)
 		GS myGetLengthSid;
 		myGetLengthSid = (GS)GetProcAddress(advapi32, "GetLengthSid");
 
-		typedef int (WINAPI *ROKE)(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
+		typedef int (WINAPI *ROKE)(HKEY, LPCTSTR, DWORD, REGSAM, PHKEY);
 		ROKE myroke;
 #ifdef UNICODE
 		myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExW");
@@ -120,7 +48,7 @@ int SetKeySecurityEx(HKEY MainKey, LPCTSTR SubKey, DWORD security)
 		myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
 #endif
 
-		typedef BOOL(WINAPI *SSDD)(PSECURITY_DESCRIPTOR pSecurityDescriptor, BOOL bDaclPresent, PACL pDacl, BOOL bDaclDefaulted);
+		typedef BOOL(WINAPI *SSDD)(PSECURITY_DESCRIPTOR pSecurityDescriptor, BOOL bDaclPresent, PACL, BOOL bDaclDefaulted);
 		SSDD myssdd;
 		myssdd = (SSDD)GetProcAddress(advapi32, "SetSecurityDescriptorDacl");
 
@@ -171,7 +99,7 @@ int SetKeySecurityEx(HKEY MainKey, LPCTSTR SubKey, DWORD security)
 	{
 		HINSTANCE advapi32 = LoadLibrary(_T("ADVAPI32.dll"));
 
-		typedef BOOL(WINAPI *RCK)(HKEY hKey);
+		typedef BOOL(WINAPI *RCK)(HKEY);
 		RCK myrck;
 		myrck = (RCK)GetProcAddress(advapi32, "RegCloseKey");
 
@@ -207,10 +135,10 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 
 	HINSTANCE advapi32 = LoadLibrary(_T("ADVAPI32.dll"));
 
-	typedef BOOL(WINAPI *RQVE)(HKEY hKey, LPCTSTR lpValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
-	typedef int (WINAPI *ROKE)(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
-	typedef BOOL(WINAPI *REV)(HKEY hKey, DWORD dwIndex, LPTSTR lpValueName, LPDWORD lpcchValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
-	typedef BOOL(WINAPI *REKE)(HKEY hKey, DWORD dwIndex, LPTSTR lpName, LPDWORD lpcName, LPDWORD lpReserved, LPTSTR lpClass, LPDWORD lpcClass, PFILETIME lpftLastWriteTime);
+	typedef BOOL(WINAPI *RQVE)(HKEY, LPCTSTR lpValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
+	typedef int (WINAPI *ROKE)(HKEY, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
+	typedef BOOL(WINAPI *REV)(HKEY, DWORD, LPTSTR lpValueName, LPDWORD lpcchValueName, LPDWORD lpReserved, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData);
+	typedef BOOL(WINAPI *REKE)(HKEY, DWORD, LPTSTR lpName, LPDWORD lpcName, LPDWORD lpReserved, LPTSTR lpClass, LPDWORD lpcClass, PFILETIME lpftLastWriteTime);
 
 #ifdef UNICODE
 	RQVE myRegQueryValueEx = (RQVE)GetProcAddress(advapi32, "RegQueryValueExW");
@@ -224,7 +152,7 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 	REKE myRegEnumKeyEx = (REKE)GetProcAddress(advapi32, "RegEnumKeyExA");
 #endif
 
-	typedef BOOL(WINAPI *RCK)(HKEY hKey);
+	typedef BOOL(WINAPI *RCK)(HKEY);
 	RCK myRegCloseKey = (RCK)GetProcAddress(advapi32, "RegCloseKey");
 
 	__try
@@ -255,16 +183,16 @@ int  ReadRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, TCHAR *s
 				if (myRegQueryValueEx(hKey, Vname, NULL, &Type, (LPBYTE)ValueSz, &szSize) == ERROR_SUCCESS)
 				{
 #ifdef _UNICODE
-					for (PointStr = ValueSz; *PointStr; PointStr = mywcschr(PointStr, 0) + 1)//strchr
+					for (PointStr = ValueSz; *PointStr; PointStr = wcschr(PointStr, 0) + 1) //strchr
 #else
-					for (PointStr = ValueSz; *PointStr; PointStr = strchr(PointStr, 0) + 1)//strchr
+					for (PointStr = ValueSz; *PointStr; PointStr = strchr(PointStr, 0) + 1) //strchr
 #endif
 					{
 #ifdef _UNICODE
 						//		wcsncat(ValueTemp,PointStr,sizeof(ValueTemp));
 						//	    wcsncat(ValueTemp,_T(" "),sizeof(ValueTemp));
-						strcatW(ValueTemp, PointStr);
-						strcatW(ValueTemp, _T(" "));
+						lstrcatW(ValueTemp, PointStr);
+						lstrcatW(ValueTemp, _T(" "));
 #else
 						strncat(ValueTemp, PointStr, sizeof(ValueTemp));
 						strncat(ValueTemp, _T(" "), sizeof(ValueTemp));
@@ -359,7 +287,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 
 	HINSTANCE advapi32 = LoadLibrary(_T("ADVAPI32.dll"));
 
-	typedef BOOL(WINAPI *RCKX)(HKEY hKey, LPCTSTR lpSubKey, DWORD Reserved, LPTSTR lpClass, DWORD dwOptions, REGSAM samDesired, LPSECURITY_ATTRIBUTES lpSecurityAttributes, PHKEY phkResult, LPDWORD lpdwDisposition);
+	typedef BOOL(WINAPI *RCKX)(HKEY, LPCTSTR lpSubKey, DWORD Reserved, LPTSTR lpClass, DWORD dwOptions, REGSAM samDesired, LPSECURITY_ATTRIBUTES lpSecurityAttributes, PHKEY phkResult, LPDWORD lpdwDisposition);
 	RCKX myrckx;
 #ifdef UNICODE
 	myrckx = (RCKX)GetProcAddress(advapi32, "RegCreateKeyExW");
@@ -367,7 +295,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 	myrckx = (RCKX)GetProcAddress(advapi32, "RegCreateKeyExA");
 #endif
 
-	typedef BOOL(WINAPI *RSVE)(HKEY hKey, LPCTSTR lpValueName, DWORD Reserved, DWORD dwType, const BYTE *lpData, DWORD cbData);
+	typedef BOOL(WINAPI *RSVE)(HKEY, LPCTSTR lpValueName, DWORD Reserved, DWORD dwType, const BYTE *lpData, DWORD cbData);
 	RSVE myrsve;
 #ifdef UNICODE
 	myrsve = (RSVE)GetProcAddress(advapi32, "RegSetValueExW");
@@ -375,7 +303,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 	myrsve = (RSVE)GetProcAddress(advapi32, "RegSetValueExA");
 #endif
 
-	typedef BOOL(WINAPI *RDK)(HKEY hKey, LPCTSTR lpSubKey);
+	typedef BOOL(WINAPI *RDK)(HKEY, LPCTSTR lpSubKey);
 	RDK myrdk;
 #ifdef UNICODE
 	myrdk = (RDK)GetProcAddress(advapi32, "RegDeleteKeyW");
@@ -383,7 +311,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 	myrdk = (RDK)GetProcAddress(advapi32, "RegDeleteKeyA");
 #endif
 
-	typedef BOOL(WINAPI *RDV)(HKEY hKey, LPCTSTR lpValueName);
+	typedef BOOL(WINAPI *RDV)(HKEY, LPCTSTR lpValueName);
 	RDV myrdv;
 #ifdef UNICODE
 	myrdv = (RDV)GetProcAddress(advapi32, "RegDeleteValueW");
@@ -391,7 +319,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 	myrdv = (RDV)GetProcAddress(advapi32, "RegDeleteValueA");
 #endif
 
-	typedef int (WINAPI *ROKE)(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
+	typedef int (WINAPI *ROKE)(HKEY, LPCTSTR lpSubKey, DWORD ulOptions, REGSAM samDesired, PHKEY phkResult);
 	ROKE myroke;
 #ifdef UNICODE
 	myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExW");
@@ -399,7 +327,7 @@ int WriteRegEx(HKEY MainKey, LPCTSTR SubKey, LPCTSTR Vname, DWORD Type, LPCTSTR 
 	myroke = (ROKE)GetProcAddress(advapi32, "RegOpenKeyExA");
 #endif
 
-	typedef BOOL(WINAPI *RCK)(HKEY hKey);
+	typedef BOOL(WINAPI *RCK)(HKEY);
 	RCK myrck;
 	myrck = (RCK)GetProcAddress(advapi32, "RegCloseKey");
 

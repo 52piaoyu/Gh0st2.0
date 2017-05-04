@@ -36,9 +36,6 @@
     <ClCompile Include="MyAudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\myCrt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\common\RegEditEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

