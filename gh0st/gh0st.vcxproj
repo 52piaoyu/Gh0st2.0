@@ -221,11 +221,8 @@
     <ResourceCompile Include="gh0st.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\lx.exe" />
-    <None Include="res\aero.she" />
     <None Include="res\gh0st.rc2" />
     <None Include="res\rt_manif.bin" />
-    <None Include="res\SkinH.dll" />
     <None Include="res\xp.mainfest" />
   </ItemGroup>
   <ItemGroup>

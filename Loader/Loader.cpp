@@ -7,9 +7,6 @@
 #pragma comment(lib,"msvcrt.lib")
 #endif
 
-#define DE
-#include "..//..//debug.h"
-
 #include "MemLoadDll.h"
 #include <tchar.h>
 

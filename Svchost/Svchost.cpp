@@ -4,9 +4,6 @@
 #include "MyKernelManager.h"
 #include "login.h"
 
-#define DE
-#include "..//..//debug.h"
-
 #if _MSC_VER < 1600
 #pragma comment(linker, "/FILEALIGN:0x200 /OPT:NOWIN98")
 #pragma comment(lib, "msvcrt.lib")

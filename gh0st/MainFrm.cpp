@@ -368,7 +368,7 @@ void CALLBACK CMainFrame::NotifyProc(LPVOID lpParam, ClientContext *pContext, UI
 		case NC_RECEIVE_COMPLETE:
 			ProcessReceiveComplete(pContext);
 			break;
-		default: 
+		default:
 			break;
 		}
 	}
@@ -413,7 +413,7 @@ void CMainFrame::Activate(UINT nPort, UINT nMaxConnections)
 	}
 	else
 	{
-		ErrMsg(_T("Listen Failed"));
+		ShowErrorMsg(_T("Listen Failed"));
 		m_wndStatusBar.SetPaneText(1, _T("¼àÌý¶Ë¿Ú: 0"));
 	}
 

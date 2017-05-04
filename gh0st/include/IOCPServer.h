@@ -14,7 +14,7 @@
 #pragma comment(lib,"ws2_32.lib")
 #include "Buffer.h"
 #include "CpuUsage.h"
-#include "..\common\macros.h"
+#include "..//common//macros.h"
 
 #include <process.h>
 
@@ -39,16 +39,16 @@ public:
 		Unlock();
 
 	}
-	
+
 	void Unlock()
 	{
 		LeaveCriticalSection(m_pcs);
-		TRACE(_T("LC %d %s\n") , GetCurrentThreadId() , m_strFunc);
+		TRACE(_T("LC %d %s\n"), GetCurrentThreadId(), m_strFunc);
 	}
 
 	void Lock()
 	{
-		TRACE(_T("EC %d %s\n") , GetCurrentThreadId(), m_strFunc);
+		TRACE(_T("EC %d %s\n"), GetCurrentThreadId(), m_strFunc);
 		EnterCriticalSection(m_pcs);
 	}
 
@@ -59,7 +59,7 @@ protected:
 
 };
 
-enum IOType 
+enum IOType
 {
 	IOInitialize,
 	IORead,
@@ -68,7 +68,7 @@ enum IOType
 };
 
 
-class OVERLAPPEDPLUS 
+class OVERLAPPEDPLUS
 {
 public:
 	OVERLAPPED			m_ol;
@@ -102,7 +102,7 @@ struct ClientContext
 
 	// Message counts... purely for example purposes
 	LONG				m_nMsgIn;
-	LONG				m_nMsgOut;	
+	LONG				m_nMsgOut;
 
 	BOOL				m_bIsMainSocket; // 是不是主socket
 
@@ -115,7 +115,7 @@ struct ClientContext
 template<>
 inline UINT AFXAPI HashKey(CString & strGuid)
 {
-  return HashKey( (LPCTSTR) strGuid);         
+	return HashKey((LPCTSTR)strGuid);
 }
 
 #include "Mapper.h"
@@ -136,8 +136,8 @@ public:
 
 	NOTIFYPROC					m_pNotifyProc;
 	CMainFrame*					m_pFrame;
-	
-	bool Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame,  int nMaxConnections, int nPort);
+
+	bool Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMaxConnections, int nPort);
 
 	BEGIN_IO_MSG_MAP()
 		IO_MESSAGE_HANDLER(IORead, OnClientReading)
@@ -145,28 +145,28 @@ public:
 		IO_MESSAGE_HANDLER(IOInitialize, OnClientInitializing)
 	END_IO_MSG_MAP()
 
-	bool OnClientInitializing	(ClientContext* pContext, DWORD dwSize = 0);
-	bool OnClientWriting		(ClientContext* pContext, DWORD dwSize = 0);
-	virtual bool OnClientReading		(ClientContext* pContext, DWORD dwSize = 0);
+	bool OnClientInitializing(ClientContext* pContext, DWORD dwSize = 0);
+	bool OnClientWriting(ClientContext* pContext, DWORD dwSize = 0);
+	virtual bool OnClientReading(ClientContext* pContext, DWORD dwSize = 0);
 	static unsigned __stdcall ListenThreadProc(LPVOID lpVoid);
 	static unsigned __stdcall ThreadPoolFunc(LPVOID WorkContext);
 	CRITICAL_SECTION	m_cs;
 
-	void Send(ClientContext* pContext, LPBYTE lpData, UINT nSize);
+	virtual void Send(ClientContext* pContext, LPBYTE lpData, UINT nSize);
 	void PostRecv(ClientContext* pContext);
 
 	bool IsRunning();
 	void Shutdown();
 	void ResetConnection(ClientContext* pContext);
-	
+
 	LONG					m_nCurrentThreads;
 	LONG					m_nBusyThreads;
 
-	
+
 	UINT					m_nSendKbps; // 发送即时速度
 	UINT					m_nRecvKbps; // 接受即时速度
 	UINT					m_nMaxConnections; // 最大连接数
-	SOCKET					m_socListen;    
+	SOCKET					m_socListen;
 protected:
 	void InitializeClientRead(ClientContext* pContext);
 	BOOL AssociateSocketWithCompletionPort(SOCKET device, HANDLE hCompletionPort, DWORD dwCompletionKey);
@@ -181,7 +181,7 @@ protected:
 	BYTE				m_bPacketFlag[5];
 	void CloseCompletionPort();
 	void OnAccept();
-	bool InitializeIOCP(void);
+	bool InitializeIOCP();
 	void Stop();
 
 	ContextList				m_listContexts;
@@ -211,7 +211,7 @@ protected:
 };
 class CIOCPLOCAL :public CIOCPServer
 {
-public: 
+public:
 	void Send(ClientContext* pContext, LPBYTE lpData, UINT nSize)
 	{
 		if (pContext == NULL)
@@ -226,17 +226,17 @@ public:
 			WaitForSingleObject(pContext->m_hWriteComplete, 10000);
 
 			OVERLAPPEDPLUS * pOverlap = new OVERLAPPEDPLUS(IOWrite);
-			PostQueuedCompletionStatus(m_hCompletionPort, 0, (ULONG_PTR) pContext, &pOverlap->m_ol);
+			PostQueuedCompletionStatus(m_hCompletionPort, 0, (ULONG_PTR)pContext, &pOverlap->m_ol);
 
 			pContext->m_nMsgOut++;
 		}
-		catch(...)
+		catch (...)
 		{
-			ErrMsg("IOCP Send");
+			MsgErr("IOCP Send");
 		}
 	}
 
-	bool OnClientReading		(ClientContext* pContext, DWORD dwIoSize =0)
+	bool OnClientReading(ClientContext* pContext, DWORD dwIoSize = 0)
 	{
 		CLock cs(m_cs, "OnClientReading");
 		try
@@ -244,7 +244,7 @@ public:
 			//////////////////////////////////////////////////////////////////////////
 			static DWORD nLastTick = GetTickCount();
 			static DWORD nBytes = 0;
-			nBytes += dwIoSize;	
+			nBytes += dwIoSize;
 			if (GetTickCount() - nLastTick >= 1000)
 			{
 				nLastTick = GetTickCount();
@@ -262,18 +262,19 @@ public:
 			// Add the message to out message
 			// Dont forget there could be a partial, 1, 1 or more + partial mesages
 			pContext->m_CompressionBuffer.ClearBuffer();
-			BYTE cmd=COMMAND_PROXY_DATA;
-			pContext->m_CompressionBuffer.Write(&cmd,1);
-			pContext->m_CompressionBuffer.Write((LPBYTE)&pContext->dwID ,4);
-			pContext->m_CompressionBuffer.Write(pContext->m_byInBuffer,dwIoSize);
+			BYTE cmd = COMMAND_PROXY_DATA;
+			pContext->m_CompressionBuffer.Write(&cmd, 1);
+			pContext->m_CompressionBuffer.Write((LPBYTE)&pContext->dwID, 4);
+			pContext->m_CompressionBuffer.Write(pContext->m_byInBuffer, dwIoSize);
 
-			m_pNotifyProc((LPVOID) m_pFrame, pContext, NC_RECEIVE);
+			m_pNotifyProc((LPVOID)m_pFrame, pContext, NC_RECEIVE);
 			PostRecv(pContext);
-		}catch(...)
+		}
+		catch (...)
 		{
 			TRACE(_T("CIOCPLOCAL::OnClientReading Exception!"));
 		}
-		return true;	
+		return true;
 	}
 };
 #endif // !defined(AFX_IOCPSERVER_H__75B80E90_FD25_4FFB_B273_0090AA43BBDF__INCLUDED_)

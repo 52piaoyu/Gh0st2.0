@@ -39,15 +39,13 @@ typedef BOOL(WINAPI *DllEntryProc)(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID l
 
 #define GET_HEADER_DICTIONARY(module, idx)	&(module)->headers->OptionalHeader.DataDirectory[idx]
 
-#ifdef DEBUG
-static void
-OutputLastError(LPCTSTR msg)
+#ifndef NDEBUG
+void OutputLastError(LPCTSTR msg)
 {
 	LPVOID tmp;
-	TCHAR *tmpmsg;
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&tmp, 0, NULL);
-	tmpmsg = (TCHAR *)LocalAlloc(LPTR, lstrlen((LPCTSTR)msg) + lstrlen((LPCTSTR)tmp) + 3);
+	TCHAR *tmpmsg = (TCHAR *)LocalAlloc(LPTR, lstrlen((LPCTSTR)msg) + lstrlen((LPCTSTR)tmp) + 3);
 	wsprintf(tmpmsg, _T("%s: %s"), msg, tmp);
 	OutputDebugString(tmpmsg);
 	LocalFree(tmpmsg);

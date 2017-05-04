@@ -18,6 +18,8 @@
 #include <WINSOCK2.H>
 #include <tchar.H>
 
+#include "..//..//Debugh.h"
+
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 

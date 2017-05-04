@@ -264,12 +264,9 @@
     <None Include="res\gh0st.rc2">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\aero.she" />
     <None Include="res\rt_manif.bin">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\lx.exe" />
-    <None Include="res\SkinH.dll" />
     <None Include="res\xp.mainfest" />
   </ItemGroup>
   <ItemGroup>
