@@ -87,7 +87,6 @@
     <ClCompile Include="..\..\common\ClientSocket.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
-    <ClCompile Include="..\..\common\RegEditEx.cpp" />
     <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="MyFileManager.cpp" />
@@ -100,7 +99,6 @@
     <ClInclude Include="..\..\common\ClientSocket.h" />
     <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="..\..\common\Manager.h" />
-    <ClInclude Include="..\..\common\RegEditEx.h" />
     <ClInclude Include="..\..\common\until.h" />
     <ClInclude Include="Myfilemanager.h" />
     <ClInclude Include="StdAfx.h" />

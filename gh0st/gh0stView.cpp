@@ -35,14 +35,14 @@ typedef struct _COL
 
 COLUMNSTRUCT g_Column_Data[] =
 {
-	{ _T("上线IP"), 140 },
-	{ _T("计算机名"), 140 },
-	{ _T("操作系统"), 140 },
-	{ _T("CPU"), 90 },
-	{ _T("Ping"), 50 },
-	{ _T("Cam"), 50 },
-	{ _T("备注"), 50 },
-	{ _T("区域"), 190 },
+	{ _T("上线IP"), 220 },
+	{ _T("计算机名"), 200 },
+	{ _T("操作系统"), 200 },
+	{ _T("CPU"), 100 },
+	{ _T("Ping"), 100 },
+	{ _T("Cam"), 80 },
+	{ _T("备注"), 100 },
+	{ _T("区域"), 250 },
 	{ _T("筛选"), 50 }
 };
 
@@ -340,12 +340,12 @@ int __stdcall ReadData(TCHAR szFile[], char **data)
 	wsprintf(FileName, _T("%s\\%s"), szPath, szFile);
 
 	HANDLE hFile = CreateFile(FileName,
-	                          GENERIC_ALL,
-	                          FILE_SHARE_READ,
-	                          (LPSECURITY_ATTRIBUTES)NULL,
-	                          OPEN_EXISTING,
-	                          FILE_ATTRIBUTE_NORMAL,
-	                          (HANDLE)NULL);
+		GENERIC_ALL,
+		FILE_SHARE_READ,
+		(LPSECURITY_ATTRIBUTES)NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		(HANDLE)NULL);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -449,7 +449,7 @@ void Cgh0stView::OnKeylogger()
 	// 	LPBYTE	lpPacket = new BYTE[nPacketLength];
 	// 	lpPacket[0] = COMMAND_KEYBOARD;
 	// 	memcpy(lpPacket + 1, (void*)KeylogPluginBuf, nPacketLength - 1);
-	// 
+	//
 	// 	SendSelectCommand(lpPacket, nPacketLength);
 	// 	delete[] lpPacket;
 }

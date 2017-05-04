@@ -3,9 +3,9 @@
 
 #include "stdafx.h"
 #include "gh0st.h"
-#include <iostream> 
-#include <atlbase.h>   
-#include <string>   
+#include <iostream>
+#include <atlbase.h>
+#include <string>
 #include "ShellDlg.h"
 
 using   std::string;
@@ -104,7 +104,6 @@ BOOL CShellDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// TODO: Add extra initialization here
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 

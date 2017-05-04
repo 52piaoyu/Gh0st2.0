@@ -386,7 +386,7 @@ void CSystemDlg::ShowSelectWindow()
 		if (m_list_sysinfo.GetItemCount() == 0)
 			GetSysinfoList();
 		break;
-	default: ;
+	default:;
 	}
 }
 

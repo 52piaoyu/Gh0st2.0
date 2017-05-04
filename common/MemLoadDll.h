@@ -1,8 +1,9 @@
 #pragma once
-#pragma warning( disable : 4311 4312 )
+//#pragma warning( disable : 4311 4312 )
 
 #include <Windows.h>
 #include <winnt.h>
+#include <TCHAR.h>
 #ifdef DEBUG
 #include <stdio.h>
 #endif
@@ -53,7 +54,7 @@ void OutputLastError(LPCTSTR msg)
 }
 #endif
 
-static void CopySections(const unsigned char *data, PIMAGE_NT_HEADERS old_headers, PMEMORYMODULE module)
+void CopySections(const unsigned char *data, PIMAGE_NT_HEADERS old_headers, PMEMORYMODULE module)
 {
 	unsigned char *codeBase = module->codeBase;
 	unsigned char *dest;
@@ -92,7 +93,7 @@ static void CopySections(const unsigned char *data, PIMAGE_NT_HEADERS old_header
 }
 
 // Protection flags for memory pages (Executable, Readable, Writeable)
-static int ProtectionFlags[2][2][2] =
+int ProtectionFlags[2][2][2] =
 {
 	{
 		// not executable
@@ -106,8 +107,7 @@ static int ProtectionFlags[2][2][2] =
 	},
 };
 
-static void
-FinalizeSections(PMEMORYMODULE module)
+void FinalizeSections(PMEMORYMODULE module)
 {
 	PIMAGE_SECTION_HEADER section = IMAGE_FIRST_SECTION(module->headers);
 
@@ -152,7 +152,7 @@ FinalizeSections(PMEMORYMODULE module)
 	}
 }
 
-static void PerformBaseRelocation(PMEMORYMODULE module, DWORD delta)
+void PerformBaseRelocation(PMEMORYMODULE module, DWORD delta)
 {
 	unsigned char *codeBase = module->codeBase;
 
@@ -196,7 +196,7 @@ static void PerformBaseRelocation(PMEMORYMODULE module, DWORD delta)
 	}
 }
 
-static int BuildImportTable(PMEMORYMODULE module)
+int BuildImportTable(PMEMORYMODULE module)
 {
 	int result = 1;
 	unsigned char *codeBase = module->codeBase;
@@ -381,46 +381,6 @@ HMEMORYMODULE MemoryLoadLibrary(const void *data)
 	return (HMEMORYMODULE)result;
 }
 
-///-------------------------------------------MyFunctions
-__declspec(naked) char __fastcall upcaseA(char c)
-{
-	__asm
-	{
-		mov al, cl
-		cmp al, 'a'
-		jl m1
-		cmp al, 'z'
-		jg m1
-		and al, 0xdf
-		m1:
-		retn
-	}
-}
-
-int __fastcall strcmpiA(const char *s1, const char *s2)
-{
-	unsigned long k = 0;
-	unsigned char c1, c2;
-
-	do
-	{
-		c1 = upcaseA(s1[k]);
-		c2 = upcaseA(s2[k]);
-		if (c1 > c2)
-		{
-			return 1;
-		}
-		else if (c1 < c2)
-		{
-			return -1;
-		};
-
-		k++;
-	} while ((c1 | c2) != 0);
-	return 0;
-}
-////------------------------------------
-
 FARPROC MemoryGetProcAddress(HMEMORYMODULE module, const char *name)
 {
 	unsigned char *codeBase = ((PMEMORYMODULE)module)->codeBase;
@@ -439,7 +399,7 @@ FARPROC MemoryGetProcAddress(HMEMORYMODULE module, const char *name)
 	DWORD *nameRef = (DWORD *)(codeBase + exports->AddressOfNames);
 	WORD *ordinal = (WORD *)(codeBase + exports->AddressOfNameOrdinals);
 	for (DWORD i = 0; i < exports->NumberOfNames; i++, nameRef++, ordinal++)
-		if (strcmpiA(name, (const char *)(codeBase + *nameRef)) == 0)
+		if (_strcmpi(name, (const char *)(codeBase + *nameRef)) == 0)
 		{
 			idx = *ordinal;
 			break;

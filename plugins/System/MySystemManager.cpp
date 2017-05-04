@@ -545,6 +545,21 @@ LPSTR CMySystemManager::GetQQ(char lpQQBuffer[])
 	return lpQQBuffer;
 }
 
+BOOL RtlGetVersionEx(LPOSVERSIONINFOW lpVersionInformation)
+{
+	typedef DWORD NTSTATUS;
+
+	typedef NTSTATUS(NTAPI* TRtlGetVersion)(PRTL_OSVERSIONINFOW);
+	TRtlGetVersion lpRtlGetVersion = (TRtlGetVersion)GetProcAddress(GetModuleHandleW(L"NTDLL"), "RtlGetVersion");
+
+	if (lpRtlGetVersion)
+	{
+		return lpRtlGetVersion((PRTL_OSVERSIONINFOW)lpVersionInformation) >= 0;
+	}
+
+	return false;
+}
+
 void CMySystemManager::GetSystemInfo(tagSystemInfo* pSysInfo)
 {
 	ZeroMemory(pSysInfo, sizeof(tagSystemInfo));
@@ -554,7 +569,7 @@ void CMySystemManager::GetSystemInfo(tagSystemInfo* pSysInfo)
 	memset(&osvi, 0, sizeof(osvi));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-	if (GetVersionEx((OSVERSIONINFO *)&osvi))
+	if (RtlGetVersionEx((OSVERSIONINFO *)&osvi))
 	{
 		switch (osvi.dwPlatformId)
 		{
@@ -586,7 +601,7 @@ void CMySystemManager::GetSystemInfo(tagSystemInfo* pSysInfo)
 			if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
 				lstrcpy(szSystem, _T("Win 98"));
 			break;
-		default: 
+		default:
 			break;
 		}
 		wsprintf(pSysInfo->szSystem, _T("%s SP%d (Build %d)"), szSystem, osvi.wServicePackMajor, osvi.dwBuildNumber);

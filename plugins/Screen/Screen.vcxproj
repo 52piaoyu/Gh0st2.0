@@ -86,10 +86,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\common\Buffer.cpp" />
     <ClCompile Include="..\..\common\ClientSocket.cpp" />
-    <ClCompile Include="..\..\common\InstallService.cpp" />
     <ClCompile Include="..\..\common\Manager.cpp" />
     <ClCompile Include="..\..\common\minilzo.cpp" />
-    <ClCompile Include="..\..\common\RegEditEx.cpp" />
     <ClCompile Include="..\..\common\until.cpp" />
     <ClCompile Include="MyScreenManager.cpp" />
     <ClCompile Include="MyScreenSpy.cpp" />
@@ -101,7 +99,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\common\Buffer.h" />
     <ClInclude Include="..\..\common\ClientSocket.h" />
-    <ClInclude Include="..\..\common\InstallService.h" />
     <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="..\..\common\Manager.h" />
     <ClInclude Include="StdAfx.h" />

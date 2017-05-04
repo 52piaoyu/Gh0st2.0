@@ -91,7 +91,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	this->CenterWindow(CWnd::GetDesktopWindow());
+	this->CenterWindow(GetDesktopWindow());
 
 	if (!this->CreateExToolBar()) return -1;
 
@@ -119,12 +119,12 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if (!CFrameWndEx::PreCreateWindow(cs))
 		return FALSE;
 
-	cs.cx = 850;
+	cs.cx = 1200;
 	if (((Cgh0stApp *)AfxGetApp())->m_bIsQQwryExist)
 	{
 		cs.cx += 100;
 	}
-	cs.cy = 550;
+	cs.cy = 800;
 	cs.style &= ~FWS_ADDTOTITLE;
 	//cs.style = WS_BORDER;//固定窗口大小
 	cs.style &= ~WS_MAXIMIZEBOX;//禁用最大化
@@ -581,9 +581,6 @@ void SendDll(ClientContext *pContext)
 
 	send(pContext->m_Socket, (LPCSTR)lpbuf, dwSize, 0);
 	VirtualFree(lpbuf, dwSize);
-
-	return;
-
 }
 
 const int AuthId = 93226;

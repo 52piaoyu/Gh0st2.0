@@ -107,7 +107,7 @@ BOOL Cgh0stApp::InitInstance()
 #endif
 #endif
 
-	HANDLE	hFile = CreateFileW(L"QQwry.dat", 0, 0, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFileW(L"QQwry.dat", 0, 0, NULL, OPEN_EXISTING, 0, NULL);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{

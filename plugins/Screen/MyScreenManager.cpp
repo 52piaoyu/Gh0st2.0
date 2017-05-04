@@ -156,9 +156,8 @@ void CMyScreenManager::sendBITMAPINFO()
 void CMyScreenManager::sendFirstScreen()
 {
 	BOOL	bRet = false;
-	LPVOID	lpFirstScreen = NULL;
 
-	lpFirstScreen = m_pMyScreenSpy->getFirstScreen();
+	LPVOID lpFirstScreen = m_pMyScreenSpy->getFirstScreen();
 	if (lpFirstScreen == NULL)
 		return;
 
@@ -176,9 +175,8 @@ void CMyScreenManager::sendFirstScreen()
 
 void CMyScreenManager::sendNextScreen()
 {
-	LPBYTE	lpNetScreen = NULL;
-	DWORD	dwBytes;
-	lpNetScreen = m_pMyScreenSpy->getNextScreen(&dwBytes);
+	DWORD dwBytes;
+	LPBYTE lpNetScreen = m_pMyScreenSpy->getNextScreen(&dwBytes);
 
 	if (dwBytes == 0 || !lpNetScreen)
 		return;
@@ -384,7 +382,6 @@ void CMyScreenManager::UpdateLocalClipboard(char *buf, int len)
 	CloseClipboard();
 }
 
-// 屏幕分辨率是否发生改变
 bool CMyScreenManager::IsConnect()
 {
 	return m_pClient->IsRunning();

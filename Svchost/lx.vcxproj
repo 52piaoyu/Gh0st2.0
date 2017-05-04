@@ -73,7 +73,6 @@
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\lx.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
@@ -123,10 +122,9 @@
     <ResourceCompile Include="Svchost.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\MemLoadDll.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="loop.h" />
-    <ClInclude Include="MemDll.h" />
-    <ClInclude Include="MemLoadDll.h" />
     <ClInclude Include="MyKernelManager.h" />
     <ClInclude Include="OccuptMe.h" />
     <ClInclude Include="resource.h" />

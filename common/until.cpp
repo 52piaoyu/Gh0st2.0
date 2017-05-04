@@ -77,11 +77,7 @@ DWORD GetProcessID(LPCTSTR lpProcessName)
 			return  info.th32ProcessID;
 		}
 
-		typedef BOOL(WINAPI *PROC32)(HANDLE hSnapshot, LPPROCESSENTRY32 lppe);
-		HINSTANCE hdllv = GetModuleHandleW(L"Kernel32.dll");
-		PROC32 myProc32 = (PROC32)GetProcAddress(hdllv, "Process32Next");
-
-		while (myProc32(handle, &info) != FALSE)
+		while (Process32Next(handle, &info) != FALSE)
 		{
 			if (lstrcmpi(info.szExeFile, lpProcessName) == 0)
 			{

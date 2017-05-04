@@ -12,9 +12,9 @@
 #include <winsock2.h>
 #include "ClientSocket.h"
 #include "macros.h"
-//#include "until.h"
+#include "until.h"
 
-BOOL WINAPI SelectDesktop();
+//BOOL WINAPI SelectDesktop();
 
 class CManager
 {

