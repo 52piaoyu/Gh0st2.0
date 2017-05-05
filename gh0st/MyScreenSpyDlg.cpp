@@ -1,11 +1,11 @@
 // MyScreenSpyDlg.cpp : implementation file
 //
-#define IDM_SAVEDIB                     32851
-#define IDM_ENABLECOMPRESS              32863
-
 #include "stdafx.h"
 #include "gh0st.h"
 #include "MyScreenSpyDlg.h"
+
+#define IDM_SAVEDIB                     32851
+#define IDM_ENABLECOMPRESS              32863
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -43,7 +43,7 @@ IDM_DEEP_32
 #define ALGORITHM_DIFF	2	// 速度很慢，也占CPU，但是数据量都是最小的
 
 CMyScreenSpyDlg::CMyScreenSpyDlg(CWnd* pParent, CIOCPServer* pIOCPServer, ClientContext *pContext)
-	: CDialogEx(CMyScreenSpyDlg::IDD, pParent)
+	: CDialogEx(CMyScreenSpyDlg::IDD, pParent), m_hDC(nullptr), m_hMemDC(nullptr), m_hPaintDC(nullptr), m_hFullBitmap(nullptr), m_HScrollPos(0), m_VScrollPos(0), m_hRemoteCursor(nullptr), m_dwCursor_xHotspot(0), m_dwCursor_yHotspot(0), m_nBitCount(0), m_bIsTraceCursor(false)
 {
 	//{{AFX_DATA_INIT(CMyScreenSpyDlg)
 	// NOTE: the ClassWizard will add member initialization here
@@ -65,9 +65,9 @@ CMyScreenSpyDlg::CMyScreenSpyDlg(CWnd* pParent, CIOCPServer* pIOCPServer, Client
 
 	m_IPAddress = bResult != INVALID_SOCKET ? inet_ntoa(sockAddr.sin_addr) : "";
 
-	UINT	nBISize = m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1;
-	m_lpbmi = (BITMAPINFO *) new BYTE[nBISize];
-	m_lpbmi_rect = (BITMAPINFO *) new BYTE[nBISize];
+	UINT nBISize = m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1;
+	m_lpbmi = (BITMAPINFO *)new BYTE[nBISize];
+	m_lpbmi_rect = (BITMAPINFO *)new BYTE[nBISize];
 
 	memcpy(m_lpbmi, m_pContext->m_DeCompressionBuffer.GetBuffer(1), nBISize);
 	memcpy(m_lpbmi_rect, m_pContext->m_DeCompressionBuffer.GetBuffer(1), nBISize);
@@ -220,7 +220,7 @@ void CMyScreenSpyDlg::SendResetScreen(int	nBitCount)
 {
 	m_nBitCount = nBitCount;
 
-	BYTE	bBuff[2];
+	BYTE bBuff[2];
 	bBuff[0] = COMMAND_SCREEN_RESET;
 	bBuff[1] = m_nBitCount;
 	m_iocpServer->Send(m_pContext, bBuff, sizeof(bBuff));
@@ -228,7 +228,7 @@ void CMyScreenSpyDlg::SendResetScreen(int	nBitCount)
 
 void CMyScreenSpyDlg::SendResetAlgorithm(UINT nAlgorithm)
 {
-	BYTE	bBuff[2];
+	BYTE bBuff[2];
 	bBuff[0] = COMMAND_ALGORITHM_RESET;
 	bBuff[1] = nAlgorithm;
 	m_iocpServer->Send(m_pContext, bBuff, sizeof(bBuff));
@@ -249,7 +249,6 @@ BOOL CMyScreenSpyDlg::OnInitDialog()
 	pSysMenu->CheckMenuRadioItem(IDM_ALGORITHM_SCAN, IDM_ALGORITHM_DIFF, IDM_ALGORITHM_SCAN, MF_BYCOMMAND);
 	pSysMenu->CheckMenuRadioItem(IDM_DEEP_4_GRAY, IDM_DEEP_32, IDM_DEEP_8_COLOR, MF_BYCOMMAND);
 
-	// TODO: Add extra initialization here
 	CString str;
 	str.Format(_T("\\\\%s %d * %d"), m_IPAddress, m_lpbmi->bmiHeader.biWidth, m_lpbmi->bmiHeader.biHeight);
 	SetWindowText(str);
@@ -259,11 +258,12 @@ BOOL CMyScreenSpyDlg::OnInitDialog()
 	m_hRemoteCursor = LoadCursor(NULL, IDC_ARROW);
 
 	ICONINFO CursorInfo;
-	::GetIconInfo(m_hRemoteCursor, &CursorInfo);
+	GetIconInfo(m_hRemoteCursor, &CursorInfo);
 	if (CursorInfo.hbmMask != NULL)
-		::DeleteObject(CursorInfo.hbmMask);
+		DeleteObject(CursorInfo.hbmMask);
 	if (CursorInfo.hbmColor != NULL)
-		::DeleteObject(CursorInfo.hbmColor);
+		DeleteObject(CursorInfo.hbmColor);
+
 	m_dwCursor_xHotspot = CursorInfo.xHotspot;
 	m_dwCursor_yHotspot = CursorInfo.yHotspot;
 
@@ -309,7 +309,7 @@ BOOL CMyScreenSpyDlg::OnInitDialog()
 
 void CMyScreenSpyDlg::ResetScreen()
 {
-	UINT	nBISize = m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1;
+	UINT nBISize = m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1;
 	if (m_lpbmi != NULL)
 	{
 		int	nOldWidth = m_lpbmi->bmiHeader.biWidth;
@@ -509,6 +509,7 @@ void CMyScreenSpyDlg::OnPaint()
 	// (BYTE)-1 = 255;
 	// Draw the cursor
 	if (m_bIsTraceCursor)
+	{
 		DrawIconEx(
 			m_hDC,									// handle to device context
 			m_RemoteCursorPos.x - ((int)m_dwCursor_xHotspot) - m_HScrollPos,
@@ -519,6 +520,7 @@ void CMyScreenSpyDlg::OnPaint()
 			NULL,										// handle to background brush
 			DI_NORMAL | DI_COMPAT						// icon-drawing flags
 		);
+	}
 	// Do not call CDialog::OnPaint() for painting messages
 }
 
@@ -526,9 +528,9 @@ void CMyScreenSpyDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 
-	// TODO: Add your message handler code here
 	if (!IsWindowVisible())
 		return;
+
 	RECT rect;
 	GetClientRect(&rect);
 
@@ -622,7 +624,6 @@ void CMyScreenSpyDlg::InitMMI()
 
 BOOL CMyScreenSpyDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: Add your specialized code here and/or call the base class
 #define MAKEDWORD(h,l)        (((unsigned long)h << 16) | l)
 
 	CRect rect;
@@ -734,7 +735,6 @@ void CMyScreenSpyDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 void CMyScreenSpyDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// TODO: Add your message handler code here and/or call default
 	SCROLLINFO si;
 	int	i;
 	si.cbSize = sizeof(SCROLLINFO);

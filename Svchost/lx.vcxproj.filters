@@ -66,9 +66,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="win.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="lx.def">
       <Filter>Source Files</Filter>
     </None>

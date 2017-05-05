@@ -28,6 +28,7 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
 #define WM_ICON_NOTIFY WM_USER+10
 
 Cgh0stView* g_pConnectView = NULL; //在NotifyProc中初始化
@@ -36,7 +37,7 @@ extern CLogView* g_pLogView;
 
 CIOCPServer *m_iocpServer = NULL;
 CString m_PassWord = "password";
-CMainFrame	*g_pFrame; // 在CMainFrame::CMainFrame()中初始化
+CMainFrame *g_pFrame; // 在CMainFrame::CMainFrame()中初始化
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
@@ -489,10 +490,8 @@ void CMainFrame::ProcessReceiveComplete(ClientContext *pContext)
 		}
 		else
 		{
-			LOGININFO*	LoginInfo = (LOGININFO*)pContext->m_DeCompressionBuffer.GetBuffer();
-			//		Cgh0stView* apView = new Cgh0stView;
-			//		((CMainFrame*)AfxGetApp()->m_pMainWnd)->AddView(LoginInfo->HostReMark, apView, "Connections Users");
-			///g_pConnectView
+			//LOGININFO*	LoginInfo = (LOGININFO*)pContext->m_DeCompressionBuffer.GetBuffer();
+
 			pContext->m_bIsMainSocket = true;
 			g_pConnectView->PostMessage(WM_ADDTOLIST, 0, (LPARAM)pContext);//增加到列表去
 		}
